@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<link rel="preconnect" href="https://api.fontshare.com"/>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@900,800,700&f[]=satoshi@400,500,700&f[]=jet-brains-mono@400" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<title>Your GA4 is Missing 34% of Conversions , Akshay Rahar</title>
+<style>
+:root{
+ --bg:#0b0b0f;--surface:#111118;--surface2:#18181f;--surface3:#1f1f28;
+ --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+ --text:#f4f4f8;--muted:#8888a0;--faint:#3a3a50;
+ --teal:#00e5c8;--teal-dim:rgba(0,229,200,0.1);
+ --orange:#ff6b35;
+ --df:'Cabinet Grotesk',sans-serif;--db:'Satoshi',sans-serif;--dm:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--db);overflow-x:hidden;line-height:1.7;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem clamp(1.5rem,5vw,5rem);border-bottom:1px solid var(--border);}
+.n-logo{font-family:var(--df);font-size:1.2rem;font-weight:900;letter-spacing:-0.03em;}
+.n-logo span{color:var(--teal);}
+.n-back{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
+.n-back:hover{color:var(--teal);}
+
+/* ARTICLE HERO */
+.a-hero{max-width:860px;margin:0 auto;padding:5rem clamp(1.5rem,5vw,3rem) 3rem;}
+.a-category{display:inline-flex;align-items:center;gap:0.4rem;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.22);color:var(--teal);font-size:0.7rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:50px;margin-bottom:1.5rem;}
+.a-date{font-size:0.75rem;font-family:var(--dm);color:var(--faint);margin-bottom:1.25rem;}
+.a-title{font-family:var(--df);font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.08;letter-spacing:-0.035em;margin-bottom:1.5rem;}
+.a-lead{font-size:1.15rem;color:var(--muted);line-height:1.8;max-width:62ch;border-left:3px solid var(--teal);padding-left:1.25rem;}
+
+/* HERO IMAGE PLACEHOLDER */
+.a-hero-img{width:100%;max-width:1100px;margin:0 auto;height:420px;background:linear-gradient(135deg,var(--surface2) 0%,var(--surface3) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);overflow:hidden;position:relative;}
+.a-hero-img canvas{border-radius:20px;}
+
+/* BODY */
+.a-body{max-width:720px;margin:0 auto;padding:3rem clamp(1.5rem,5vw,3rem) 6rem;}
+.a-body h2{font-family:var(--df);font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:-0.025em;margin:3rem 0 1rem;color:var(--text);}
+.a-body h3{font-size:1.1rem;font-weight:700;color:var(--text);margin:2rem 0 0.75rem;}
+.a-body p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem;}
+.a-body strong{color:var(--text);font-weight:600;}
+.a-body ul{list-style:none;margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:0.6rem;}
+.a-body ul li{font-size:0.95rem;color:var(--muted);padding-left:1.25rem;position:relative;line-height:1.65;}
+.a-body ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-weight:700;}
+
+/* CHART CARDS */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;margin:2.5rem 0;}
+.chart-card-label{font-size:0.65rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:0.4rem;}
+.chart-card-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:1.25rem;}
+.chart-card-note{font-size:0.78rem;color:var(--faint);margin-top:0.75rem;font-style:italic;}
+
+/* STAT CALLOUT */
+.stat-callout{background:var(--surface2);border-left:3px solid var(--teal);border-radius:0 12px 12px 0;padding:1.5rem 2rem;margin:2rem 0;}
+.stat-callout-num{font-family:var(--df);font-size:2.8rem;font-weight:900;color:var(--teal);line-height:1;}
+.stat-callout-label{font-size:0.85rem;color:var(--muted);margin-top:0.4rem;line-height:1.5;}
+
+.stat-callout-orange{border-color:var(--orange);}
+.stat-callout-orange .stat-callout-num{color:var(--orange);}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--df);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:900;line-height:1.45;letter-spacing:-0.02em;color:var(--text);margin:3rem 0;padding:0 0 0 1.5rem;border-left:4px solid var(--teal);}
+
+/* AUTHOR */
+.a-author{display:flex;align-items:center;gap:1rem;padding:2rem 0;border-top:1px solid var(--border);margin-top:3rem;}
+.a-author-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00b8a3);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-weight:900;color:#000;font-size:0.9rem;flex-shrink:0;}
+.a-author-name{font-weight:800;font-size:0.95rem;color:var(--text);}
+.a-author-title{font-size:0.75rem;color:var(--muted);}
+
+/* MORE STORIES */
+.more-stories{background:var(--surface);padding:5rem clamp(1.5rem,5vw,5rem);}
+.more-stories h2{font-family:var(--df);font-size:1.8rem;font-weight:900;letter-spacing:-0.025em;margin-bottom:2rem;}
+.story-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.s-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color 0.2s,transform 0.2s;cursor:pointer;}
+.s-card:hover{border-color:var(--teal);transform:translateY(-3px);}
+.s-tag{font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
+.s-card-date{font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.5rem;}
+.s-card-title{font-family:var(--df);font-size:1.05rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);}
+.s-card-desc{font-size:0.8rem;color:var(--muted);margin-top:0.6rem;line-height:1.55;}
+</style>
+</head>
+<body>
+<nav>
+ <div class="n-logo">Akshay<span>.</span></div>
+ <a href="akshay-rahar-portfolio.html#insights" class="n-back">← All Insights</a>
+</nav>
+
+<div class="a-hero">
+ <div class="a-category">📊 Analytics</div>
+ <div class="a-date">April 2026</div>
+ <h1 class="a-title">Your GA4 is Missing 34% of Conversions. Here's Why</h1>
+ <p class="a-lead">A client was convinced their Google Ads weren't working. The conversion rate looked terrible. The real problem? Their GA4 setup was invisible to nearly a third of the funnel. Here's exactly what we found and how we fixed it.</p>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem);">
+ <div class="a-hero-img">
+ <canvas id="heroChart" style="width:100%;height:100%;border-radius:20px;"></canvas>
+ </div>
+ <p style="font-size:0.72rem;color:var(--faint);text-align:center;margin-top:0.75rem;font-style:italic;">Tracked vs. untracked conversion events across the funnel. Before the fix</p>
+</div>
+
+<div class="a-body">
+
+ <h2>The Problem Nobody Could See</h2>
+ <p>The brief was simple: a B2C client was spending £4,200/month on Google Ads and seeing a <strong>1.9% conversion rate</strong> in their GA4 dashboard. The account manager was pushing to pause campaigns. The data said they weren't working.</p>
+ <p>Before touching the campaigns, I ran a full tracking audit. What I found stopped the conversation entirely.</p>
+
+ <div class="stat-callout">
+ <div class="stat-callout-num">34%</div>
+ <div class="stat-callout-label">of conversion events were never being sent to GA4, completely invisible to every report and campaign decision made over 4 months.</div>
+ </div>
+
+ <h2>What a Tracking Audit Actually Looks Like</h2>
+ <p>Most GA4 implementations are assembled in layers , some tags are from a developer, some from a marketer using GTM, some legacy Universal Analytics carryovers. Each layer introduces potential for events to fire incorrectly, fire twice, or not fire at all.</p>
+ <p>Using GA4 DebugView, browser DevTools, and a cross-referenced Tag Assistant session, I mapped every event across three key stages:</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Funnel Stage Analysis</div>
+ <div class="chart-card-title">Tracked vs. Missed Events Per Funnel Stage (Before Fix)</div>
+ <canvas id="funnelChart" height="220"></canvas>
+ <p class="chart-card-note">Each bar shows total expected events vs. events actually reaching GA4. The checkout stage had the largest gap , a misfired dataLayer push was silently swallowing purchase confirmations.</p>
+ </div>
+
+ <h2>The Root Cause</h2>
+ <p>Three specific issues were responsible for the 34% gap:</p>
+ <ul>
+ <li><strong>Purchase confirmation fires before page load completes</strong> , the GTM tag triggered on <code>DOM Ready</code> but the purchase dataLayer push happened after an async payment confirmation. Events were firing into a void.</li>
+ <li><strong>Duplicate GA4 configuration tags</strong> , the client had migrated from UA but kept a GA4 config tag in both GTM and hardcoded in the site header. Some hits were being counted, others blocked by deduplication filters.</li>
+ <li><strong>Form submission events misattributed</strong> , a contact form's <code>generate_lead</code> event was only firing on the thank-you page, but the page was served via JavaScript redirect , meaning the pageview (and event) never loaded for ~23% of mobile users.</li>
+ </ul>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Impact Measurement</div>
+ <div class="chart-card-title">Monthly Conversions: Reported vs. Actual (Before &amp; After Fix)</div>
+ <canvas id="beforeAfterChart" height="200"></canvas>
+ <p class="chart-card-note">After implementing the fix across three GTM triggers, actual monthly conversions jumped from 28 (reported) to 74 (actual, recovered). The campaigns had been working all along.</p>
+ </div>
+
+ <div class="pull-quote">"The campaigns weren't failing. The measurement was. Fixing the data revealed a 2.6× higher conversion rate than anyone knew existed."</div>
+
+ <h2>The Fix: Three Changes, Permanent Visibility</h2>
+
+ <h3>1. Trigger Refactor , Window Loaded + dataLayer Listener</h3>
+ <p>Moved purchase event triggers from <code>DOM Ready</code> to a custom <code>dataLayer</code> event listener (<code>gtm.custom.purchase_complete</code>), allowing the async payment confirmation to push data before the tag fires. This alone recovered 71% of the missing purchase events.</p>
+
+ <h3>2. GA4 Configuration Deduplication</h3>
+ <p>Removed the hardcoded GA4 snippet from the site header and centralised all configuration through a single GTM-managed GA4 Config tag. Hits immediately normalised , no more split tracking.</p>
+
+ <h3>3. Form Submission , SPA-Compatible Tracking</h3>
+ <p>Replaced the page-load-dependent form trigger with a <code>click</code>-based listener on the submit button, using <code>eventCallback</code> to delay the redirect until after the GA4 hit confirmed delivery. Mobile tracking went from 77% to 99.1%.</p>
+
+ <div class="stat-callout stat-callout-orange">
+ <div class="stat-callout-num">+164%</div>
+ <div class="stat-callout-label">increase in measured conversions, not from changing ads, not from increasing budget. From fixing the measurement layer that was already there.</div>
+ </div>
+
+ <h2>What This Means for Every Analytics Setup</h2>
+ <p>The uncomfortable truth is that most GA4 implementations have gaps. They accumulate during migrations, CMS updates, developer handoffs, and A/B test launches. The average e-commerce GA4 setup I've audited is missing between 18% and 41% of its intended events.</p>
+ <p>The fix is almost never glamorous , it's trigger logic, dataLayer structure, and a systematic QA process. But the impact on every subsequent decision , campaign pausing, budget allocation, channel attribution , is enormous.</p>
+ <p>Before you optimise your ads, <strong>validate your tracking</strong>.</p>
+
+ <div class="a-author">
+ <div class="a-author-av">AR</div>
+ <div>
+ <div class="a-author-name">Akshay Rahar</div>
+ <div class="a-author-title">Marketing Data Analyst · Leeds University Business School (MSc)</div>
+ </div>
+ </div>
+
+</div>
+
+
+<div class="more-stories">
+ <div style="max-width:1100px;margin:0 auto;">
+ <h2>More Insights</h2>
+ <div class="story-cards">
+ 
+ <a href="story-2-carryover.html" class="s-card" style="display:block;">
+ <div class="s-tag">Research</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">The 2-Year Rule: Why Marketing ROI Takes Longer Than You Think</div>
+ <div class="s-card-desc">My dissertation found that the biggest return from marketing investment arrives two years later. Here's the data.</div>
+ </a>
+ <a href="story-3-dashboard.html" class="s-card" style="display:block;">
+ <div class="s-tag">Dashboards</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">How I Cut Reporting Time by 40% Without Changing a Single Ad</div>
+ <div class="s-card-desc">The 6-source dashboard consolidation that gave a marketing team 5.6 hours back every week.</div>
+ </a>
+ </div>
+ </div>
+</div>
+
+<script>
+const co = (id) => document.getElementById(id).getContext('2d');
+const teal = '#00e5c8', orange = '#ff6b35', faint = '#3a3a50', muted = '#8888a0', text = '#f4f4f8';
+const gridColor = 'rgba(255,255,255,0.04)';
+const baseOpts = { responsive:true, plugins:{ legend:{ labels:{ color:muted, font:{ size:10 } } } }, scales:{ x:{ ticks:{ color:muted, font:{ size:9 } }, grid:{ color:gridColor } }, y:{ ticks:{ color:muted, font:{ size:9 } }, grid:{ color:gridColor } } } };
+
+// Hero chart , sessions funnel overview
+new Chart(co('heroChart'),{ type:'bar', data:{
+ labels:['Page View','Product View','Add to Cart','Begin Checkout','Purchase'],
+ datasets:[
+ { label:'Events Tracked (GA4)', data:[10000,6240,2180,890,28], backgroundColor:'rgba(0,229,200,0.75)', borderRadius:6 },
+ { label:'Events Lost / Untracked', data:[0,410,320,540,46], backgroundColor:'rgba(255,107,53,0.55)', borderRadius:6 }
+ ]
+}, options:{ ...baseOpts, plugins:{ legend:{ labels:{ color:muted, font:{ size:11 } } } }, scales:{ x:{ ticks:{ color:muted }, grid:{ color:gridColor } }, y:{ ticks:{ color:muted }, grid:{ color:gridColor } } } } });
+
+// Funnel grouped bar
+new Chart(co('funnelChart'),{ type:'bar', data:{
+ labels:['Landing Page','Product Page','Cart','Checkout','Purchase Confirm'],
+ datasets:[
+ { label:'Expected', data:[10000,6650,2500,1430,74], backgroundColor:'rgba(255,255,255,0.1)', borderRadius:4 },
+ { label:'Tracked in GA4', data:[10000,6240,2180,890,28], backgroundColor:'rgba(0,229,200,0.7)', borderRadius:4 }
+ ]
+}, options:{ ...baseOpts } });
+
+// Before/After bar
+new Chart(co('beforeAfterChart'),{ type:'bar', data:{
+ labels:['Month 1','Month 2','Month 3','Month 4','Month 5 (Post-Fix)','Month 6'],
+ datasets:[
+ { label:'Reported Conversions', data:[24,28,31,28,null,null], backgroundColor:'rgba(255,107,53,0.6)', borderRadius:4 },
+ { label:'Actual Conversions (Recovered)', data:[null,null,null,null,74,79], backgroundColor:'rgba(0,229,200,0.75)', borderRadius:4 }
+ ]
+}, options:{ ...baseOpts } });
+</script>
+</body>
+</html>

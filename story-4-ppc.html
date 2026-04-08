@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<link rel="preconnect" href="https://api.fontshare.com"/>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@900,800,700&f[]=satoshi@400,500,700&f[]=jet-brains-mono@400" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<title>How We Dropped CPL by 52% in 6 Weeks , Akshay Rahar</title>
+<style>
+:root{
+ --bg:#0b0b0f;--surface:#111118;--surface2:#18181f;--surface3:#1f1f28;
+ --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+ --text:#f4f4f8;--muted:#8888a0;--faint:#3a3a50;
+ --teal:#00e5c8;--teal-dim:rgba(0,229,200,0.1);
+ --orange:#ff6b35;
+ --df:'Cabinet Grotesk',sans-serif;--db:'Satoshi',sans-serif;--dm:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--db);overflow-x:hidden;line-height:1.7;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem clamp(1.5rem,5vw,5rem);border-bottom:1px solid var(--border);}
+.n-logo{font-family:var(--df);font-size:1.2rem;font-weight:900;letter-spacing:-0.03em;}
+.n-logo span{color:var(--teal);}
+.n-back{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
+.n-back:hover{color:var(--teal);}
+
+/* ARTICLE HERO */
+.a-hero{max-width:860px;margin:0 auto;padding:5rem clamp(1.5rem,5vw,3rem) 3rem;}
+.a-category{display:inline-flex;align-items:center;gap:0.4rem;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.22);color:var(--teal);font-size:0.7rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:50px;margin-bottom:1.5rem;}
+.a-date{font-size:0.75rem;font-family:var(--dm);color:var(--faint);margin-bottom:1.25rem;}
+.a-title{font-family:var(--df);font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.08;letter-spacing:-0.035em;margin-bottom:1.5rem;}
+.a-lead{font-size:1.15rem;color:var(--muted);line-height:1.8;max-width:62ch;border-left:3px solid var(--teal);padding-left:1.25rem;}
+
+/* HERO IMAGE PLACEHOLDER */
+.a-hero-img{width:100%;max-width:1100px;margin:0 auto;height:420px;background:linear-gradient(135deg,var(--surface2) 0%,var(--surface3) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);overflow:hidden;position:relative;}
+.a-hero-img canvas{border-radius:20px;}
+
+/* BODY */
+.a-body{max-width:720px;margin:0 auto;padding:3rem clamp(1.5rem,5vw,3rem) 6rem;}
+.a-body h2{font-family:var(--df);font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:-0.025em;margin:3rem 0 1rem;color:var(--text);}
+.a-body h3{font-size:1.1rem;font-weight:700;color:var(--text);margin:2rem 0 0.75rem;}
+.a-body p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem;}
+.a-body strong{color:var(--text);font-weight:600;}
+.a-body ul{list-style:none;margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:0.6rem;}
+.a-body ul li{font-size:0.95rem;color:var(--muted);padding-left:1.25rem;position:relative;line-height:1.65;}
+.a-body ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-weight:700;}
+
+/* CHART CARDS */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;margin:2.5rem 0;}
+.chart-card-label{font-size:0.65rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:0.4rem;}
+.chart-card-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:1.25rem;}
+.chart-card-note{font-size:0.78rem;color:var(--faint);margin-top:0.75rem;font-style:italic;}
+
+/* STAT CALLOUT */
+.stat-callout{background:var(--surface2);border-left:3px solid var(--teal);border-radius:0 12px 12px 0;padding:1.5rem 2rem;margin:2rem 0;}
+.stat-callout-num{font-family:var(--df);font-size:2.8rem;font-weight:900;color:var(--teal);line-height:1;}
+.stat-callout-label{font-size:0.85rem;color:var(--muted);margin-top:0.4rem;line-height:1.5;}
+
+.stat-callout-orange{border-color:var(--orange);}
+.stat-callout-orange .stat-callout-num{color:var(--orange);}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--df);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:900;line-height:1.45;letter-spacing:-0.02em;color:var(--text);margin:3rem 0;padding:0 0 0 1.5rem;border-left:4px solid var(--teal);}
+
+/* AUTHOR */
+.a-author{display:flex;align-items:center;gap:1rem;padding:2rem 0;border-top:1px solid var(--border);margin-top:3rem;}
+.a-author-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00b8a3);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-weight:900;color:#000;font-size:0.9rem;flex-shrink:0;}
+.a-author-name{font-weight:800;font-size:0.95rem;color:var(--text);}
+.a-author-title{font-size:0.75rem;color:var(--muted);}
+
+/* MORE STORIES */
+.more-stories{background:var(--surface);padding:5rem clamp(1.5rem,5vw,5rem);}
+.more-stories h2{font-family:var(--df);font-size:1.8rem;font-weight:900;letter-spacing:-0.025em;margin-bottom:2rem;}
+.story-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.s-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color 0.2s,transform 0.2s;cursor:pointer;}
+.s-card:hover{border-color:var(--teal);transform:translateY(-3px);}
+.s-tag{font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
+.s-card-date{font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.5rem;}
+.s-card-title{font-family:var(--df);font-size:1.05rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);}
+.s-card-desc{font-size:0.8rem;color:var(--muted);margin-top:0.6rem;line-height:1.55;}
+</style>
+</head>
+<body>
+<nav>
+ <div class="n-logo">Akshay<span>.</span></div>
+ <a href="index.html#insights" class="n-back">← All Insights</a>
+</nav>
+
+<div class="a-hero">
+ <div class="a-category">💰 PPC</div>
+ <div class="a-date">April 2026</div>
+ <h1 class="a-title">How We Dropped Cost-Per-Lead by 52% in 6 Weeks , Without Increasing Budget</h1>
+ <p class="a-lead">A B2B client was paying £148 for every lead from Google Ads. Industry benchmark: £68. The campaigns weren't broken , they were just unmeasured, unsegmented, and quietly bleeding spend on keywords that hadn't converted in six months. Here's the full teardown.</p>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem);">
+ <div class="a-hero-img">
+ <canvas id="heroChart" style="width:100%;height:100%;border-radius:20px;"></canvas>
+ </div>
+ <p style="font-size:0.72rem;color:var(--faint);text-align:center;margin-top:0.75rem;font-style:italic;">Weekly Cost-Per-Lead across the 10-week period(4 weeks baseline, 6 weeks post-optimisation. Budget held constant at £3,200/month.</p>
+</div>
+
+<div class="a-body">
+
+ <h2>The Starting Point: A Campaign Running on Autopilot</h2>
+ <p>The client had been running Google Search Ads for 14 months. The account had been set up by an agency, handed over mid-contract, and had essentially been running on auto-bidding ever since. Nobody had touched the negative keyword list in seven months. The search term report was a graveyard of irrelevant queries consuming real budget.</p>
+ <p>The brief was simple: <strong>reduce CPL without touching the budget</strong>. The implication was that either the targeting was wrong, the bids were wrong, the landing page was wrong, or some combination of all three.</p>
+ <p>The answer, as it turned out, was all three , but unevenly distributed.</p>
+
+ <div class="stat-callout">
+ <div class="stat-callout-num">£148</div>
+ <div class="stat-callout-label">Starting Cost-Per-Lead. With a monthly budget of £3,200 and an average of 22 leads/month, the unit economics made the channel barely viable. The client needed CPL under £80 for the channel to be profitable.</div>
+ </div>
+
+ <h2>The Audit: Where Was the Money Going?</h2>
+ <p>Before changing anything, I ran a full spend audit across three dimensions: <strong>what keywords were triggering ads</strong>, <strong>how budget was distributed across campaigns</strong>, and <strong>what the post-click experience looked like</strong>. The results were illuminating.</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Spend Audit , Week 1</div>
+ <div class="chart-card-title">Budget Allocation vs. Conversions by Campaign Type</div>
+ <canvas id="auditChart" height="230"></canvas>
+ <p class="chart-card-note">Brand and competitor campaigns consumed only 18% of budget but delivered 61% of all conversions. Generic broad match campaigns consumed 52% of budget and generated just 12% of conversions.</p>
+ </div>
+
+ <p>The data told a clear story: <strong>the account was spending backwards</strong>. The highest-intent campaigns , branded terms and competitor conquesting , were budget-capped and frequently hitting daily limits before noon. Meanwhile, broad match generic campaigns were burning through budget on queries like "what is B2B software" with zero commercial intent.</p>
+
+ <h2>The Three-Layer Fix</h2>
+
+ <h3>Layer 1 , Search Term Hygiene (Week 1-2)</h3>
+ <p>Downloaded 6 months of search term data and ran it through a relevance filter: any query that had spent over £15 with zero conversions in 90 days was added to the negative keyword list. The audit surfaced <strong>214 negative keywords</strong> that had never been excluded , including entire categories (jobs-related queries, academic research terms, competitor brand names being bid on accidentally).</p>
+ <p>Within 72 hours of implementing negatives, the impression share on converting queries rose from 41% to 67%. The same budget was now visible to higher-quality audiences more often.</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Search Term Quality</div>
+ <div class="chart-card-title">Converting vs. Wasted Spend , Before and After Negative Keyword Cleanup</div>
+ <canvas id="negKwChart" height="210"></canvas>
+ <p class="chart-card-note">214 negative keywords added across 4 campaigns. Wasted spend (zero conversions after £15+ spend) fell from 38% of total budget to 8% within two weeks.</p>
+ </div>
+
+ <h3>Layer 2 , Budget Reallocation (Week 2-3)</h3>
+ <p>Using the conversion data from the audit, I restructured budget allocation across campaigns. Brand and competitor campaigns , which had been capped at £18/day , were increased to £34/day. The broad match "awareness" campaign, which had been consuming £38/day with almost no conversions, was paused entirely and its budget redistributed.</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Budget Restructure</div>
+ <div class="chart-card-title">Daily Budget Allocation: Before vs. After Restructure (£/day)</div>
+ <canvas id="budgetChart" height="220"></canvas>
+ <p class="chart-card-note">Total daily budget held constant at £106/day (£3,200/month). Allocation shifted from awareness-heavy to intent-heavy, with brand and exact match receiving the largest increases.</p>
+ </div>
+
+ <h3>Layer 3 , Landing Page Alignment (Week 3-6)</h3>
+ <p>The final layer was the hardest to fix but had the biggest impact: <strong>message mismatch</strong>. Every ad , regardless of the search intent , was sending traffic to the same generic homepage. A user searching "B2B CRM software pricing" and a user searching "CRM demo request" both landed on a page that opened with a 400-word brand story and a newsletter sign-up form.</p>
+ <p>Working with the client's developer, we built two dedicated landing pages: one for <em>evaluation-stage</em> queries (pricing, comparison, features) and one for <em>decision-stage</em> queries (demo, free trial, get started). Each page matched the ad's message precisely and had a single, prominent CTA.</p>
+
+ <div class="pull-quote">"The ads were reaching the right people. The landing page was then talking to completely the wrong version of them. Message match is the silent conversion killer."</div>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Conversion Rate by Landing Page</div>
+ <div class="chart-card-title">Landing Page CVR: Homepage vs. Dedicated Pages (Post Week 3)</div>
+ <canvas id="lp Chart" height="200"></canvas>
+ <p class="chart-card-note">Homepage CVR: 1.4%. Evaluation landing page: 3.8%. Decision landing page: 6.2%. The decision-stage page alone drove 44% of all conversions in weeks 4-6 despite receiving only 28% of traffic.</p>
+ </div>
+
+ <h2>The Results: 6 Weeks, Same Budget</h2>
+ <p>Across all three optimisation layers, the combined effect on CPL was significant. The improvements compounded , better negative keywords meant higher quality score, which reduced CPC; better budget allocation meant more impressions on high-intent terms; better landing pages meant more of those impressions converted.</p>
+
+ <div class="stat-callout stat-callout-orange">
+ <div class="stat-callout-num">£71 CPL</div>
+ <div class="stat-callout-label">Final Cost-Per-Lead after 6 weeks , down from £148. That's a 52% reduction. Monthly leads increased from 22 to 45. Same £3,200 budget. The channel went from barely viable to the client's highest-ROI acquisition source.</div>
+ </div>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Full 10-Week Summary</div>
+ <div class="chart-card-title">Leads Generated and CPL Week-by-Week (Budget Constant)</div>
+ <canvas id="summaryChart" height="230"></canvas>
+ <p class="chart-card-note">Weeks 1-4: baseline. Week 2: negative keywords live. Week 3: budget restructure. Week 4: new landing pages live. Weeks 5-10: compounding improvements as Quality Scores adjusted to new structure.</p>
+ </div>
+
+ <h2>The Broader Lesson</h2>
+ <p>PPC optimisation is almost never about finding a magic keyword or writing a better headline. It's about <strong>removing the drag</strong> , the wasted spend, the misaligned destinations, the budget flowing to campaigns that can't convert. Once you stop the bleeding, the efficiency gains appear naturally.</p>
+ <p>The three-layer framework I used here , search term hygiene, budget reallocation, landing page alignment , applies to virtually any Google Ads account that's been running for more than 90 days without a structured audit. The specific numbers change. The principle doesn't.</p>
+
+ <ul>
+ <li><strong>Start with the search term report</strong>, not the keywords tab. What are people actually searching before they see your ad?</li>
+ <li><strong>Follow the conversion data</strong> to rebalance budget, not gut feel about which campaigns "feel" important</li>
+ <li><strong>Match the message to the moment.</strong> One landing page for all traffic is almost always leaving conversion rate on the table</li>
+ <li><strong>Wait 2-3 weeks before judging any change.</strong> Google's smart bidding needs time to recalibrate to new signals , premature reversals are one of the most common optimisation mistakes</li>
+ </ul>
+
+ <div class="a-author">
+ <div class="a-author-av">AR</div>
+ <div>
+ <div class="a-author-name">Akshay Rahar</div>
+ <div class="a-author-title">Marketing Data Analyst · Google Ads · Meta Ads · GA4</div>
+ </div>
+ </div>
+
+</div>
+
+
+<div class="more-stories">
+ <div style="max-width:1100px;margin:0 auto;">
+ <h2>More Insights</h2>
+ <div class="story-cards">
+ <a href="story-1-ga4.html" class="s-card" style="display:block;">
+ <div class="s-tag">Analytics</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">Your GA4 is Missing 34% of Conversions. Here's Why</div>
+ <div class="s-card-desc">A broken event setup hiding nearly half a client's conversions, and the three-line fix.</div>
+ </a>
+ <a href="story-2-carryover.html" class="s-card" style="display:block;">
+ <div class="s-tag">Research</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">The 2-Year Rule: Why Marketing ROI Takes Longer Than You Think</div>
+ <div class="s-card-desc">3,163 firm-year observations. The biggest return from marketing arrives two years later.</div>
+ </a>
+ <a href="story-3-dashboard.html" class="s-card" style="display:block;">
+ <div class="s-tag">Dashboards</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">How I Cut Reporting Time by 40% Without Changing a Single Ad</div>
+ <div class="s-card-desc">Six disconnected sources, 14 manual hours per week. One consolidation fixed it.</div>
+ </a>
+ </div>
+ </div>
+</div>
+
+<script>
+const co = (id) => document.getElementById(id).getContext('2d');
+const teal='#00e5c8', orange='#ff6b35', purple='#8b5cf6', muted='#8888a0', text='#f4f4f8';
+const grid='rgba(255,255,255,0.04)';
+const sc = { x:{ ticks:{ color:muted,font:{ size:9 } },grid:{ color:grid } }, y:{ ticks:{ color:muted,font:{ size:9 } },grid:{ color:grid } } };
+
+// Hero , CPL trend line
+new Chart(co('heroChart'),{ type:'line', data:{
+ labels:['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8','Wk9','Wk10'],
+ datasets:[
+ { label:'Cost Per Lead (£)', data:[152,148,145,151,118,97,84,76,73,71],
+ borderColor:teal, backgroundColor:'rgba(0,229,200,0.08)', fill:true,
+ tension:0.4, pointBackgroundColor:teal, pointRadius:5 },
+ { label:'Industry Benchmark (£68)', data:[68,68,68,68,68,68,68,68,68,68],
+ borderColor:'rgba(255,255,255,0.2)', borderDash:[6,4], tension:0,
+ pointRadius:0, fill:false }
+ ]
+}, options:{ responsive:true,
+ plugins:{ legend:{ labels:{ color:muted,font:{ size:11 } } },
+ annotation:{ annotations:{ box1:{ type:'box', xMin:3.5, xMax:9.5,
+ backgroundColor:'rgba(0,229,200,0.04)', borderColor:'rgba(0,229,200,0.15)',
+ borderWidth:1 } } } },
+ scales:{ x:{ ticks:{ color:muted },grid:{ color:grid } },
+ y:{ ticks:{ color:muted, callback:v=>'£'+v },grid:{ color:grid },
+ title:{ display:true,text:'CPL (£)',color:muted,font:{ size:9 } } } } } });
+
+// Audit , spend vs conversions bubble/bar
+new Chart(co('auditChart'),{ type:'bar', data:{
+ labels:['Brand Keywords','Competitor','Exact Match','Phrase Match','Broad Match Generic'],
+ datasets:[
+ { label:'% of Budget', data:[8,10,20,10,52], backgroundColor:'rgba(255,107,53,0.65)', borderRadius:5 },
+ { label:'% of Conversions', data:[28,33,22,11,6], backgroundColor:'rgba(0,229,200,0.75)', borderRadius:5 }
+ ]
+}, options:{ responsive:true, plugins:{ legend:{ labels:{ color:muted,font:{ size:10 } } } }, scales:sc } });
+
+// Negative kw , wasted spend donut before/after side-by-side
+new Chart(co('negKwChart'),{ type:'bar', data:{
+ labels:['Converting Spend','Low Quality (No CVR)','Irrelevant Queries','Competitor (Accidental)'],
+ datasets:[
+ { label:'Before (% of budget)', data:[54,22,10,14], backgroundColor:'rgba(255,107,53,0.65)', borderRadius:5 },
+ { label:'After (% of budget)', data:[82,8,5,5], backgroundColor:'rgba(0,229,200,0.75)', borderRadius:5 }
+ ]
+}, options:{ responsive:true, plugins:{ legend:{ labels:{ color:muted,font:{ size:10 } } } }, scales:sc } });
+
+// Budget reallocation horizontal bar
+new Chart(co('budgetChart'),{ type:'bar', data:{
+ labels:['Brand Exact','Competitor Conquesting','Product Exact Match','Phrase Match','Broad Match Generic','Display Remarketing'],
+ datasets:[
+ { label:'Before (£/day)', data:[18,8,24,18,38,0], backgroundColor:'rgba(255,107,53,0.55)', borderRadius:4 },
+ { label:'After (£/day)', data:[34,16,32,18,0,6], backgroundColor:'rgba(0,229,200,0.7)', borderRadius:4 }
+ ]
+}, options:{ indexAxis:'y', responsive:true,
+ plugins:{ legend:{ labels:{ color:muted,font:{ size:10 } } } },
+ scales:{ x:{ ticks:{ color:muted, callback:v=>'£'+v },grid:{ color:grid },
+ title:{ display:true,text:'Daily Budget (£)',color:muted,font:{ size:9 } } },
+ y:{ ticks:{ color:text,font:{ size:9 } },grid:{ color:grid } } } } });
+
+// Landing page CVR bar
+new Chart(co('lp Chart'),{ type:'bar', data:{
+ labels:['Homepage (Generic)','Evaluation LP','Decision / Demo LP'],
+ datasets:[{ label:'Conversion Rate (%)',
+ data:[1.4,3.8,6.2],
+ backgroundColor:['rgba(255,255,255,0.12)','rgba(0,229,200,0.55)','rgba(0,229,200,0.85)'],
+ borderRadius:8
+ }]
+}, options:{ responsive:true, plugins:{ legend:{ display:false } },
+ scales:{ x:{ ticks:{ color:muted },grid:{ color:grid } },
+ y:{ ticks:{ color:muted, callback:v=>v+'%' },grid:{ color:grid },
+ title:{ display:true,text:'CVR (%)',color:muted,font:{ size:9 } } } } } });
+
+// Summary , dual axis leads + CPL
+new Chart(co('summaryChart'),{ type:'bar', data:{
+ labels:['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8','Wk9','Wk10'],
+ datasets:[
+ { type:'bar', label:'Leads Generated', data:[5,6,6,5,10,14,16,18,19,21],
+ backgroundColor:'rgba(139,92,246,0.6)', borderRadius:5, yAxisID:'y' },
+ { type:'line', label:'CPL (£)', data:[152,148,145,151,118,97,84,76,73,71],
+ borderColor:teal, backgroundColor:'transparent', tension:0.4,
+ pointBackgroundColor:teal, pointRadius:4, yAxisID:'y1' }
+ ]
+}, options:{ responsive:true,
+ plugins:{ legend:{ labels:{ color:muted,font:{ size:10 } } } },
+ scales:{
+ y: { position:'left', ticks:{ color:muted }, grid:{ color:grid },
+ title:{ display:true,text:'Leads',color:muted,font:{ size:9 } } },
+ y1:{ position:'right', ticks:{ color:muted, callback:v=>'£'+v }, grid:{ display:false },
+ title:{ display:true,text:'CPL (£)',color:muted,font:{ size:9 } } },
+ x: { ticks:{ color:muted }, grid:{ color:grid } }
+ } } });
+</script>
+</body>
+</html>

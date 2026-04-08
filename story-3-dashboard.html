@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<link rel="preconnect" href="https://api.fontshare.com"/>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@900,800,700&f[]=satoshi@400,500,700&f[]=jet-brains-mono@400" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<title>How I Cut Reporting Time by 40% , Akshay Rahar</title>
+<style>
+:root{
+ --bg:#0b0b0f;--surface:#111118;--surface2:#18181f;--surface3:#1f1f28;
+ --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+ --text:#f4f4f8;--muted:#8888a0;--faint:#3a3a50;
+ --teal:#00e5c8;--teal-dim:rgba(0,229,200,0.1);
+ --orange:#ff6b35;
+ --df:'Cabinet Grotesk',sans-serif;--db:'Satoshi',sans-serif;--dm:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--db);overflow-x:hidden;line-height:1.7;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem clamp(1.5rem,5vw,5rem);border-bottom:1px solid var(--border);}
+.n-logo{font-family:var(--df);font-size:1.2rem;font-weight:900;letter-spacing:-0.03em;}
+.n-logo span{color:var(--teal);}
+.n-back{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
+.n-back:hover{color:var(--teal);}
+
+/* ARTICLE HERO */
+.a-hero{max-width:860px;margin:0 auto;padding:5rem clamp(1.5rem,5vw,3rem) 3rem;}
+.a-category{display:inline-flex;align-items:center;gap:0.4rem;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.22);color:var(--teal);font-size:0.7rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:50px;margin-bottom:1.5rem;}
+.a-date{font-size:0.75rem;font-family:var(--dm);color:var(--faint);margin-bottom:1.25rem;}
+.a-title{font-family:var(--df);font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.08;letter-spacing:-0.035em;margin-bottom:1.5rem;}
+.a-lead{font-size:1.15rem;color:var(--muted);line-height:1.8;max-width:62ch;border-left:3px solid var(--teal);padding-left:1.25rem;}
+
+/* HERO IMAGE PLACEHOLDER */
+.a-hero-img{width:100%;max-width:1100px;margin:0 auto;height:420px;background:linear-gradient(135deg,var(--surface2) 0%,var(--surface3) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);overflow:hidden;position:relative;}
+.a-hero-img canvas{border-radius:20px;}
+
+/* BODY */
+.a-body{max-width:720px;margin:0 auto;padding:3rem clamp(1.5rem,5vw,3rem) 6rem;}
+.a-body h2{font-family:var(--df);font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:-0.025em;margin:3rem 0 1rem;color:var(--text);}
+.a-body h3{font-size:1.1rem;font-weight:700;color:var(--text);margin:2rem 0 0.75rem;}
+.a-body p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem;}
+.a-body strong{color:var(--text);font-weight:600;}
+.a-body ul{list-style:none;margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:0.6rem;}
+.a-body ul li{font-size:0.95rem;color:var(--muted);padding-left:1.25rem;position:relative;line-height:1.65;}
+.a-body ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-weight:700;}
+
+/* CHART CARDS */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;margin:2.5rem 0;}
+.chart-card-label{font-size:0.65rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:0.4rem;}
+.chart-card-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:1.25rem;}
+.chart-card-note{font-size:0.78rem;color:var(--faint);margin-top:0.75rem;font-style:italic;}
+
+/* STAT CALLOUT */
+.stat-callout{background:var(--surface2);border-left:3px solid var(--teal);border-radius:0 12px 12px 0;padding:1.5rem 2rem;margin:2rem 0;}
+.stat-callout-num{font-family:var(--df);font-size:2.8rem;font-weight:900;color:var(--teal);line-height:1;}
+.stat-callout-label{font-size:0.85rem;color:var(--muted);margin-top:0.4rem;line-height:1.5;}
+
+.stat-callout-orange{border-color:var(--orange);}
+.stat-callout-orange .stat-callout-num{color:var(--orange);}
+
+/* PULL QUOTE */
+.pull-quote{font-family:var(--df);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:900;line-height:1.45;letter-spacing:-0.02em;color:var(--text);margin:3rem 0;padding:0 0 0 1.5rem;border-left:4px solid var(--teal);}
+
+/* AUTHOR */
+.a-author{display:flex;align-items:center;gap:1rem;padding:2rem 0;border-top:1px solid var(--border);margin-top:3rem;}
+.a-author-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#00b8a3);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-weight:900;color:#000;font-size:0.9rem;flex-shrink:0;}
+.a-author-name{font-weight:800;font-size:0.95rem;color:var(--text);}
+.a-author-title{font-size:0.75rem;color:var(--muted);}
+
+/* MORE STORIES */
+.more-stories{background:var(--surface);padding:5rem clamp(1.5rem,5vw,5rem);}
+.more-stories h2{font-family:var(--df);font-size:1.8rem;font-weight:900;letter-spacing:-0.025em;margin-bottom:2rem;}
+.story-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.s-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color 0.2s,transform 0.2s;cursor:pointer;}
+.s-card:hover{border-color:var(--teal);transform:translateY(-3px);}
+.s-tag{font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
+.s-card-date{font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.5rem;}
+.s-card-title{font-family:var(--df);font-size:1.05rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);}
+.s-card-desc{font-size:0.8rem;color:var(--muted);margin-top:0.6rem;line-height:1.55;}
+</style>
+</head>
+<body>
+<nav>
+ <div class="n-logo">Akshay<span>.</span></div>
+ <a href="akshay-rahar-portfolio.html#insights" class="n-back">← All Insights</a>
+</nav>
+
+<div class="a-hero">
+ <div class="a-category">📊 Dashboards</div>
+ <div class="a-date">April 2026</div>
+ <h1 class="a-title">How I Cut Reporting Time by 40% Without Changing a Single Ad</h1>
+ <p class="a-lead">A marketing team was spending 14 hours every week just getting data into a state they could talk about. Six disconnected sources. Three people copy-pasting. Reports that arrived 4 days after the period ended. Here's how one dashboard consolidation changed everything.</p>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem);">
+ <div class="a-hero-img">
+ <canvas id="heroChart" style="width:100%;height:100%;border-radius:20px;"></canvas>
+ </div>
+ <p style="font-size:0.72rem;color:var(--faint);text-align:center;margin-top:0.75rem;font-style:italic;">Weekly time spent on reporting tasks. Before and after dashboard consolidation in Looker Studio + Power BI</p>
+</div>
+
+<div class="a-body">
+
+ <h2>The Situation: A Team Drowning in Data</h2>
+ <p>The client was a mid-size B2C company running campaigns across Google Ads, Meta, email (Klaviyo), organic social (Sprout Social), and their own Shopify store. They also had a CRM (HubSpot) tracking lead nurturing.</p>
+ <p>Every Monday, a marketing manager, a paid media executive, and a data coordinator would each spend 2-5 hours pulling platform data, pasting it into shared Google Sheets, wrestling with mismatched date ranges, and building slide decks for the weekly board review. <strong>That's 14 hours of human time, every single week, just to describe last week.</strong></p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Pre-Consolidation Audit</div>
+ <div class="chart-card-title">Weekly Hours Spent Per Reporting Task (Before Dashboard)</div>
+ <canvas id="taskChart" height="260"></canvas>
+ <p class="chart-card-note">14.2 hours per week across three team members , nearly 4 working days per month consumed by manual data assembly.</p>
+ </div>
+
+ <h2>The Diagnosis: Six Sources, Zero Automation</h2>
+ <p>Before designing the solution, I mapped every data source, its refresh frequency, its API availability, and what business questions it was meant to answer. The audit revealed the real problem wasn't data volume. It was <strong>data architecture</strong>.</p>
+
+ <div class="stat-callout">
+ <div class="stat-callout-num">6</div>
+ <div class="stat-callout-label">disconnected data sources. Zero shared definitions (e.g., "conversion" meant something different in GA4, HubSpot, and Shopify). Reports were 3-5 days old by the time anyone read them.</div>
+ </div>
+
+ <p>The biggest time sink wasn't pulling the data. It was reconciling it. GA4 showed 312 conversions this week. Shopify showed 287 orders. HubSpot showed 219 leads marked "won". Which number goes in the board deck?</p>
+ <p>The answer was: <strong>all of them, with clear definitions of what each measures.</strong> But nobody had built that infrastructure.</p>
+
+ <h2>The Solution: One Source of Truth, Two Dashboards</h2>
+ <p>Rather than building a single monster dashboard that tried to do everything, I designed two , one for real-time campaign operations, one for weekly strategic review , fed from a shared data layer in Google BigQuery.</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">Architecture Overview</div>
+ <div class="chart-card-title">Data Sources Consolidated into Unified Dashboard Layer</div>
+ <canvas id="sourceChart" height="240"></canvas>
+ <p class="chart-card-note">All six sources connected via API connectors to BigQuery. Looker Studio reads from BigQuery for real-time ops. Power BI reads the same layer for executive reporting, one truth, two views.</p>
+ </div>
+
+ <div class="pull-quote">"The question wasn't 'how do we make better reports?'. It was 'how do we make reporting disappear?' Automation should do the assembly. Humans should do the thinking."</div>
+
+ <h2>Dashboard 1: Looker Studio (Campaign Operations)</h2>
+ <p>The operational dashboard was built in <strong>Looker Studio</strong>, refreshing every 4 hours, and designed for the paid media team. It showed: CPC by channel, CTR trends, ROAS by campaign, budget pacing, and GA4 funnel performance, all on one screen without any manual input.</p>
+ <p>The design principle was ruthless prioritisation: if the paid media team couldn't act on a metric within 24 hours, it wasn't in the operational view.</p>
+
+ <h2>Dashboard 2: Power BI (Strategic Weekly Review)</h2>
+ <p>The Power BI dashboard was built for the Monday board review , but now it self-populated every Sunday evening. The report that used to take 3 people 14 hours to assemble <strong>now arrived automatically at 7am Monday</strong>, complete with week-on-week trend annotations and anomaly flags.</p>
+
+ <div class="chart-card">
+ <div class="chart-card-label">The Result</div>
+ <div class="chart-card-title">Weekly Reporting Hours: Before vs. After Consolidation</div>
+ <canvas id="resultChart" height="200"></canvas>
+ <p class="chart-card-note">Total weekly reporting time fell from 14.2 hours to 8.4 hours , a 41% reduction. But more importantly, the hours that remained shifted from data assembly to data interpretation.</p>
+ </div>
+
+ <div class="stat-callout stat-callout-orange">
+ <div class="stat-callout-num">5.6 hrs</div>
+ <div class="stat-callout-label">saved per week. That's 24 hours per month , three working days , redirected from copy-pasting data into Google Sheets to actual strategic thinking about what the data means.</div>
+ </div>
+
+ <h2>What Changed Beyond the Time Saving</h2>
+ <p>The 40% reduction in reporting time was the headline metric. But three months after the launch, the team noticed something more significant: the quality of their decisions had improved.</p>
+ <ul>
+ <li><strong>Faster response to underperformance.</strong> Budget reallocation decisions that previously waited until the Monday review were now being made mid-week, with real-time data.</li>
+ <li><strong>Better campaign briefs.</strong> Because the team had more time to think (and less time to paste), their campaign briefs to creative teams became sharper , informed by trend data rather than gut feel.</li>
+ <li><strong>One shared language.</strong> The unified data layer meant everyone was working from the same conversion definition. The "which number is right?" argument stopped happening.</li>
+ </ul>
+ <p>The best dashboards don't just save time. They change how a team thinks. <strong>That's the real metric.</strong></p>
+
+ <div class="a-author">
+ <div class="a-author-av">AR</div>
+ <div>
+ <div class="a-author-name">Akshay Rahar</div>
+ <div class="a-author-title">Marketing Data Analyst · Looker Studio · Power BI · BigQuery</div>
+ </div>
+ </div>
+
+</div>
+
+
+<div class="more-stories">
+ <div style="max-width:1100px;margin:0 auto;">
+ <h2>More Insights</h2>
+ <div class="story-cards">
+ <a href="story-1-ga4.html" class="s-card" style="display:block;">
+ <div class="s-tag">Analytics</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">Your GA4 is Missing 34% of Conversions. Here's Why</div>
+ <div class="s-card-desc">How a broken event setup was hiding nearly half a client's conversions, and the fix that revealed them.</div>
+ </a>
+ <a href="story-2-carryover.html" class="s-card" style="display:block;">
+ <div class="s-tag">Research</div><div class="s-card-date">Apr 2026</div>
+ <div class="s-card-title">The 2-Year Rule: Why Marketing ROI Takes Longer Than You Think</div>
+ <div class="s-card-desc">My dissertation found that the biggest return from marketing investment arrives two years later. Here's the data.</div>
+ </a>
+ 
+ </div>
+ </div>
+</div>
+
+<script>
+const co = (id) => document.getElementById(id).getContext('2d');
+const teal = '#00e5c8', orange = '#ff6b35', muted = '#8888a0', text = '#f4f4f8';
+const gridColor = 'rgba(255,255,255,0.04)';
+
+// Hero. Before/after per-task horizontal bar
+new Chart(co('heroChart'),{ type:'bar', data:{
+ labels:['Data Pull (Platforms)','Sheet Assembly','Reconciliation','Slide Building','Stakeholder Review'],
+ datasets:[
+ { label:'Before (hrs/week)', data:[4.2,3.6,3.0,2.2,1.2], backgroundColor:'rgba(255,107,53,0.65)', borderRadius:6 },
+ { label:'After (hrs/week)', data:[0.5,0.3,0.8,1.2,1.2], backgroundColor:'rgba(0,229,200,0.75)', borderRadius:6 }
+ ]
+}, options:{ indexAxis:'y', responsive:true, plugins:{ legend:{ labels:{ color:muted, font:{ size:11 } } } }, scales:{ x:{ ticks:{ color:muted }, grid:{ color:gridColor }, title:{ display:true, text:'Hours per Week', color:muted, font:{ size:9 } } }, y:{ ticks:{ color:text, font:{ size:10 } }, grid:{ color:gridColor } } } } });
+
+// Task breakdown donut
+new Chart(co('taskChart'),{ type:'bar', data:{
+ labels:['Google Ads Pull','Meta Ads Pull','Klaviyo Email','Shopify Orders','HubSpot CRM','Sprout Social','Sheet Merge &amp; Reconcile','Slide / Deck Build'],
+ datasets:[{
+ label:'Hours per week',
+ data:[1.8,1.6,1.0,0.8,0.7,0.7,4.4,3.2],
+ backgroundColor:['rgba(0,229,200,0.7)','rgba(0,229,200,0.55)','rgba(139,92,246,0.7)','rgba(139,92,246,0.55)','rgba(255,107,53,0.7)','rgba(255,107,53,0.55)','rgba(255,87,34,0.8)','rgba(255,160,0,0.7)'],
+ borderRadius:5
+ }]
+}, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ x:{ ticks:{ color:muted, font:{ size:8 }, maxRotation:0 }, grid:{ color:gridColor } }, y:{ ticks:{ color:muted }, grid:{ color:gridColor }, title:{ display:true, text:'Hours/week', color:muted, font:{ size:9 } } } } } });
+
+// Data source donut
+new Chart(co('sourceChart'),{ type:'doughnut', data:{
+ labels:['GA4 (Analytics)','Google Ads','Meta Ads','Klaviyo (Email)','Shopify (Orders)','HubSpot (CRM)','Sprout Social'],
+ datasets:[{ data:[22,18,16,15,14,10,5], backgroundColor:['rgba(0,229,200,0.8)','rgba(0,200,180,0.7)','rgba(139,92,246,0.75)','rgba(255,107,53,0.75)','rgba(255,160,0,0.75)','rgba(34,197,94,0.7)','rgba(99,102,241,0.65)'], borderWidth:2, borderColor:'#18181f' }]
+}, options:{ responsive:true, plugins:{ legend:{ position:'right', labels:{ color:muted, font:{ size:10 }, padding:12 } } } } });
+
+// Result , grouped bar before/after total
+new Chart(co('resultChart'),{ type:'bar', data:{
+ labels:['Week 1','Week 2','Week 3','Week 4','Week 5 (Post)','Week 6 (Post)','Week 7 (Post)','Week 8 (Post)'],
+ datasets:[
+ { label:'Hours on Reporting', data:[14.2,13.8,14.5,13.9,8.6,8.2,8.4,8.4], backgroundColor: (ctx) => ctx.dataIndex < 4 ? 'rgba(255,107,53,0.65)' : 'rgba(0,229,200,0.75)', borderRadius:5 }
+ ]
+}, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ x:{ ticks:{ color:muted, font:{ size:8 } }, grid:{ color:gridColor } }, y:{ ticks:{ color:muted }, grid:{ color:gridColor }, title:{ display:true, text:'Hours per Week', color:muted, font:{ size:9 } } } } } });
+</script>
+</body>
+</html>
