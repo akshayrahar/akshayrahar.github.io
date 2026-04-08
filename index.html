@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akshay Rahar | Digital Analytics & Data Visualisation Specialist</title>
+  <meta name="description" content="Portfolio of Akshay Rahar — GA4, SQL, Power BI, Tableau, Marketing Analytics, Generative AI. MSc Leeds. Open to AI & Data roles in UK and Europe." />
+  <meta property="og:title" content="Akshay Rahar | Digital Analytics & Data Visualisation Specialist" />
+  <meta property="og:description" content="GA4, SQL, Power BI, Tableau, Marketing Analytics, Generative AI. MSc Leeds. Open to roles in UK and Europe." />
+  <meta name="theme-color" content="#0a0e17" />
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,900&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.8.0/countUp.umd.js"></script>
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --bg: #0a0e17;
+      --surface: #0f1623;
+      --surface-2: #131a2a;
+      --border: #1e2d3d;
+      --border-hover: #2a3f55;
+      --teal: #14b8a6;
+      --teal-dim: rgba(20,184,166,0.15);
+      --teal-glow: rgba(20,184,166,0.35);
+      --blue: #3b82f6;
+      --blue-dim: rgba(59,130,246,0.15);
+      --amber: #f59e0b;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --faint: #334155;
+      --font-display: 'Cabinet Grotesk', sans-serif;
+      --font-body: 'Satoshi', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --ease: cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ===== BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: none; background: none; border: none; font: inherit; color: inherit; }
+
+    /* ===== CUSTOM CURSOR ===== */
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: var(--teal); border-radius: 50%; pointer-events: none;
+      z-index: 9999; transform: translate(-50%,-50%);
+      transition: transform 0.12s var(--ease), width 0.2s var(--ease), height 0.2s var(--ease), background 0.2s;
+      mix-blend-mode: screen;
+    }
+    #cursor.hover { width: 28px; height: 28px; background: var(--teal); opacity: 0.5; }
+    @media (hover: none) { #cursor { display: none; } body { cursor: auto; } button { cursor: pointer; } }
+
+    /* ===== SCROLL PROGRESS ===== */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--teal); z-index: 1000; width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 900;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(10,14,23,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--teal); }
+    .nav-links {
+      display: flex; gap: 2rem; align-items: center;
+    }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 0.5rem 1.2rem;
+      background: var(--teal); color: #0a0e17;
+      border-radius: var(--radius-sm); font-weight: 700;
+      font-size: 0.875rem; transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: #0d9488; transform: translateY(-1px); color: #0a0e17; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 4px; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem); }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500;
+      color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--text); letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: 0.95rem; color: var(--muted); max-width: 65ch; line-height: 1.7;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* ===== FADE-IN REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      clip-path: inset(20px 0 0 0);
+      transition: opacity 0.7s var(--ease), clip-path 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; clip-path: inset(0 0 0 0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; clip-path: none; transition: none; }
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh; padding-top: 64px;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.08; z-index: 0;
+    }
+    .hero-grid {
+      position: relative; z-index: 1; width: 100%;
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+    }
+    .hero-left { }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--teal); background: var(--teal-dim);
+      border: 1px solid rgba(20,184,166,0.2);
+      padding: 0.35rem 0.85rem; border-radius: 999px;
+      margin-bottom: 1.5rem; letter-spacing: 0.06em;
+    }
+    .hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+    .hero-name {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: -0.04em; line-height: 1;
+      color: var(--text); margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: var(--font-mono); font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      color: var(--teal); margin-bottom: 1.8rem; min-height: 1.5em;
+    }
+    .hero-bio {
+      font-size: 1rem; color: var(--muted); max-width: 52ch; line-height: 1.75; margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 0.75rem 1.8rem; background: var(--teal); color: #0a0e17;
+      border-radius: var(--radius-sm); font-weight: 700; font-size: 0.9rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #0d9488; transform: translateY(-2px); }
+    .btn-outline {
+      padding: 0.75rem 1.8rem; border: 1px solid var(--border-hover); color: var(--text);
+      border-radius: var(--radius-sm); font-weight: 500; font-size: 0.9rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+    /* Hero stat bento grid */
+    .hero-right {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--teal-dim) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-card:hover { border-color: var(--teal); box-shadow: 0 0 20px var(--teal-glow); transform: translateY(-2px); }
+    .stat-card:hover::after { opacity: 1; }
+    .stat-num {
+      font-family: var(--font-mono); font-weight: 700;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      color: var(--amber); line-height: 1; margin-bottom: 0.4rem;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+
+    /* ===== ABOUT ===== */
+    #about { background: var(--surface); border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; align-items: start;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .about-text p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; max-width: 60ch; }
+    .about-text p strong { color: var(--text); }
+    .skill-constellation {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; padding-top: 2rem;
+    }
+    .skill-pill {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      padding: 0.4rem 0.85rem; border: 1px solid var(--border);
+      border-radius: 999px; color: var(--muted);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .skill-pill:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+    .skill-pill .tooltip {
+      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 0.4rem 0.7rem; font-size: 0.7rem; color: var(--text);
+      white-space: nowrap; pointer-events: none; opacity: 0;
+      transition: opacity 0.2s; z-index: 10;
+    }
+    .skill-pill:hover .tooltip { opacity: 1; }
+
+    /* ===== WHAT I MEASURE ===== */
+    #measure { border-top: 1px solid var(--border); }
+    .measure-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+      max-width: 1200px; margin: 2.5rem auto 0;
+    }
+    .flip-card { height: 160px; perspective: 1000px; }
+    .flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.55s var(--ease);
+    }
+    .flip-card:hover .flip-inner { transform: rotateY(180deg); }
+    .flip-front, .flip-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border); padding: 1.4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .flip-front { background: var(--surface); }
+    .flip-back {
+      background: var(--surface-2);
+      border-color: var(--teal);
+      transform: rotateY(180deg);
+      justify-content: center;
+    }
+    .flip-front-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .flip-front-title { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--text); }
+    .flip-back p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .flip-back .proof-tag {
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--teal);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem;
+    }
+
+    /* ===== RESEARCH ===== */
+    #research { background: var(--surface); border-top: 1px solid var(--border); }
+    .research-inner { max-width: 1200px; margin: 0 auto; }
+    .kpi-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0;
+    }
+    .kpi-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.2rem 1.4rem;
+      transition: border-color 0.3s;
+    }
+    .kpi-card:hover { border-color: var(--border-hover); }
+    .kpi-num {
+      font-family: var(--font-mono); font-weight: 700;
+      font-size: clamp(1.4rem, 2vw, 1.8rem); color: var(--amber); line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .kpi-label { font-size: 0.75rem; color: var(--muted); }
+    .charts-row {
+      display: grid; grid-template-columns: 5fr 7fr; gap: 1.5rem; margin: 1.5rem 0;
+    }
+    .chart-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+    }
+    .chart-title {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+      color: var(--text); margin-bottom: 1rem;
+    }
+    .chart-full { margin: 1.5rem 0; }
+    .heatmap-grid {
+      display: grid; grid-template-columns: 120px repeat(4, 1fr);
+      gap: 3px; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem;
+    }
+    .hm-header { color: var(--muted); padding: 0.4rem; display: flex; align-items: center; font-size: 0.65rem; }
+    .hm-label { color: var(--muted); padding: 0.4rem; display: flex; align-items: center; font-size: 0.7rem; }
+    .hm-cell {
+      padding: 0.6rem 0.4rem; border-radius: 4px;
+      text-align: center; font-weight: 600;
+      color: #0a0e17;
+    }
+    .findings-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1.5rem 0 0;
+    }
+    .findings-title {
+      font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+      color: var(--text); margin-bottom: 1rem;
+    }
+    .findings-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .finding-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .finding-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 0.5rem; flex-shrink: 0; }
+    .finding-text { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+    .finding-text strong { color: var(--text); }
+    .method-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .badge {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      padding: 0.3rem 0.7rem; border: 1px solid var(--border);
+      border-radius: 999px; color: var(--muted);
+    }
+
+    /* ===== EXPERIENCE ===== */
+    #experience { border-top: 1px solid var(--border); }
+    .exp-inner { max-width: 1200px; margin: 0 auto; }
+    .exp-scroll-wrap {
+      overflow-x: auto; padding-bottom: 1rem; margin-top: 2rem;
+      scrollbar-width: thin; scrollbar-color: var(--teal) var(--border);
+    }
+    .exp-scroll-wrap::-webkit-scrollbar { height: 4px; }
+    .exp-scroll-wrap::-webkit-scrollbar-track { background: var(--border); border-radius: 2px; }
+    .exp-scroll-wrap::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+    .exp-track {
+      display: flex; gap: 1rem; min-width: max-content; padding: 0.5rem 0.25rem 0.5rem;
+    }
+    .exp-card {
+      width: 300px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0;
+    }
+    .exp-card:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(20,184,166,0.1); }
+    .exp-company { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--teal); margin-bottom: 0.25rem; }
+    .exp-role { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.3rem; }
+    .exp-date { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; }
+    .exp-bullets { display: flex; flex-direction: column; gap: 0.55rem; }
+    .exp-bullet { display: flex; gap: 0.6rem; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .exp-bullet::before { content: '▸'; color: var(--teal); font-size: 0.65rem; margin-top: 0.25rem; flex-shrink: 0; }
+
+    /* ===== EDUCATION ===== */
+    #education { background: var(--surface); border-top: 1px solid var(--border); }
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 1200px; margin: 2rem auto 0; }
+    .edu-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .edu-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .edu-badge {
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--teal);
+      background: var(--teal-dim); border: 1px solid rgba(20,184,166,0.2);
+      padding: 0.25rem 0.6rem; border-radius: 999px; display: inline-block; margin-bottom: 1rem;
+    }
+    .edu-degree { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 0.4rem; line-height: 1.3; }
+    .edu-school { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .edu-date { font-family: var(--font-mono); font-size: 0.72rem; color: var(--faint); }
+    .edu-honor { font-size: 0.78rem; color: var(--amber); margin-top: 0.4rem; }
+
+    /* ===== CERTIFICATIONS ===== */
+    #credentials { border-top: 1px solid var(--border); }
+    .cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 1200px; margin: 2rem auto 0; }
+    .cred-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.2rem 1.4rem;
+      position: relative; transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .cred-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .cred-card.featured {
+      border-color: var(--teal);
+      box-shadow: 0 0 20px rgba(20,184,166,0.15), inset 0 0 40px rgba(20,184,166,0.03);
+    }
+    .cred-card.featured:hover { box-shadow: 0 0 35px rgba(20,184,166,0.3); }
+    .cred-ai-badge {
+      position: absolute; top: 1rem; right: 1rem;
+      font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700;
+      color: #0a0e17; background: var(--amber);
+      padding: 0.2rem 0.5rem; border-radius: 999px; letter-spacing: 0.05em;
+    }
+    .cred-icon { color: var(--teal); margin-bottom: 0.75rem; }
+    .cred-title { font-weight: 700; font-size: 0.9rem; color: var(--text); line-height: 1.3; margin-bottom: 0.3rem; }
+    .cred-issuer { font-size: 0.78rem; color: var(--muted); }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      background: var(--surface); border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .contact-inner { max-width: 1200px; margin: 0 auto; }
+    .contact-heading {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4rem); letter-spacing: -0.04em;
+      color: var(--text); line-height: 1.1; margin-bottom: 2rem;
+    }
+    .contact-heading span { color: var(--teal); }
+    .contact-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .contact-available {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);
+    }
+    .avail-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--teal);
+      animation: pulse 2s infinite;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--border); padding: 1.5rem;
+      text-align: center; font-family: var(--font-mono);
+      font-size: 0.75rem; color: var(--faint);
+    }
+
+    /* ===== MOBILE NAV ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: fixed; inset: 64px 0 0 0; background: var(--bg); flex-direction: column; padding: 2rem; gap: 1.5rem; z-index: 800; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.1rem; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-right { margin-top: 2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .measure-grid { grid-template-columns: repeat(2, 1fr); }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .charts-row { grid-template-columns: 1fr; }
+      .heatmap-grid { font-size: 0.6rem; }
+      .findings-row { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .cred-grid { grid-template-columns: repeat(2, 1fr); }
+      .exp-track { min-width: unset; flex-direction: column; }
+      .exp-card { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .measure-grid { grid-template-columns: 1fr; }
+      .cred-grid { grid-template-columns: 1fr; }
+      .hero-right { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Akshay<span>.</span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#experience">Work</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid">
+    <div class="hero-left reveal">
+      <div class="hero-eyebrow">Available for roles · UK &amp; Europe</div>
+      <h1 class="hero-name">Akshay<br/>Rahar</h1>
+      <div class="hero-title" id="typewriter"></div>
+      <p class="hero-bio">
+        Digital analytics specialist with <strong>4+ years</strong> turning raw data into decisions.
+        Experienced across GA4, SQL, Power BI, Tableau, and marketing analytics.
+        <strong>MSc Consumer Analytics</strong> — Leeds University Business School.
+      </p>
+      <div class="hero-btns">
+        <a href="#research" class="btn-primary">View Research</a>
+        <a href="mailto:akshayrahar@gmail.com" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-num" id="count1">0</div>
+        <div class="stat-label">Firm-Year Observations Analysed</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-num" id="count2">0</div>
+        <div class="stat-label">Years of Longitudinal Dataset</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-num">R²=0.96</div>
+        <div class="stat-label">Fixed Effects Model Accuracy</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-4">
+        <div class="stat-num" id="count3">0+</div>
+        <div class="stat-label">Years Analytics Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-label">About</p>
+      <h2 class="section-title">Translating data<br/>into strategy.</h2>
+      <p>
+        I'm a digital analytics specialist with a strong foundation in <strong>GA4 tracking validation</strong>,
+        performance analysis, and measurement architecture. I bridge the gap between marketing and engineering — turning
+        messy data environments into clean, reliable insight systems.
+      </p>
+      <p>
+        At <strong>Leeds University Business School</strong>, I analysed large-scale behavioural datasets using SQL and GA4
+        to uncover conversion signals and tracking inconsistencies across complex digital journeys.
+        As a <strong>freelance analyst</strong>, I reduced client reporting time by 40% through Power BI,
+        Tableau, and Looker Studio dashboards.
+      </p>
+      <p>
+        My MSc dissertation applied <strong>longitudinal panel regression</strong> to 23 years of automobile industry
+        data — proving the multi-year carryover effects of marketing and R&D investment on firm performance.
+        I think in systems. I build for scale.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <p class="section-label" style="padding-top:1rem;">Tools &amp; Stack</p>
+      <div class="skill-constellation">
+        <span class="skill-pill">GA4<span class="tooltip">Tracking validation, funnel analysis, event structuring</span></span>
+        <span class="skill-pill">SQL<span class="tooltip">Behavioural dataset analysis, large-scale queries</span></span>
+        <span class="skill-pill">Google Tag Manager<span class="tooltip">Tag-based tracking, dataLayer structuring</span></span>
+        <span class="skill-pill">Power BI<span class="tooltip">Interactive dashboards, stakeholder reporting</span></span>
+        <span class="skill-pill">Tableau<span class="tooltip">Data visualisation, campaign performance</span></span>
+        <span class="skill-pill">Looker Studio<span class="tooltip">Client dashboards — reduced reporting by 40%</span></span>
+        <span class="skill-pill">HubSpot<span class="tooltip">CRM, email automation, marketing attribution</span></span>
+        <span class="skill-pill">Salesforce<span class="tooltip">CRM data analysis and segmentation</span></span>
+        <span class="skill-pill">Google Ads<span class="tooltip">Funnel analysis, campaign measurement</span></span>
+        <span class="skill-pill">Meta Ads<span class="tooltip">Tracking validation, performance reporting</span></span>
+        <span class="skill-pill">A/B Testing<span class="tooltip">Multivariate testing, conversion optimisation</span></span>
+        <span class="skill-pill">Python<span class="tooltip">Data analysis, panel regression, growing skill</span></span>
+        <span class="skill-pill">STATA<span class="tooltip">Longitudinal regression, fixed effects modelling</span></span>
+        <span class="skill-pill">Generative AI<span class="tooltip">AI for marketing, AMA certified professional</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT I MEASURE ===== -->
+<section id="measure">
+  <div class="container">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="section-title reveal">What I measure</h2>
+    <p class="section-subtitle reveal">Hover each card to see real proof from my work.</p>
+    <div class="measure-grid">
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">📈</div>
+            <div class="flip-front-title">Funnel &amp; Conversion Analysis</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Identified drop-offs across GA4 user journeys, improving tracking accuracy and event structuring at Leeds University Business School.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal reveal-delay-1">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">🏷️</div>
+            <div class="flip-front-title">Tag-Based Tracking (GTM / GA4)</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Validated tracking environments across multiple client environments, ensuring alignment between campaign activity and reported performance.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal reveal-delay-2">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">📊</div>
+            <div class="flip-front-title">Dashboard Development</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Built dashboards in Looker Studio, Power BI and Tableau — reduced client reporting time by 40%, enabling faster optimisation decisions.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal reveal-delay-1">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">🧪</div>
+            <div class="flip-front-title">A/B &amp; Multivariate Testing</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Ran conversion optimisation experiments to validate event structuring approaches across acquisition and conversion stages.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal reveal-delay-2">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">🔍</div>
+            <div class="flip-front-title">Behavioural Dataset Analysis</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Analysed 3,163+ firm-year observations using SQL and panel regression to uncover engagement patterns and performance signals.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal reveal-delay-3">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">📐</div>
+            <div class="flip-front-title">Longitudinal Regression Modelling</div>
+          </div>
+          <div class="flip-back">
+            <div class="proof-tag">Proof</div>
+            <p>Applied Fixed Effects models across 23-year datasets, achieving R²=0.96 in MSc dissertation — published-grade quantitative analysis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESEARCH ===== -->
+<section id="research">
+  <div class="research-inner">
+    <p class="section-label reveal">MSc Dissertation · Leeds University Business School · 2024</p>
+    <h2 class="section-title reveal" style="max-width: 800px;">Carryover Effects of Marketing &amp; R&amp;D Intensity<br/>on Firm Performance</h2>
+    <p class="section-subtitle reveal">Longitudinal panel data analysis · 3,163 firm-year observations · 23 years (2000–2023) · U.S. Automobile Industry</p>
+
+    <div class="kpi-row">
+      <div class="kpi-card reveal">
+        <div class="kpi-num" id="kpi1">0</div>
+        <div class="kpi-label">Observations</div>
+      </div>
+      <div class="kpi-card reveal reveal-delay-1">
+        <div class="kpi-num">23 YRS</div>
+        <div class="kpi-label">Dataset Span (2000–2023)</div>
+      </div>
+      <div class="kpi-card reveal reveal-delay-2">
+        <div class="kpi-num">R² = 0.96</div>
+        <div class="kpi-label">Fixed Effects Model Fit</div>
+      </div>
+      <div class="kpi-card reveal reveal-delay-3">
+        <div class="kpi-num">β = 0.55</div>
+        <div class="kpi-label">Marketing Impact at Time T</div>
+      </div>
+    </div>
+
+    <div class="charts-row reveal">
+      <div class="chart-card">
+        <div class="chart-title">Marketing Intensity vs Gross Profit</div>
+        <canvas id="barChart" height="220"></canvas>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-family:var(--font-mono);">↑ 23.8% higher gross profit in high-intensity firms (p&lt;0.01)</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Fixed Effects Model: Beta Coefficients by Time Lag</div>
+        <canvas id="betaChart" height="220"></canvas>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.75rem;font-family:var(--font-mono);">At t-2, excessive marketing spend reverses firm profitability (β = −2.52, p&lt;0.01)</p>
+      </div>
+    </div>
+
+    <div class="chart-card chart-full reveal">
+      <div class="chart-title">Variable Correlation Matrix</div>
+      <div class="heatmap-grid" id="heatmap"></div>
+    </div>
+
+    <div class="findings-row">
+      <div class="reveal">
+        <div class="findings-title">Key Findings</div>
+        <div class="findings-list">
+          <div class="finding-item">
+            <div class="finding-dot"></div>
+            <div class="finding-text">Marketing intensity has a <strong>positive carry-over effect for 2 years</strong> (β=0.55 → β=0.27) before reversing at t-2 — signalling overexposure diminishing returns.</div>
+          </div>
+          <div class="finding-item">
+            <div class="finding-dot"></div>
+            <div class="finding-text">R&amp;D intensity shows a <strong>consistent negative short-term impact</strong> on gross profit — investments pay off over extended periods, not immediately.</div>
+          </div>
+          <div class="finding-item">
+            <div class="finding-dot"></div>
+            <div class="finding-text"><strong>Fixed Effects model (R²=0.96) outperforms Random Effects</strong>, confirmed by Hausman Test — validating firm-level unobserved heterogeneity in the panel data.</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="findings-title">Methodology Stack</div>
+        <div class="method-badges">
+          <span class="badge">COMPUSTAT Database</span>
+          <span class="badge">Fixed Effects Model</span>
+          <span class="badge">Random Effects Model</span>
+          <span class="badge">Hausman Test</span>
+          <span class="badge">T-Test Analysis</span>
+          <span class="badge">Panel Data Regression</span>
+          <span class="badge">STATA</span>
+          <span class="badge">Longitudinal Study</span>
+          <span class="badge">23-Year Dataset</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience">
+  <div class="exp-inner">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">Where I've worked</h2>
+    <p class="section-subtitle reveal">Scroll to explore →</p>
+    <div class="exp-scroll-wrap reveal">
+      <div class="exp-track">
+        <div class="exp-card">
+          <div class="exp-company">Leeds University<br/>Business School</div>
+          <div class="exp-role">Research Assistant</div>
+          <div class="exp-date">AUG 2024 — MAR 2026</div>
+          <div class="exp-bullets">
+            <div class="exp-bullet">Analysed large-scale behavioural datasets using SQL and GA4 to uncover user engagement patterns and conversion signals.</div>
+            <div class="exp-bullet">Developed structured approaches to analysing user behaviour across multiple touchpoints, improving reliability of performance data.</div>
+          </div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">Freelance</div>
+          <div class="exp-role">Digital Marketing &amp; Insights Analyst</div>
+          <div class="exp-date">DEC 2021 — JUL 2023 · UK, India, Europe</div>
+          <div class="exp-bullets">
+            <div class="exp-bullet">Built and maintained dashboards in Looker Studio, Power BI, and Tableau — reducing client reporting time by 40%.</div>
+            <div class="exp-bullet">Supported GA4 tracking validation across multiple client environments, ensuring alignment between campaign activity and reported performance.</div>
+          </div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">Mindshare United<br/>Foundation</div>
+          <div class="exp-role">Consultant</div>
+          <div class="exp-date">JUL 2021 — DEC 2021</div>
+          <div class="exp-bullets">
+            <div class="exp-bullet">Consolidated paid media, influencer, and engagement data into a unified performance view for faster optimisation decisions.</div>
+            <div class="exp-bullet">Translated complex performance data into clear, actionable recommendations for stakeholders.</div>
+          </div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">K.R. International<br/>Pvt. Ltd.</div>
+          <div class="exp-role">Research &amp; Development Associate</div>
+          <div class="exp-date">SEP 2017 — JUN 2019</div>
+          <div class="exp-bullets">
+            <div class="exp-bullet">Led market and customer analysis to identify new acquisition opportunities for a SaaS B2B product.</div>
+            <div class="exp-bullet">Identified high-value customer segments and market gaps, contributing to more focused growth initiatives.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION ===== -->
+<section id="education">
+  <div class="container">
+    <p class="section-label reveal">Education</p>
+    <h2 class="section-title reveal">Academic Background</h2>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <span class="edu-badge">MSc</span>
+        <div class="edu-degree">Consumer Analytics &amp; Marketing Strategy</div>
+        <div class="edu-school">Leeds University Business School, UK</div>
+        <div class="edu-date">Sep 2023 – Sep 2024</div>
+        <div class="edu-honor">⭐ Upper Second Class Honours (2:1)</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <span class="edu-badge">MA · Exchange</span>
+        <div class="edu-degree">European Global Studies</div>
+        <div class="edu-school">University of Basel, Switzerland</div>
+        <div class="edu-date">Sep 2020 – Sep 2021</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <span class="edu-badge">MA</span>
+        <div class="edu-degree">Diplomacy, Law &amp; Business</div>
+        <div class="edu-school">OP Jindal Global University</div>
+        <div class="edu-date">Sep 2019 – Sep 2021</div>
+        <div class="edu-honor">⭐ Upper Second Class Honours (2:1)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CREDENTIALS ===== -->
+<section id="credentials">
+  <div class="container">
+    <p class="section-label reveal">Certifications &amp; Credentials</p>
+    <h2 class="section-title reveal">Verified expertise</h2>
+    <div class="cred-grid">
+      <div class="cred-card featured reveal">
+        <span class="cred-ai-badge">AI · 2025</span>
+        <div class="cred-icon"><i data-lucide="badge-check" style="width:22px;height:22px;"></i></div>
+        <div class="cred-title">Generative AI for Marketing Professional Certificate</div>
+        <div class="cred-issuer">American Marketing Association</div>
+      </div>
+      <div class="cred-card reveal reveal-delay-1">
+        <div class="cred-icon"><i data-lucide="badge-check" style="width:22px;height:22px;"></i></div>
+        <div class="cred-title">Google Analytics for Beginners</div>
+        <div class="cred-issuer">Google</div>
+      </div>
+      <div class="cred-card reveal reveal-delay-2">
+        <div class="cred-icon"><i data-lucide="badge-check" style="width:22px;height:22px;"></i></div>
+        <div class="cred-title">Digital Advertising</div>
+        <div class="cred-issuer">HubSpot Academy</div>
+      </div>
+      <div class="cred-card reveal reveal-delay-1">
+        <div class="cred-icon"><i data-lucide="badge-check" style="width:22px;height:22px;"></i></div>
+        <div class="cred-title">Advertising on Facebook</div>
+        <div class="cred-issuer">Meta Blueprint</div>
+      </div>
+      <div class="cred-card reveal reveal-delay-2">
+        <div class="cred-icon"><i data-lucide="badge-check" style="width:22px;height:22px;"></i></div>
+        <div class="cred-title">Intercultural Communication &amp; Conflict Resolution</div>
+        <div class="cred-issuer">Professional Development</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <h2 class="contact-heading">Let's turn your data<br/>into <span>decisions.</span></h2>
+    <div class="contact-btns">
+      <a href="mailto:akshayrahar@gmail.com" class="btn-outline" style="font-family:var(--font-mono);font-size:0.9rem;">akshayrahar@gmail.com</a>
+      <a href="https://www.linkedin.com/in/akshayrahar" target="_blank" rel="noopener noreferrer" class="btn-primary">View LinkedIn ↗</a>
+    </div>
+    <div class="contact-available">
+      <div class="avail-dot"></div>
+      Available for roles · UK &amp; Europe · English (Native) · German (A1)
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Akshay Rahar &nbsp;·&nbsp; Built with intent, not templates.
+</footer>
+
+<script>
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button, .skill-pill, .flip-card, .stat-card, .exp-card, .cred-card, .edu-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// ===== SCROLL PROGRESS =====
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progress.style.width = scrolled + '%';
+});
+
+// ===== NAV SCROLL =====
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ===== HAMBURGER =====
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ===== TYPEWRITER =====
+const titles = ['Digital Analytics Specialist', 'Data Visualisation Expert', 'Marketing Analytics Consultant', 'GA4 & Tracking Strategist'];
+let ti = 0, ci = 0, deleting = false;
+const tw = document.getElementById('typewriter');
+function typewrite() {
+  const current = titles[ti];
+  if (!deleting) {
+    tw.textContent = current.substring(0, ci + 1);
+    ci++;
+    if (ci === current.length) { deleting = true; setTimeout(typewrite, 1800); return; }
+  } else {
+    tw.textContent = current.substring(0, ci - 1);
+    ci--;
+    if (ci === 0) { deleting = false; ti = (ti + 1) % titles.length; }
+  }
+  setTimeout(typewrite, deleting ? 40 : 75);
+}
+typewrite();
+
+// ===== HERO CANVAS =====
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let t = 0;
+function drawLine() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath();
+  ctx.strokeStyle = '#14b8a6';
+  ctx.lineWidth = 1.5;
+  const points = 80;
+  for (let i = 0; i <= points; i++) {
+    const x = (canvas.width / points) * i;
+    const noise = Math.sin(i * 0.18 + t) * 30 + Math.sin(i * 0.07 + t * 0.6) * 50 + Math.sin(i * 0.35 + t * 1.2) * 15;
+    const y = canvas.height * 0.55 + noise;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  t += 0.008;
+  requestAnimationFrame(drawLine);
+}
+drawLine();
+
+// ===== REVEAL ON SCROLL =====
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// ===== COUNTUP =====
+function startCounts() {
+  if (typeof CountUp !== 'undefined') {
+    new CountUp.CountUp('count1', 3163, { duration: 2.5, separator: ',' }).start();
+    new CountUp.CountUp('count2', 23, { duration: 2, suffix: ' YRS' }).start();
+    new CountUp.CountUp('count3', 4, { duration: 1.5 }).start();
+    new CountUp.CountUp('kpi1', 3163, { duration: 2.5, separator: ',' }).start();
+  } else {
+    document.getElementById('count1').textContent = '3,163';
+    document.getElementById('count2').textContent = '23 YRS';
+    document.getElementById('count3').textContent = '4+';
+    document.getElementById('kpi1').textContent = '3,163';
+  }
+}
+setTimeout(startCounts, 600);
+
+// ===== CHART.JS CHARTS =====
+Chart.defaults.color = '#64748b';
+Chart.defaults.font.family = 'JetBrains Mono, monospace';
+Chart.defaults.font.size = 11;
+
+// Bar Chart — Marketing GP
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Low Marketing', 'High Marketing'],
+    datasets: [{
+      label: 'Gross Profit Ratio',
+      data: [0.21, 0.26],
+      backgroundColor: ['rgba(59,130,246,0.7)', 'rgba(20,184,166,0.7)'],
+      borderColor: ['#3b82f6', '#14b8a6'],
+      borderWidth: 1.5,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' GP Ratio: ' + ctx.raw.toFixed(2)
+        }
+      }
+    },
+    scales: {
+      y: {
+        min: 0.17, max: 0.30,
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        ticks: { callback: v => v.toFixed(2) }
+      },
+      x: { grid: { display: false } }
+    },
+    animation: { duration: 1000 }
+  }
+});
+
+// Beta Coefficient Chart
+new Chart(document.getElementById('betaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['t (Current)', 't-1 (1 Year Lag)', 't-2 (2 Year Lag)'],
+    datasets: [
+      {
+        label: 'Marketing Intensity',
+        data: [0.55, 0.27, -2.52],
+        backgroundColor: ['rgba(20,184,166,0.7)','rgba(20,184,166,0.7)','rgba(239,68,68,0.7)'],
+        borderColor: ['#14b8a6','#14b8a6','#ef4444'],
+        borderWidth: 1.5, borderRadius: 4,
+      },
+      {
+        label: 'R&D Intensity',
+        data: [-0.30, -0.20, -0.12],
+        backgroundColor: 'rgba(59,130,246,0.6)',
+        borderColor: '#3b82f6',
+        borderWidth: 1.5, borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { boxWidth: 12, padding: 16 } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.dataset.label + ': β = ' + ctx.raw
+        }
+      }
+    },
+    scales: {
+      y: {
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        ticks: { callback: v => 'β = ' + v },
+      },
+      x: { grid: { display: false } }
+    },
+    animation: { duration: 1000 }
+  }
+});
+
+// ===== HEATMAP =====
+const vars = ['Gross Profit', 'Marketing Exp', 'Research Exp', 'Employees'];
+const matrix = [
+  [1.00, -0.40, -0.48, 0.12],
+  [-0.40, 1.00, -0.01, 0.08],
+  [-0.48, -0.01, 1.00, 0.15],
+  [0.12, 0.08, 0.15, 1.00]
+];
+const hm = document.getElementById('heatmap');
+// Header row
+hm.innerHTML = '<div class="hm-header"></div>' + vars.map(v => `<div class="hm-header">${v}</div>`).join('');
+matrix.forEach((row, i) => {
+  hm.innerHTML += `<div class="hm-label">${vars[i]}</div>`;
+  row.forEach(val => {
+    const abs = Math.abs(val);
+    let bg, color;
+    if (val === 1.00) { bg = 'rgba(100,116,139,0.5)'; color = '#e2e8f0'; }
+    else if (val > 0) { bg = `rgba(20,184,166,${0.2 + abs * 0.7})`; color = abs > 0.4 ? '#0a0e17' : '#e2e8f0'; }
+    else { bg = `rgba(245,158,11,${0.2 + abs * 0.7})`; color = abs > 0.4 ? '#0a0e17' : '#e2e8f0'; }
+    hm.innerHTML += `<div class="hm-cell" style="background:${bg};color:${color};">${val.toFixed(2)}</div>`;
+  });
+});
+
+// ===== LUCIDE ICONS =====
+if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
+</body>
+</html>
