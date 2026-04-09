@@ -1011,7 +1011,7 @@
 
       <a class="story-card story-card--wide" href="#" onclick="openModal('modal-dissertation');return false;">
         <div class="story-tag-sm">Research</div>
-        <h3>Do Marketing Budgets Compound? A 23-Year Study</h3>
+        <h3>Do Marketing &amp; R&amp;D Budgets Compound? A 23-Year Study</h3>
         <p>Fixed-effects panel models on 3,163 firm-year observations from COMPUSTAT. R²=0.96. The short answer: yes, for about two years.</p>
         <span class="story-arrow">Read dissertation deep-dive &#8594;</span>
       </a>
@@ -1274,7 +1274,7 @@ document.addEventListener('keydown', function(e) {
     <h2>Results</h2>
     <div class="stat-row">
       <div class="stat-box"><div class="n">52%</div><div class="l">CPL reduction in 6 weeks</div></div>
-      <div class="stat-box"><div class="n">40%</div><div class="l">Less manual reporting time</div></div>
+      
       <div class="stat-box"><div class="n">200+</div><div class="l">Negative keywords added</div></div>
       <div class="stat-box"><div class="n">3</div><div class="l">GA4 setups audited &amp; repaired</div></div>
     </div>
@@ -1351,7 +1351,7 @@ document.addEventListener('keydown', function(e) {
     
     <h2>Where the tracking gaps were</h2>
     <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
-      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Session Attribution Accuracy — Before &amp; After Audit</div>
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Session Attribution Accuracy — Before &amp; After Audit (illustrative)</div>
       <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
         <!-- Funnel bars horizontal -->
         <!-- Sessions tracked: 100% vs 100% (no change at top) -->
@@ -1441,8 +1441,8 @@ document.addEventListener('keydown', function(e) {
         <rect x="185" y="165" width="12" height="9" fill="#009B87" rx="2"/>
         <text x="201" y="174" font-size="10" fill="#888">Unified view (after)</text>
         <!-- label -->
-        <text x="380" y="30" font-size="12" font-weight="800" fill="#009B87">&#8209;79%</text>
-        <text x="380" y="44" font-size="10" fill="#888">time saved</text>
+        <text x="380" y="30" font-size="12" font-weight="700" fill="#009B87">Significant</text>
+        <text x="380" y="44" font-size="10" fill="#888">time reduction</text>
       </svg>
     </div>
     <h2>Tools</h2>
@@ -1473,7 +1473,7 @@ document.addEventListener('keydown', function(e) {
     
     <h2>Customer value by segment</h2>
     <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
-      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">CLV distribution across customer segments identified</div>
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">CLV distribution across customer segments (illustrative segmentation model)</div>
       <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
         <!-- Donut chart centered at 160,100 r=80 inner=50 -->
         <!-- Segment A: High CLV — 38% — teal -->
@@ -1515,71 +1515,90 @@ document.addEventListener('keydown', function(e) {
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('modal-dissertation')" aria-label="Close">&times;</button>
     <span class="modal-tag">Research</span>
-    <h1>Do Marketing Budgets Compound? A 23-Year Study</h1>
+    <h1>Do Marketing &amp; R&amp;D Budgets Compound? A 23-Year Study</h1>
     <div class="modal-meta"><span>Leeds University Business School</span><span>MSc Dissertation &middot; 2024 &middot; Distinction</span></div>
-    <p class="modal-lead">3,163 firm-year observations. Fixed-effects panel models. 23 years of U.S. automobile company data from COMPUSTAT. The question: does marketing spend in year one still affect gross profit in year two or three?</p>
-    <h2>The question</h2>
-    <p>Most attribution treats spend and outcome as roughly simultaneous. This dissertation tested whether marketing investment has a carry-over effect using real firm-level financial data rather than surveys or case studies. The focus: the automobile sector, where marketing budgets are large and the data is publicly available via WRDS.</p>
+    <p class="modal-lead">3,163 firm-year observations. Fixed-effects panel models. 23 years of U.S. automobile company data from COMPUSTAT North America via WRDS. Two research questions: do marketing intensity and R&amp;D intensity each carry over into future firm performance &mdash; and for how long?</p>
+
+    <h2>The research question</h2>
+    <p>Most attribution treats spend and outcome as roughly simultaneous. This dissertation tested whether marketing <em>and</em> R&amp;D investment each have a lagged carry-over effect on gross profit margin, using publicly traded U.S. auto firms across 2000&ndash;2023. The automobile sector was chosen because it is both marketing-intensive (Ford alone spent ~$4bn in 2021) and R&amp;D-intensive (~$138.7bn globally in 2022 across the sector), making the carry-over question practically significant for capital allocation decisions.</p>
+
     <h2>The method</h2>
     <ul>
-      <li>Dataset: 3,163 firm-year observations from publicly traded U.S. auto firms, 2000 to 2023.</li>
-      <li>Dependent variable: Gross Profit to Sales ratio (less volatile than net income, isolates operational performance).</li>
-      <li>Independent variables: Marketing Intensity and R&amp;D Intensity at t, t-1, and t-2.</li>
-      <li>Model: Fixed-effects panel regression to control for firm-level characteristics that do not change over time.</li>
-      <li>Model selection: Hausman test confirmed Fixed Effects over Random Effects.</li>
+      <li>Dataset: 3,163 firm-year observations, U.S. publicly traded automobile firms, 2000&ndash;2023 (COMPUSTAT North America via WRDS).</li>
+      <li>Dependent variable: Gross Profit to Sales ratio &mdash; chosen over net income for stability and because it isolates operational performance from financial engineering.</li>
+      <li>Independent variables: Marketing Intensity and R&amp;D Intensity, each lagged at t, t-1, and t-2.</li>
+      <li>Control variable: Firm size (number of employees) to account for scale differences across firms.</li>
+      <li>Model: Fixed-effects panel regression to strip out time-invariant firm characteristics that could confound results.</li>
+      <li>Model selection: Hausman test confirmed Fixed Effects over Random Effects (p&lt;0.05).</li>
+      <li>Robustness: Alternative lag structures and subsample sensitivity analysis &mdash; core results held.</li>
     </ul>
+
     <div class="stat-row">
       <div class="stat-box"><div class="n">3,163</div><div class="l">Firm-year observations</div></div>
-      <div class="stat-box"><div class="n">R&sup2;=0.96</div><div class="l">Model fit</div></div>
-      <div class="stat-box"><div class="n">23 yrs</div><div class="l">Longitudinal dataset</div></div>
-      <div class="stat-box"><div class="n">Distinction</div><div class="l">Grade</div></div>
+      <div class="stat-box"><div class="n">R&sup2;=0.96</div><div class="l">Fixed effects model fit</div></div>
+      <div class="stat-box"><div class="n">23 yrs</div><div class="l">2000&ndash;2023 longitudinal</div></div>
+      <div class="stat-box"><div class="n">Distinction</div><div class="l">Grade awarded</div></div>
     </div>
+
     <h2>What the results showed</h2>
-    <p>Marketing intensity at t: positive and significant. At t-1: positive and significant. At t-2: negative and significant. Marketing spend compounds over roughly two fiscal years, then the carry-over effect reverses.</p>
-    <p>Practical implication: cutting the marketing budget in year one shows up in performance in year two. That delay is why short-term cost-cutting decisions in marketing are often underestimated.</p>
-    
-    <h2>The carry-over effect — visualised</h2>
+    <p><strong>Marketing intensity:</strong> Positive and significant at t (&beta;&nbsp;=&nbsp;0.55, p&lt;0.05) and at t-1 (&beta;&nbsp;=&nbsp;0.27, p&lt;0.05) &mdash; confirming a carry-over into the following year. At t-2 the effect reverses sharply (&beta;&nbsp;=&nbsp;-2.52, p&lt;0.05). Marketing spend generates positive carry-over for up to one year, then inverts strongly at two years &mdash; consistent with advertising wear-out effects documented in the literature. The t-2 reversal is nearly five times the magnitude of the positive t coefficient, so this is a reversal, not a fade.</p>
+    <p><strong>R&amp;D intensity:</strong> Negative and significant at t (&beta;&nbsp;=&nbsp;-0.30, p&lt;0.05), t-1 (&beta;&nbsp;=&nbsp;-0.20, p&lt;0.05), and t-2 (&beta;&nbsp;=&nbsp;-0.12, p&lt;0.1). R&amp;D expenditure consistently compressed gross profit margins in the auto sector across the full two-year window. This is consistent with R&amp;D costs being expensed immediately against revenue while the innovation benefits (new models, patents, platform launches) materialise over a longer horizon not captured in a two-year lag.</p>
+    <p><strong>The contrast between the two variables is itself a finding:</strong> marketing spend generates near-term carry-over then sharply reverses; R&amp;D costs weigh on margins throughout the window. Both findings support long-term thinking over short-term budget cuts in either area.</p>
+
+    <h2>Both effects &mdash; visualised</h2>
     <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
-      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Marketing intensity coefficient &beta; on gross profit margin (t, t-1, t-2)</div>
-      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-        <!-- axes -->
-        <line x1="80" y1="20"  x2="80"  y2="155" stroke="#ccc" stroke-width="1"/>
-        <line x1="80" y1="100" x2="430" y2="100" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="80" y1="155" x2="430" y2="155" stroke="#e8e5df" stroke-width="1"/>
-        <!-- y axis labels -->
-        <text x="72" y="26"  text-anchor="end" font-size="10" fill="#999">+ve</text>
-        <text x="72" y="103" text-anchor="end" font-size="10" fill="#999">0</text>
-        <text x="72" y="158" text-anchor="end" font-size="10" fill="#999">-ve</text>
-        <!-- Zero line label -->
-        <text x="435" y="103" font-size="10" fill="#bbb">zero</text>
-        <!-- Data points: t=+0.55, t-1=+0.27, t-2=-2.52 (scaled) -->
-        <!-- t: x=155, y= 100 - (0.55/3)*120 = 100-22=78 -->
-        <!-- t-1: x=255, y= 100 - (0.27/3)*120 = 100-10.8=89 -->
-        <!-- t-2: x=355, y= 100 + (2.52/3)*120 = 100+100.8 => cap at 155 -->
-        <circle cx="155" cy="56" r="8" fill="#009B87"/>
-        <circle cx="255" cy="78" r="8" fill="#009B87"/>
-        <circle cx="355" cy="152" r="8" fill="#c0392b"/>
-        <!-- connecting line -->
-        <polyline points="155,56 255,78 355,152" fill="none" stroke="#009B87" stroke-width="2.5" stroke-dasharray="none"/>
-        <!-- value labels -->
-        <text x="155" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#009B87">&beta;=+0.55*</text>
-        <text x="255" y="66" text-anchor="middle" font-size="11" font-weight="700" fill="#009B87">&beta;=+0.27*</text>
-        <text x="355" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="#c0392b">&beta;=&#8209;2.52*</text>
-        <!-- x labels -->
-        <text x="155" y="175" text-anchor="middle" font-size="12" fill="#444" font-weight="700">Year 0 (t)</text>
-        <text x="255" y="175" text-anchor="middle" font-size="12" fill="#444" font-weight="700">Year -1 (t&#8209;1)</text>
-        <text x="355" y="175" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="700">Year -2 (t&#8209;2)</text>
-        <text x="155" y="188" text-anchor="middle" font-size="10" fill="#888">Spend year</text>
-        <text x="255" y="188" text-anchor="middle" font-size="10" fill="#888">One year later</text>
-        <text x="355" y="188" text-anchor="middle" font-size="10" fill="#c0392b">Two years later</text>
-        <!-- footnote -->
-        <text x="80" y="198" font-size="9" fill="#aaa">* p&lt;0.05 · Fixed-effects panel model · R&#178;=0.96 · n=3,163 firm-years</text>
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Coefficient &beta; on gross profit margin &mdash; Marketing vs R&amp;D Intensity &nbsp;(Fixed Effects &middot; R&sup2;=0.96 &middot; n=3,163)</div>
+      <svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <line x1="90" y1="20"  x2="90"  y2="165" stroke="#ccc" stroke-width="1"/>
+        <line x1="90" y1="105" x2="465" y2="105" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="90" y1="165" x2="465" y2="165" stroke="#e8e5df" stroke-width="1"/>
+        <text x="82" y="26"  text-anchor="end" font-size="10" fill="#999">+ve</text>
+        <text x="82" y="108" text-anchor="end" font-size="10" fill="#999">0</text>
+        <text x="82" y="168" text-anchor="end" font-size="10" fill="#999">-ve</text>
+        <text x="470" y="108" font-size="10" fill="#ccc">zero</text>
+        <!-- Marketing: t=positive high, t-1=positive lower, t-2=sharply negative -->
+        <circle cx="170" cy="58"  r="7" fill="#009B87"/>
+        <circle cx="280" cy="82"  r="7" fill="#009B87"/>
+        <circle cx="390" cy="162" r="7" fill="#c0392b"/>
+        <polyline points="170,58 280,82 390,162" fill="none" stroke="#009B87" stroke-width="2.5"/>
+        <!-- R&D: all below zero, gently rising toward zero -->
+        <circle cx="170" cy="122" r="7" fill="#e67e22"/>
+        <circle cx="280" cy="130" r="7" fill="#e67e22"/>
+        <circle cx="390" cy="138" r="7" fill="#e67e22"/>
+        <polyline points="170,122 280,130 390,138" fill="none" stroke="#e67e22" stroke-width="2" stroke-dasharray="6,3"/>
+        <!-- Marketing labels -->
+        <text x="170" y="48"  text-anchor="middle" font-size="10" font-weight="700" fill="#009B87">&beta;=+0.55*</text>
+        <text x="280" y="72"  text-anchor="middle" font-size="10" font-weight="700" fill="#009B87">&beta;=+0.27*</text>
+        <text x="390" y="178" text-anchor="middle" font-size="10" font-weight="700" fill="#c0392b">&beta;=&#8209;2.52*</text>
+        <!-- R&D labels -->
+        <text x="155" y="140" text-anchor="middle" font-size="10" fill="#e67e22">&beta;=&#8209;0.30*</text>
+        <text x="265" y="148" text-anchor="middle" font-size="10" fill="#e67e22">&beta;=&#8209;0.20*</text>
+        <text x="405" y="152" text-anchor="middle" font-size="10" fill="#e67e22">&beta;=&#8209;0.12&dagger;</text>
+        <!-- x axis labels -->
+        <text x="170" y="185" text-anchor="middle" font-size="11" fill="#444" font-weight="600">Year 0 (t)</text>
+        <text x="280" y="185" text-anchor="middle" font-size="11" fill="#444" font-weight="600">Year &#8209;1 (t&#8209;1)</text>
+        <text x="390" y="185" text-anchor="middle" font-size="11" fill="#c0392b" font-weight="600">Year &#8209;2 (t&#8209;2)</text>
+        <!-- Legend -->
+        <line x1="90"  y1="202" x2="112" y2="202" stroke="#009B87" stroke-width="2.5"/>
+        <circle cx="101" cy="202" r="4" fill="#009B87"/>
+        <text x="117" y="206" font-size="10" fill="#333">Marketing Intensity</text>
+        <line x1="245" y1="202" x2="267" y2="202" stroke="#e67e22" stroke-width="2" stroke-dasharray="5,3"/>
+        <circle cx="256" cy="202" r="4" fill="#e67e22"/>
+        <text x="272" y="206" font-size="10" fill="#333">R&amp;D Intensity</text>
+        <!-- Footnote -->
+        <text x="90" y="220" font-size="9" fill="#aaa">* p&lt;0.05 &nbsp;&dagger; p&lt;0.1 &nbsp;&middot;&nbsp; Fixed-effects panel model &nbsp;&middot;&nbsp; Hausman test confirmed FE &nbsp;&middot;&nbsp; VIF=1.00 (no multicollinearity)</text>
       </svg>
     </div>
-    <h2>Tools</h2>
+
+    <h2>Tools &amp; methods</h2>
     <div class="tool-pills">
-      <span class="t-pill">STATA</span><span class="t-pill">COMPUSTAT / WRDS</span>
-      <span class="t-pill">Fixed Effects Regression</span><span class="t-pill">Hausman Test</span><span class="t-pill">R</span>
+      <span class="t-pill">STATA</span>
+      <span class="t-pill">COMPUSTAT North America</span>
+      <span class="t-pill">WRDS</span>
+      <span class="t-pill">Fixed Effects Regression</span>
+      <span class="t-pill">Hausman Test</span>
+      <span class="t-pill">T-Test Analysis</span>
+      <span class="t-pill">R</span>
     </div>
   </div>
 </div>
