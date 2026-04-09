@@ -526,9 +526,9 @@
   pointer-events: none;
   z-index: 9999;
   top: 0; left: 0;
-  margin-left: -5px; margin-top: -5px;
-  transition: transform 0.1s ease;
-  will-change: left, top;
+  transform: translate(-200px, -200px);
+  transition: transform 0.05s linear, width 0.2s, height 0.2s;
+  will-change: transform;
 }
 #cursor-ring {
   position: fixed;
@@ -538,9 +538,9 @@
   pointer-events: none;
   z-index: 9998;
   top: 0; left: 0;
-  margin-left: -19px; margin-top: -19px;
-  transition: width 0.25s, height 0.25s, border-color 0.25s, margin 0.25s;
-  will-change: left, top;
+  transform: translate(-200px, -200px);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  will-change: transform;
 }
 
 /* ── STORIES GRID ──────────────────────────────────────────────────── */
@@ -584,6 +584,77 @@
   letter-spacing: 0.04em; text-transform: uppercase;
   border-bottom: 1px solid var(--accent); padding-bottom: 2px;
 }
+
+/* ── STORY MODALS ──────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(20,20,20,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 8000;
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+.modal-overlay.open { display: block; }
+.modal-box {
+  background: #F5F3EE;
+  border-radius: 16px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 52px;
+  position: relative;
+}
+.modal-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none;
+  font-size: 1.6rem; color: #555;
+  cursor: none !important;
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: rgba(0,155,135,0.1); color: #009B87; }
+.modal-tag {
+  display: inline-block;
+  background: #009B87; color: #fff;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 4px 12px;
+  border-radius: 20px; margin-bottom: 16px;
+}
+.modal-box h1 { font-size: clamp(1.4rem,3vw,2rem); font-weight: 900; line-height: 1.2; margin-bottom: 10px; }
+.modal-meta { color: #666; font-size: 0.85rem; margin-bottom: 28px; }
+.modal-meta span { margin-right: 18px; }
+.modal-lead {
+  font-size: 1.05rem; font-weight: 500;
+  border-left: 3px solid #009B87; padding-left: 16px;
+  margin-bottom: 28px; color: #222;
+}
+.modal-box h2 {
+  font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #007a6a;
+  margin: 36px 0 12px;
+}
+.modal-box p { margin-bottom: 14px; color: #2a2a2a; line-height: 1.7; }
+.modal-box ul { margin: 0 0 18px 20px; }
+.modal-box li { margin-bottom: 8px; line-height: 1.65; }
+.stat-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 24px 0; }
+.stat-box {
+  background: #fff; border: 1px solid #e2dfd8;
+  border-top: 3px solid #009B87;
+  border-radius: 10px; padding: 16px 22px;
+  flex: 1; min-width: 120px;
+}
+.stat-box .n { font-size: 1.5rem; font-weight: 900; color: #009B87; }
+.stat-box .l { font-size: 0.72rem; color: #777; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+.tool-pills { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 24px; }
+.t-pill {
+  background: #eaf6f4; color: #007a6a;
+  border: 1px solid #b8e0da; border-radius: 20px;
+  padding: 4px 12px; font-size: 0.78rem; font-weight: 600;
+}
+@media(max-width:600px){ .modal-box{ padding:32px 24px; } }
+
 </style>
 </head>
 <body>
@@ -863,7 +934,7 @@
           Fixed-effects panel models to strip out firm-level factors that do not change over time.
           Hausman test confirmed FE was the right call over random effects.
           Marketing intensity shows a positive carry-over effect at t and t-1, then reverses at t-2. The takeaway: marketing spend compounds for roughly two years before returns start to fade.
-          <br/><br/><a class="story-link" href="stories/story-dissertation.html">Read dissertation deep-dive &#8594;</a>
+          <br/><br/><a class="story-link" href="#" onclick="openModal('modal-dissertation');return false;">Read dissertation deep-dive &#8594;</a>
         </p>
         <br />
         <p class="research-body">
@@ -910,35 +981,35 @@
 
     <div class="stories-grid">
 
-      <a class="story-card" href="stories/story-freelance.html">
+      <a class="story-card" href="#" onclick="openModal('modal-freelance');return false;">
         <div class="story-tag-sm">Performance Marketing</div>
         <h3>52% CPL Drop in 6 Weeks</h3>
         <p>Rebuilt a failing e-commerce Google Ads account. Restructured campaigns, fixed GA4 tracking, recovered hidden conversions.</p>
         <span class="story-arrow">Read case study &#8594;</span>
       </a>
 
-      <a class="story-card" href="stories/story-research.html">
+      <a class="story-card" href="#" onclick="openModal('modal-research');return false;">
         <div class="story-tag-sm">Analytics</div>
         <h3>Finding What the Data Was Missing</h3>
         <p>GA4 and SQL analysis for Leeds University research. Traced user journeys, found broken tracking, fixed what was hiding performance.</p>
         <span class="story-arrow">Read case study &#8594;</span>
       </a>
 
-      <a class="story-card" href="stories/story-mindshare.html">
+      <a class="story-card" href="#" onclick="openModal('modal-mindshare');return false;">
         <div class="story-tag-sm">Media Analytics</div>
         <h3>One View for All Campaign Data</h3>
         <p>Built a unified reporting view at Mindshare so the team could make budget decisions in real time, not after a manual report.</p>
         <span class="story-arrow">Read case study &#8594;</span>
       </a>
 
-      <a class="story-card" href="stories/story-kr.html">
+      <a class="story-card" href="#" onclick="openModal('modal-kr');return false;">
         <div class="story-tag-sm">Market Research</div>
         <h3>Who Is Actually Worth Targeting?</h3>
         <p>Customer segmentation for an early-stage B2B SaaS product. Found which segments had real CLV and where the market gaps were.</p>
         <span class="story-arrow">Read case study &#8594;</span>
       </a>
 
-      <a class="story-card story-card--wide" href="stories/story-dissertation.html">
+      <a class="story-card story-card--wide" href="#" onclick="openModal('modal-dissertation');return false;">
         <div class="story-tag-sm">Research</div>
         <h3>Do Marketing Budgets Compound? A 23-Year Study</h3>
         <p>Fixed-effects panel models on 3,163 firm-year observations from COMPUSTAT. R²=0.96. The short answer: yes, for about two years.</p>
@@ -1107,50 +1178,229 @@
 // ── DOUBLE CURSOR ─
 
 <script>
-// ── DOUBLE CURSOR ─────────────────────────────────────────────────────────
+function openModal(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on overlay click
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+      m.classList.remove('open');
+    });
+    document.body.style.overflow = '';
+  }
+});
+</script>
+<script>
+// ── DOUBLE CURSOR (GPU-accelerated, no lag) ────────────────────────────
 (function() {
   var dot  = document.getElementById('cursor-dot');
   var ring = document.getElementById('cursor-ring');
   if (!dot || !ring) return;
 
-  var mx = -100, my = -100;
-  var rx = -100, ry = -100;
+  var mx = -200, my = -200, rx = -200, ry = -200;
+  var dotScale = 1, ringSize = 38;
+  var ticking = false;
 
+  // Move dot instantly on mousemove (no lerp = zero lag)
   document.addEventListener('mousemove', function(e) {
-    mx = e.clientX;
-    my = e.clientY;
-    dot.style.left = mx + 'px';
-    dot.style.top  = my + 'px';
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = 'translate(' + (mx - 5) + 'px,' + (my - 5) + 'px) scale(' + dotScale + ')';
+    if (!ticking) { ticking = true; requestAnimationFrame(animRing); }
   });
 
-  (function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animRing);
-  })();
+  // Ring follows with gentle lerp (fast enough to feel snappy)
+  function animRing() {
+    ticking = false;
+    rx += (mx - rx) * 0.22;
+    ry += (my - ry) * 0.22;
+    ring.style.transform = 'translate(' + (rx - ringSize/2) + 'px,' + (ry - ringSize/2) + 'px)';
+    if (Math.abs(mx - rx) > 0.5 || Math.abs(my - ry) > 0.5) {
+      ticking = true;
+      requestAnimationFrame(animRing);
+    }
+  }
 
-  var els = document.querySelectorAll('a, button, .skill-card, .work-card, .review-card, .story-card, .nav-cta');
-  els.forEach(function(el) {
+  document.querySelectorAll('a, button, .skill-card, .work-card, .review-card, .story-card, .nav-cta').forEach(function(el) {
     el.addEventListener('mouseenter', function() {
-      ring.style.width       = '58px';
-      ring.style.height      = '58px';
-      ring.style.marginLeft  = '-29px';
-      ring.style.marginTop   = '-29px';
+      ringSize = 56; dotScale = 0;
+      ring.style.width = ring.style.height = ringSize + 'px';
       ring.style.borderColor = 'rgba(0,155,135,0.9)';
-      dot.style.transform    = 'scale(0)';
+      dot.style.transform = 'translate(' + (mx-5) + 'px,' + (my-5) + 'px) scale(0)';
     });
     el.addEventListener('mouseleave', function() {
-      ring.style.width       = '38px';
-      ring.style.height      = '38px';
-      ring.style.marginLeft  = '-19px';
-      ring.style.marginTop   = '-19px';
+      ringSize = 38; dotScale = 1;
+      ring.style.width = ring.style.height = ringSize + 'px';
       ring.style.borderColor = 'rgba(0,155,135,0.6)';
-      dot.style.transform    = 'scale(1)';
+      dot.style.transform = 'translate(' + (mx-5) + 'px,' + (my-5) + 'px) scale(1)';
     });
   });
 })();
 </script>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- STORY MODALS — all 5 embedded inline, no external files needed    -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<div id="modal-freelance" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-freelance')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Performance Marketing</span>
+    <h1>Freelance Digital Marketing &amp; Analytics</h1>
+    <div class="modal-meta"><span>India, UK &amp; Europe</span><span>Dec 2021 &ndash; Jul 2023</span></div>
+    <p class="modal-lead">Ran Google Ads and Meta campaigns for e-commerce and B2B clients from scratch, fixed broken GA4 tracking, and built dashboards that replaced manual reporting. Worked independently across multiple accounts.</p>
+    <h2>What I did</h2>
+    <ul>
+      <li>Built Google Ads and Meta accounts end to end: campaign structure, keyword strategy, audience segmentation, bid logic, budget pacing.</li>
+      <li>Rebuilt a struggling e-commerce account: added 200+ negative keywords, restructured ad groups, switched to Smart Bidding, reallocated budget toward high-intent campaign types.</li>
+      <li>Managed Google Shopping campaigns via Merchant Center: feed health, product segmentation, category-level bid adjustments.</li>
+      <li>Audited GA4 and GTM setups. Found misfiring events and conversion tags not recording. Fixed them and recovered conversion data clients did not know they were losing.</li>
+      <li>Ran A/B tests on copy, creatives, landing pages, and audiences on a rolling basis.</li>
+      <li>Built Looker Studio and Power BI dashboards that brought all channel data into one live view.</li>
+    </ul>
+    <h2>Results</h2>
+    <div class="stat-row">
+      <div class="stat-box"><div class="n">52%</div><div class="l">CPL reduction in 6 weeks</div></div>
+      <div class="stat-box"><div class="n">40%</div><div class="l">Less manual reporting time</div></div>
+      <div class="stat-box"><div class="n">200+</div><div class="l">Negative keywords added</div></div>
+      <div class="stat-box"><div class="n">3</div><div class="l">GA4 setups audited &amp; repaired</div></div>
+    </div>
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">Google Ads</span><span class="t-pill">Meta Ads Manager</span>
+      <span class="t-pill">GA4</span><span class="t-pill">Google Tag Manager</span>
+      <span class="t-pill">Merchant Center</span><span class="t-pill">Looker Studio</span>
+      <span class="t-pill">Power BI</span><span class="t-pill">SQL</span>
+    </div>
+    <h2>The GA4 audit that changed the budget call</h2>
+    <p>For one e-commerce client, conversions in Google Ads were not matching GA4. The purchase event was firing on all pages, not just the thank-you page, and transaction IDs were not being passed so deduplication was failing. Fixed both. Recovered ~18% more conversions. Two campaigns they were about to pause were actually performing well. Two they were scaling were not.</p>
+  </div>
+</div>
+
+<div id="modal-research" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-research')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Analytics</span>
+    <h1>Research Assistant &mdash; Leeds University</h1>
+    <div class="modal-meta"><span>Leeds University Business School</span><span>Aug 2024 &ndash; Mar 2026</span></div>
+    <p class="modal-lead">Used GA4 and SQL to trace user journeys end to end, find where tracking was breaking, and make the performance data actually trustworthy before anyone acted on it.</p>
+    <h2>The work</h2>
+    <ul>
+      <li>Pulled GA4 event-level data and combined it with SQL queries to find where conversion signals were dropping off or misfiring.</li>
+      <li>Traced full user journeys across acquisition and conversion stages to identify exactly where measurement gaps sat.</li>
+      <li>Proposed structured fixes for broken tracking events and inconsistent dataLayer implementations.</li>
+      <li>Built analysis frameworks to evaluate behaviour across touchpoints, so patterns were readable across channels rather than siloed by source.</li>
+      <li>Wrote up findings in plain language for non-technical stakeholders. Outputs fed directly into channel and content decisions.</li>
+    </ul>
+    <h2>Key insight</h2>
+    <p>The biggest recurring problem was not missing data but data that looked complete but was not. Sessions were attributed to the wrong source because UTM parameters were dropped on redirect. Events were firing twice because of duplicate GTM tags. Neither problem was visible in standard reports. You only found them by looking at the raw event stream.</p>
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">GA4</span><span class="t-pill">SQL</span><span class="t-pill">Google Tag Manager</span>
+      <span class="t-pill">GA Debugger</span><span class="t-pill">Browser DevTools</span><span class="t-pill">Looker Studio</span>
+    </div>
+  </div>
+</div>
+
+<div id="modal-mindshare" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-mindshare')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Media Analytics</span>
+    <h1>Marketing Analytics Consultant &mdash; Mindshare</h1>
+    <div class="modal-meta"><span>Mindshare United Foundation</span><span>Jul 2021 &ndash; Dec 2021</span></div>
+    <p class="modal-lead">Pulled paid media, influencer, and engagement data into a single reporting view so the team could make budget decisions without waiting for three separate reports.</p>
+    <h2>The situation</h2>
+    <p>Campaign data sat in separate systems. Paid results in one place, influencer performance in another, organic engagement in a third. The team was assembling everything manually before every decision meeting. By the time the picture was complete, the window for optimisation had often passed.</p>
+    <h2>What I did</h2>
+    <ul>
+      <li>Built a unified performance view consolidating paid, influencer, and engagement data across active campaigns.</li>
+      <li>Identified gaps between planned spend and tracked outcomes. Found placements in the plan that were not showing in reported results.</li>
+      <li>Flagged underperforming placements with data and helped redirect budget to what was working.</li>
+      <li>Worked directly with media buyers to adjust targeting and messaging based on live data, not the original plan.</li>
+      <li>Wrote prioritised recommendations for senior stakeholders: short, backed by cross-channel data and competitor benchmarking.</li>
+    </ul>
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">Looker Studio</span><span class="t-pill">Meta Ads Manager</span>
+      <span class="t-pill">Google Ads</span><span class="t-pill">Excel</span><span class="t-pill">PowerPoint</span>
+    </div>
+  </div>
+</div>
+
+<div id="modal-kr" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-kr')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Market Research</span>
+    <h1>R&amp;D Associate &mdash; K.R. International</h1>
+    <div class="modal-meta"><span>K.R. International Pvt. Ltd.</span><span>Sep 2017 &ndash; Jun 2019</span></div>
+    <p class="modal-lead">Customer acquisition analysis for an early-stage B2B SaaS product. Identified which segments had real lifetime value and where the market gaps were.</p>
+    <h2>The context</h2>
+    <p>The product existed but the customer base was thin. The team did not have a clear picture of which types of customers stayed, which churned quickly, and which market segments were worth pursuing with paid acquisition.</p>
+    <h2>What I did</h2>
+    <ul>
+      <li>Segmented customers by behaviour, industry, and tenure to understand which groups had the best lifetime value.</li>
+      <li>Identified where acquisition was working and where it was not, to focus targeting more precisely.</li>
+      <li>Looked at campaign performance and customer behaviour data together to improve retention metrics alongside acquisition efficiency.</li>
+      <li>Mapped market gaps where competitor products were weak or absent and where the product could be positioned more directly.</li>
+      <li>Produced analysis outputs that fed into how the team allocated budget across growth initiatives.</li>
+    </ul>
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">Excel</span><span class="t-pill">SQL</span>
+      <span class="t-pill">Customer Segmentation</span><span class="t-pill">CLV Analysis</span>
+    </div>
+  </div>
+</div>
+
+<div id="modal-dissertation" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-dissertation')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Research</span>
+    <h1>Do Marketing Budgets Compound? A 23-Year Study</h1>
+    <div class="modal-meta"><span>Leeds University Business School</span><span>MSc Dissertation &middot; 2024 &middot; Distinction</span></div>
+    <p class="modal-lead">3,163 firm-year observations. Fixed-effects panel models. 23 years of U.S. automobile company data from COMPUSTAT. The question: does marketing spend in year one still affect gross profit in year two or three?</p>
+    <h2>The question</h2>
+    <p>Most attribution treats spend and outcome as roughly simultaneous. This dissertation tested whether marketing investment has a carry-over effect using real firm-level financial data rather than surveys or case studies. The focus: the automobile sector, where marketing budgets are large and the data is publicly available via WRDS.</p>
+    <h2>The method</h2>
+    <ul>
+      <li>Dataset: 3,163 firm-year observations from publicly traded U.S. auto firms, 2000 to 2023.</li>
+      <li>Dependent variable: Gross Profit to Sales ratio (less volatile than net income, isolates operational performance).</li>
+      <li>Independent variables: Marketing Intensity and R&amp;D Intensity at t, t-1, and t-2.</li>
+      <li>Model: Fixed-effects panel regression to control for firm-level characteristics that do not change over time.</li>
+      <li>Model selection: Hausman test confirmed Fixed Effects over Random Effects.</li>
+    </ul>
+    <div class="stat-row">
+      <div class="stat-box"><div class="n">3,163</div><div class="l">Firm-year observations</div></div>
+      <div class="stat-box"><div class="n">R&sup2;=0.96</div><div class="l">Model fit</div></div>
+      <div class="stat-box"><div class="n">23 yrs</div><div class="l">Longitudinal dataset</div></div>
+      <div class="stat-box"><div class="n">Distinction</div><div class="l">Grade</div></div>
+    </div>
+    <h2>What the results showed</h2>
+    <p>Marketing intensity at t: positive and significant. At t-1: positive and significant. At t-2: negative and significant. Marketing spend compounds over roughly two fiscal years, then the carry-over effect reverses.</p>
+    <p>Practical implication: cutting the marketing budget in year one shows up in performance in year two. That delay is why short-term cost-cutting decisions in marketing are often underestimated.</p>
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">STATA</span><span class="t-pill">COMPUSTAT / WRDS</span>
+      <span class="t-pill">Fixed Effects Regression</span><span class="t-pill">Hausman Test</span><span class="t-pill">R</span>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
