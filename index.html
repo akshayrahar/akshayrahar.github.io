@@ -515,9 +515,73 @@
     .hero-meta { display: none; }
     .research-card { grid-template-columns: 1fr; }
   }
+
+/* ── DOUBLE CURSOR ─────────────────────────────────────────────────── */
+*, *::before, *::after { cursor: none !important; }
+#cursor-dot {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #009B87;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease, background 0.2s;
+}
+#cursor-ring {
+  position: fixed; top: 0; left: 0; z-index: 9998;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid rgba(0,155,135,0.55);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+a:hover ~ #cursor-dot, button:hover ~ #cursor-dot { transform: translate(-50%,-50%) scale(2); }
+
+/* ── STORIES GRID ──────────────────────────────────────────────────── */
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.story-card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  text-decoration: none;
+  color: var(--fg);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  border-top: 3px solid var(--accent);
+}
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,155,135,0.12);
+  border-color: var(--accent);
+}
+.story-card--wide {
+  grid-column: 1 / -1;
+}
+.story-tag-sm {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 10px;
+}
+.story-card h3 {
+  font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; line-height: 1.3;
+}
+.story-card p {
+  font-size: 0.875rem; color: #555; line-height: 1.6; margin-bottom: 18px;
+}
+.story-arrow {
+  font-size: 0.8rem; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+}
 </style>
 </head>
 <body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <!-- TWINKLING GRID (fixed layer) -->
 <div class="grid-bg" id="gridBg"></div>
@@ -530,6 +594,7 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#research">Research</a></li>
+    <li><a href="#stories">Stories</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#education">Education</a></li>
   </ul>
@@ -827,6 +892,55 @@
     </div>
   </section>
 
+  
+  <!-- ── STORIES ─────────────────────────────────────────────────────── -->
+  <section id="stories">
+    <div class="section-label">Case Studies</div>
+    <h2 class="section-title">Stories</h2>
+    <p style="color:#555;margin-bottom:36px;max-width:580px;">
+      A closer look at selected projects — what the brief was, what I did, and what changed.
+    </p>
+
+    <div class="stories-grid">
+
+      <a class="story-card" href="stories/story-freelance.html">
+        <div class="story-tag-sm">Performance Marketing</div>
+        <h3>52% CPL Drop in 6 Weeks</h3>
+        <p>Rebuilt a failing e-commerce Google Ads account. Restructured campaigns, fixed GA4 tracking, recovered hidden conversions.</p>
+        <span class="story-arrow">Read case study &#8594;</span>
+      </a>
+
+      <a class="story-card" href="stories/story-research.html">
+        <div class="story-tag-sm">Analytics</div>
+        <h3>Finding What the Data Was Missing</h3>
+        <p>GA4 and SQL analysis for Leeds University research. Traced user journeys, found broken tracking, fixed what was hiding performance.</p>
+        <span class="story-arrow">Read case study &#8594;</span>
+      </a>
+
+      <a class="story-card" href="stories/story-mindshare.html">
+        <div class="story-tag-sm">Media Analytics</div>
+        <h3>One View for All Campaign Data</h3>
+        <p>Built a unified reporting view at Mindshare so the team could make budget decisions in real time, not after a manual report.</p>
+        <span class="story-arrow">Read case study &#8594;</span>
+      </a>
+
+      <a class="story-card" href="stories/story-kr.html">
+        <div class="story-tag-sm">Market Research</div>
+        <h3>Who Is Actually Worth Targeting?</h3>
+        <p>Customer segmentation for an early-stage B2B SaaS product. Found which segments had real CLV and where the market gaps were.</p>
+        <span class="story-arrow">Read case study &#8594;</span>
+      </a>
+
+      <a class="story-card story-card--wide" href="stories/story-dissertation.html">
+        <div class="story-tag-sm">Research</div>
+        <h3>Do Marketing Budgets Compound? A 23-Year Study</h3>
+        <p>Fixed-effects panel models on 3,163 firm-year observations from COMPUSTAT. R²=0.96. The short answer: yes, for about two years.</p>
+        <span class="story-arrow">Read dissertation deep-dive &#8594;</span>
+      </a>
+
+    </div>
+  </section>
+
   <!-- ── REVIEWS ───────────────────────────────────────────────────────── -->
   <section id="reviews">
     <div class="section-label">Testimonials</div>
@@ -849,29 +963,6 @@
         </div>
       </div>
 
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-quote">
-          "He does not just hand you a report and walk away.
-          <strong>He tells you what to do next.</strong> And in my experience, he is usually right."
-        </p>
-        <div class="review-author">
-          <span class="review-name">Client Review</span>
-          <span class="review-title">E-commerce Client · Freelance Engagement</span>
-        </div>
-      </div>
-
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-quote">
-          "He handles pressure well and does not need hand-holding.
-          Watched him go from raw data to a clear recommendation in the same afternoon.
-          <strong>He is comfortable in both worlds, the data and the strategy.</strong>"
-        </p>
-        <div class="review-author">
-          <span class="review-name">Academic Peer Review</span>
-          <span class="review-title">MSc Consumer Analytics &amp; Marketing Strategy · Leeds</span>
-        </div>
       <div class="review-card">
         <div class="stars">★★★★★</div>
         <p class="review-quote">
@@ -1004,6 +1095,45 @@
   document.getElementById("gridBg").appendChild(frag);
 })();
 </script>
+
+
+// ── DOUBLE CURSOR ────────────────────────────────────────────────────────
+(function(){
+  var dot  = document.getElementById('cursor-dot');
+  var ring = document.getElementById('cursor-ring');
+  var mx = window.innerWidth/2, my = window.innerHeight/2;
+  var rx = mx, ry = my;
+
+  document.addEventListener('mousemove', function(e){
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  (function animRing(){
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  // Grow ring on hover of interactive elements
+  document.querySelectorAll('a, button, .skill-card, .work-card, .review-card').forEach(function(el){
+    el.addEventListener('mouseenter', function(){
+      ring.style.width  = '56px';
+      ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(0,155,135,0.85)';
+      dot.style.transform = 'translate(-50%,-50%) scale(0)';
+    });
+    el.addEventListener('mouseleave', function(){
+      ring.style.width  = '36px';
+      ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(0,155,135,0.55)';
+      dot.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+})();
 
 </body>
 </html>
