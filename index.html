@@ -1,822 +1,1009 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Akshay Rahar , Marketing Data Analyst</title>
-<link rel="preconnect" href="https://api.fontshare.com"/>
-<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@900,800,700&f[]=satoshi@400,500,700&f[]=jet-brains-mono@400" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.8.0/countUp.umd.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Akshay Rahar | Performance Marketing & Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
 <style>
-:root{
- --bg:#0b0b0f; --surface:#111118; --surface2:#18181f; --surface3:#1f1f28;
- --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
- --text:#f4f4f8; --muted:#8888a0; --faint:#3a3a50;
- --teal:#00e5c8; --teal-dim:rgba(0,229,200,0.1); --teal-glow:rgba(0,229,200,0.18);
- --orange:#ff6b35; --orange-dim:rgba(255,107,53,0.1);
- --df:'Cabinet Grotesk',sans-serif; --db:'Satoshi',sans-serif; --dm:'JetBrains Mono',monospace;
- --ease:cubic-bezier(0.4,0,0.2,1);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;font-size:16px;}
-body{background:var(--bg);color:var(--text);font-family:var(--db);overflow-x:hidden;cursor:none;}
-a{text-decoration:none;color:inherit;}
-::selection{background:var(--teal);color:#000;}
+  /* ─── TOKENS ─────────────────────────────────────────────────────────── */
+  :root {
+    --bg:        #F5F3EE;   /* warm parchment */
+    --bg2:       #EEEBe4;   /* slightly darker warm parchment for alt sections */
+    --surface:   #FFFFFF;
+    --border:    rgba(0,0,0,0.08);
+    --grid:      rgba(0,155,135,0.10);   /* teal, very faint */
+    --accent:    #009B87;
+    --accent2:   #00C4A3;
+    --text:      #1A1A1A;
+    --muted:     #6B6B6B;
+    --tag-bg:    rgba(0,155,135,0.10);
+    --tag-text:  #007A6A;
+    --radius:    12px;
+    --gap:       clamp(40px, 6vw, 80px);
+  }
 
-/* ─── CURSOR ─────────────────────────────── */
-#cur{position:fixed;width:12px;height:12px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform 0.08s var(--ease);}
-#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--teal);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.45;transition:transform 0.18s var(--ease),width 0.25s,height 0.25s,opacity 0.25s;}
-body.cursor-big #cur-ring{width:56px;height:56px;opacity:0.25;}
+  /* ─── RESET ──────────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.65;
+  }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
 
-/* ─── SCROLL PROGRESS ────────────────────── */
-#prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--teal);z-index:9997;}
+  /* ─── TWINKLING GRID BACKGROUND ──────────────────────────────────────── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
 
-/* ─── SPOTLIGHT ─────────────────────────── */
-#spotlight{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.55;background:radial-gradient(600px circle at 50% 50%,rgba(0,229,200,0.05),transparent 70%);}
+  /* Twinkling dot layer, we create ~120 dots via JS */
+  .grid-dot {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: twinkle var(--dur, 4s) var(--delay, 0s) infinite ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(0.6); }
+    50%      { opacity: 0.55; transform: scale(1.4); }
+  }
 
-/* ─── NAVBAR ─────────────────────────────── */
-nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:1.1rem clamp(1.5rem,4vw,4rem);background:rgba(11,11,15,0.75);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.n-logo{font-family:var(--df);font-size:1.3rem;font-weight:900;letter-spacing:-0.04em;}
-.n-logo span{color:var(--teal);}
-.n-links{display:flex;gap:2.5rem;list-style:none;}
-.n-links a{font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
-.n-links a:hover{color:var(--text);}
-.n-cta{background:var(--teal);color:#000 !important;font-size:0.8rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;padding:0.6rem 1.5rem;border-radius:50px;transition:transform 0.2s,box-shadow 0.2s;cursor:none;}
-.n-cta:hover{transform:scale(1.04);box-shadow:0 0 24px rgba(0,229,200,0.4);}
-.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;}
-.hamburger span{width:22px;height:1.5px;background:var(--text);display:block;}
+  /* ─── LAYOUT WRAPPER ─────────────────────────────────────────────────── */
+  .content { position: relative; z-index: 1; }
 
-/* ─── HERO ───────────────────────────────── */
-#hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem;position:relative;overflow:hidden;}
-.hero-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.6;pointer-events:none;}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);pointer-events:none;}
-.hero-inner{position:relative;z-index:2;max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);width:100%;}
-.hero-status{display:inline-flex;align-items:center;gap:0.5rem;border:1px solid var(--border2);padding:0.35rem 0.9rem;border-radius:50px;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;color:var(--muted);margin-bottom:2rem;text-transform:uppercase;}
-.hero-status-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 8px #22c55e;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-.hero-name{font-family:var(--df);font-size:clamp(3.5rem,9vw,8rem);font-weight:900;line-height:0.92;letter-spacing:-0.04em;margin-bottom:1.5rem;}
-.hero-name .line2{color:var(--teal);}
-.hero-meta{display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
-.hero-role{font-size:1.05rem;color:var(--muted);font-weight:500;max-width:42ch;line-height:1.6;}
-.hero-location{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;font-weight:600;color:var(--faint);letter-spacing:0.04em;}
-.hero-btns{display:flex;gap:1rem;margin-bottom:5rem;flex-wrap:wrap;}
-.btn-mag{display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2.2rem;border-radius:50px;font-weight:800;font-size:0.9rem;letter-spacing:0.02em;cursor:none;transition:transform 0.18s var(--ease),box-shadow 0.18s var(--ease);position:relative;overflow:hidden;}
-.btn-mag.primary{background:var(--teal);color:#000;}
-.btn-mag.primary:hover{box-shadow:0 0 40px rgba(0,229,200,0.4);}
-.btn-mag.ghost{border:1.5px solid var(--border2);color:var(--muted);}
-.btn-mag.ghost:hover{border-color:var(--teal);color:var(--teal);}
-.hero-nums{display:flex;gap:4rem;flex-wrap:wrap;}
-.h-num-val{font-family:var(--df);font-size:2.4rem;font-weight:900;line-height:1;color:var(--text);}
-.h-num-label{font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-top:0.4rem;}
+  /* ─── NAV ─────────────────────────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5vw, 80px);
+    height: 64px;
+    background: rgba(245,243,238,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-weight: 900;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+  }
+  .nav-links a {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 8px 20px;
+    border-radius: 999px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #007A6A; }
 
-/* ─── MARQUEE ────────────────────────────── */
-.marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.1rem 0;background:var(--surface);}
-.marquee-track{display:flex;gap:0;width:max-content;animation:marquee 28s linear infinite;}
-@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.marquee-item{display:flex;align-items:center;gap:1.5rem;padding:0 2rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
-.marquee-item span.dot{color:var(--teal);font-size:1.2rem;}
-.marquee-wrap:hover .marquee-track{animation-play-state:paused;}
+  /* ─── HERO ─────────────────────────────────────────────────────────────── */
+  #about {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px clamp(24px, 8vw, 120px) var(--gap);
+    position: relative;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid rgba(0,155,135,0.25);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+    letter-spacing: 0.06em;
+  }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(0,196,163,0.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(0,196,163,0); }
+  }
+  .hero-title {
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .hero-title .line2 { color: var(--accent); }
+  .hero-tagline {
+    max-width: 580px;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 14px 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #007A6A; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 13px 28px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+  }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--text);
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .hero-meta {
+    position: absolute;
+    right: clamp(24px, 8vw, 120px);
+    bottom: clamp(24px, 5vw, 60px);
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
 
-/* ─── BENTO ABOUT ────────────────────────── */
-#about{padding:clamp(5rem,8vw,9rem) 0;}
-.bento-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(120px,auto);gap:1rem;max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.bento-header{grid-column:1/-1;padding-bottom:2rem;}
-.bc{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;overflow:hidden;position:relative;transition:border-color 0.25s,box-shadow 0.25s;}
-.bc:hover{border-color:var(--border2);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
-.bc-bio{grid-column:span 5;grid-row:span 2;}
-.bc-stat{grid-column:span 2;}
-.bc-stat-lg{grid-column:span 3;}
-.bc-skills{grid-column:span 4;}
-.bc-loc{grid-column:span 3;}
-.bc-quote{grid-column:span 7;}
-.bc-work{grid-column:span 12;}
-.bc-label{font-size:0.65rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;}
-.bc-big{font-family:var(--df);font-size:2.8rem;font-weight:900;line-height:1;color:var(--text);}
-.bc-sub{font-size:0.78rem;color:var(--muted);margin-top:0.4rem;line-height:1.4;}
-.bc-body{font-size:0.9rem;color:var(--muted);line-height:1.8;}
-.bc-body strong{color:var(--text);}
-.bc-quote-text{font-family:var(--df);font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:800;line-height:1.4;color:var(--text);letter-spacing:-0.02em;}
-.bc-quote-text em{color:var(--teal);font-style:normal;}
-.bc-tag{display:inline-flex;align-items:center;gap:0.4rem;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.2);color:var(--teal);font-size:0.7rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:50px;letter-spacing:0.06em;}
-.bc-pill-list{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.75rem;}
-.bc-pill{font-size:0.7rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:50px;background:var(--surface3);border:1px solid var(--border);color:var(--muted);}
-.bc-pill:hover{border-color:var(--teal);color:var(--teal);}
-.bc-loc-icon{font-size:2rem;margin-bottom:0.5rem;}
-.bc-badge{display:inline-block;background:linear-gradient(135deg,var(--teal),#00b8a3);color:#000;font-family:var(--df);font-size:1rem;font-weight:900;padding:0.5rem 1.2rem;border-radius:8px;margin-bottom:0.5rem;}
-.degree-card{margin-bottom:0.75rem;}
-.degree-card .year{font-size:0.65rem;font-family:var(--dm);color:var(--teal);margin-bottom:2px;}
-.degree-card .deg{font-size:0.82rem;font-weight:700;color:var(--text);}
-.degree-card .uni{font-size:0.72rem;color:var(--muted);}
+  /* ─── SECTION SHELL ──────────────────────────────────────────────────── */
+  section {
+    padding: var(--gap) clamp(24px, 8vw, 120px);
+  }
+  section.alt { background: var(--bg2); }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 48px;
+  }
 
-/* ─── NUMBERED CAPABILITIES ─────────────── */
-#capabilities{padding:clamp(5rem,8vw,9rem) 0;border-top:1px solid var(--border);}
-.cap-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.cap-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4rem;flex-wrap:wrap;gap:2rem;}
-.cap-item{display:flex;align-items:center;gap:2rem;padding:1.75rem 0;border-bottom:1px solid var(--border);cursor:default;transition:background 0.2s;}
-.cap-item:hover{background:linear-gradient(90deg,var(--teal-dim),transparent);}
-.cap-item:hover .cap-num{color:var(--teal);}
-.cap-num{font-family:var(--df);font-size:1rem;font-weight:900;color:var(--faint);letter-spacing:0.04em;min-width:3.5rem;font-variant-numeric:tabular-nums;}
-.cap-title{font-family:var(--df);font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:800;flex:1;letter-spacing:-0.02em;}
-.cap-desc{font-size:0.82rem;color:var(--muted);max-width:36ch;line-height:1.6;text-align:right;}
-.cap-icon{font-size:1.4rem;margin-right:0.5rem;}
+  /* ─── SKILLS ─────────────────────────────────────────────────────────── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .skill-card h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,155,135,0.15);
+  }
 
-/* ─── RESEARCH (FEATURE CARD) ───────────── */
-#research{padding:clamp(5rem,8vw,9rem) 0;background:var(--surface);}
-.research-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.research-feature{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;background:var(--surface2);border:1px solid var(--border);border-radius:24px;padding:clamp(2rem,4vw,3.5rem);margin-top:3rem;}
-.rf-badge{display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,rgba(0,229,200,0.15),rgba(0,229,200,0.05));border:1px solid rgba(0,229,200,0.25);color:var(--teal);font-size:0.72rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;border-radius:50px;margin-bottom:1.5rem;}
-.rf-title{font-family:var(--df);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1rem;}
-.rf-body{font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;}
-.rf-kpis{display:flex;gap:1.5rem;flex-wrap:wrap;}
-.rf-kpi{text-align:center;}
-.rf-kpi-num{font-family:var(--df);font-size:1.8rem;font-weight:900;color:var(--teal);}
-.rf-kpi-label{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-top:2px;}
-.chart-box{background:var(--surface3);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;}
-.chart-label{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;}
-.hm-wrap{background:var(--surface3);border:1px solid var(--border);border-radius:16px;padding:1.25rem;}
-.hm-grid{display:grid;grid-template-columns:auto repeat(4,1fr);gap:3px;font-size:0.6rem;}
-.hm-cell{display:flex;align-items:center;justify-content:center;height:30px;border-radius:4px;font-family:var(--dm);}
+  /* ─── WORK EXPERIENCE ────────────────────────────────────────────────── */
+  .experience-stack { display: flex; flex-direction: column; gap: 2px; }
+  .exp-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .exp-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 16px;
+    padding: 28px 28px 0;
+  }
+  .exp-role {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .exp-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--tag-bg);
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .exp-body { padding: 20px 28px 28px; }
+  .exp-bullets { display: flex; flex-direction: column; gap: 8px; }
+  .exp-bullets li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .exp-bullets li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+    top: 1px;
+  }
+  .exp-skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
 
-/* ─── EXPERIENCE (EDITORIAL) ────────────── */
-#experience{padding:clamp(5rem,8vw,9rem) 0;}
-.exp-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.exp-list{margin-top:3rem;}
-.exp-item{display:grid;grid-template-columns:160px 1fr 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--border);transition:background 0.2s;}
-.exp-item:hover{background:linear-gradient(90deg,var(--teal-dim),transparent);}
-.exp-period{font-family:var(--dm);font-size:0.75rem;color:var(--teal);padding-top:4px;}
-.exp-role{font-family:var(--df);font-size:1.25rem;font-weight:900;letter-spacing:-0.02em;margin-bottom:0.3rem;}
-.exp-co{font-size:0.8rem;color:var(--muted);margin-bottom:1rem;}
-.exp-points{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
-.exp-points li{font-size:0.82rem;color:var(--muted);display:flex;gap:0.6rem;line-height:1.5;}
-.exp-points li::before{content:'→';color:var(--teal);flex-shrink:0;}
+  /* ─── RESEARCH ───────────────────────────────────────────────────────── */
+  .research-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .research-card { grid-template-columns: 1fr; gap: 28px; } }
+  .research-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .research-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 16px;
+  }
+  .research-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .research-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .r-stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .r-stat-num {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--text);
+  }
+  .r-stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
 
-/* ─── RECOMMENDATIONS ───────────────────── */
-#recommendations{padding:clamp(5rem,8vw,9rem) 0;background:var(--surface);}
-.rec-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
-.rc{display:flex;flex-direction:column;background:var(--bg);border:1.5px solid rgba(0,229,200,0.28);border-radius:20px;padding:2.5rem;position:relative;overflow:hidden;transition:transform 0.25s var(--ease),box-shadow 0.25s var(--ease),border-color 0.25s;}
-.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),rgba(0,229,200,0));}
-.rc:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 0 1px rgba(0,229,200,0.2);border-color:rgba(0,229,200,0.55);}
-.rc-gold{border-color:rgba(255,107,53,0.28);}
-.rc-gold::before{background:linear-gradient(90deg,var(--orange),rgba(255,107,53,0));}
-.rc-gold:hover{box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 0 1px rgba(255,107,53,0.2);border-color:rgba(255,107,53,0.55);}
-.rc-qm{font-family:var(--df);font-size:5rem;font-weight:900;color:var(--teal);opacity:0.15;line-height:0.8;margin-bottom:0.5rem;display:block;}
-.rc-gold .rc-qm{color:var(--orange);}
-.rc-text{font-size:0.93rem;line-height:1.85;color:var(--muted);flex:1;margin-bottom:1.75rem;}
-.rc-text strong{color:var(--text);font-weight:600;}
-.rc-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1.75rem;}
-.rc-chip{font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:50px;background:rgba(0,229,200,0.08);color:var(--teal);border:1px solid rgba(0,229,200,0.18);}
-.rc-chip-o{background:rgba(255,107,53,0.08);color:var(--orange);border-color:rgba(255,107,53,0.18);}
-.rc-footer{display:flex;align-items:center;gap:1rem;padding-top:1.5rem;border-top:1px solid var(--border);}
-.rc-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:1rem;font-weight:900;color:#000;background:linear-gradient(135deg,var(--teal),#00b8a3);box-shadow:0 4px 14px rgba(0,229,200,0.3);flex-shrink:0;}
-.rc-av-o{background:linear-gradient(135deg,var(--orange),#ff4500);box-shadow:0 4px 14px rgba(255,107,53,0.3);}
-.rc-name{font-size:0.92rem;font-weight:800;color:var(--text);}
-.rc-role{font-size:0.73rem;color:var(--muted);line-height:1.4;margin-top:1px;}
-.rc-rel{display:flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--faint);margin-top:3px;}
-.rc-li-cta{margin-top:2rem;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 1.8rem;background:var(--bg);border:1.5px solid rgba(0,119,181,0.38);border-radius:16px;flex-wrap:wrap;gap:1rem;}
-.rc-li-cta-left .rc-li-label{font-size:0.62rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#0077b5;margin-bottom:2px;}
-.rc-li-cta-left .rc-li-stat{font-size:0.85rem;font-weight:600;color:var(--muted);}
-.rc-li-btn{display:inline-flex;align-items:center;gap:0.5rem;background:#0077b5;color:#fff;font-size:0.8rem;font-weight:800;padding:0.6rem 1.4rem;border-radius:50px;cursor:none;transition:background 0.2s,transform 0.2s,box-shadow 0.2s;}
-.rc-li-btn:hover{background:#005f94;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,119,181,0.4);}
+  /* ─── REVIEWS ────────────────────────────────────────────────────────── */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .review-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 0.2s;
+  }
+  .review-card:hover { border-color: var(--accent); }
+  .review-quote {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .review-quote strong { font-style: normal; color: var(--text); font-weight: 700; }
+  .review-author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+  }
+  .review-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+  .review-title { font-size: 0.75rem; color: var(--muted); }
+  .stars { color: var(--accent); font-size: 0.8rem; letter-spacing: 2px; }
 
-/* ─── EDUCATION + CREDS ─────────────────── */
-#edu-cred{padding:clamp(5rem,8vw,9rem) 0;}
-.ec-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.ec-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:3rem;}
-.edu-item{padding:1.5rem 0;border-bottom:1px solid var(--border);}
-.edu-badge2{font-size:0.6rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);font-family:var(--dm);}
-.edu-deg2{font-size:1rem;font-weight:800;color:var(--text);margin:0.25rem 0;}
-.edu-uni2{font-size:0.8rem;color:var(--muted);}
-.edu-date2{font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-top:2px;}
-.edu-honor2{font-size:0.75rem;color:var(--orange);margin-top:4px;}
-.cred-item{display:flex;align-items:flex-start;gap:0.9rem;padding:1.1rem 0;border-bottom:1px solid var(--border);}
-.cred-dot{width:8px;height:8px;background:var(--teal);border-radius:50%;margin-top:5px;flex-shrink:0;}
-.cred-dot-f{background:linear-gradient(135deg,var(--teal),var(--orange));box-shadow:0 0 8px rgba(0,229,200,0.4);}
-.cred-name{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:2px;}
-.cred-by{font-size:0.75rem;color:var(--muted);}
-.cred-new-badge{display:inline-block;background:linear-gradient(135deg,var(--teal),var(--orange));color:#000;font-size:0.55rem;font-weight:900;letter-spacing:0.1em;padding:2px 7px;border-radius:50px;margin-left:6px;text-transform:uppercase;vertical-align:middle;}
+  /* ─── EDUCATION ──────────────────────────────────────────────────────── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-degree {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .edu-uni { font-size: 0.83rem; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .edu-year { font-size: 0.75rem; color: var(--muted); }
+  .edu-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
 
-/* ─── CONTACT ────────────────────────────── */
-#contact{padding:clamp(6rem,10vw,12rem) 0;background:var(--surface);text-align:center;}
-.contact-inner{max-width:900px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);}
-.contact-eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;}
-.contact-big{font-family:var(--df);font-size:clamp(2.5rem,7vw,6rem);font-weight:900;line-height:1;letter-spacing:-0.04em;margin-bottom:2rem;}
-.contact-big span{color:var(--teal);}
-.contact-sub{font-size:1rem;color:var(--muted);max-width:48ch;margin:0 auto 3rem;line-height:1.7;}
-.contact-btns{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;}
-.contact-links{display:flex;justify-content:center;gap:2.5rem;margin-top:3rem;}
-.contact-links a{font-size:0.8rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);transition:color 0.2s;}
-.contact-links a:hover{color:var(--text);}
+  /* ─── INSIGHTS / ABOUT ME ────────────────────────────────────────────── */
+  .insights-inner {
+    max-width: 720px;
+  }
+  .insights-inner p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .insights-inner p strong { color: var(--text); }
 
-/* ─── REVEAL ─────────────────────────────── */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s var(--ease),transform 0.65s var(--ease);}
-.reveal.visible{opacity:1;transform:none;}
-.reveal-delay-1{transition-delay:0.1s;}
-.reveal-delay-2{transition-delay:0.2s;}
-.reveal-delay-3{transition-delay:0.3s;}
+  /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+  footer {
+    padding: 32px clamp(24px, 8vw, 120px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { color: var(--muted); transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
 
-/* ─── RESPONSIVE ─────────────────────────── */
-@media(max-width:1024px){
- .bento-grid{grid-template-columns:repeat(6,1fr);}
- .bc-bio{grid-column:span 6;}
- .bc-stat{grid-column:span 3;}
- .bc-stat-lg{grid-column:span 3;}
- .bc-skills{grid-column:span 6;}
- .bc-loc{grid-column:span 3;}
- .bc-quote{grid-column:span 6;}
- .bc-work{grid-column:span 6;}
- .research-feature{grid-template-columns:1fr;}
- .exp-item{grid-template-columns:120px 1fr;gap:1.5rem;}
- .exp-item .exp-third{display:none;}
- .rec-grid{grid-template-columns:1fr;}
- .ec-grid{grid-template-columns:1fr;gap:3rem;}
-}
-@media(max-width:720px){
- .n-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--surface);padding:2rem;border-bottom:1px solid var(--border);}
- .n-links.open{display:flex;}
- .hamburger{display:flex;}
- .hero-name{font-size:clamp(2.8rem,10vw,4rem);}
- .hero-nums{gap:2.5rem;}
- .cap-item{flex-direction:column;align-items:flex-start;gap:0.5rem;}
- .cap-desc{text-align:left;}
- .exp-item{grid-template-columns:1fr;}
- .bento-grid{grid-template-columns:1fr 1fr;}
- .bc-bio,.bc-quote,.bc-skills,.bc-work{grid-column:span 2;}
- .bc-stat,.bc-stat-lg,.bc-loc{grid-column:span 1;}
-}
+  /* ─── FLOATING DOT ───────────────────────────────────────────────────── */
+  .float-dot {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    z-index: 999;
+    animation: float-pulse 3s infinite ease-in-out;
+    cursor: pointer;
+  }
+  @keyframes float-pulse {
+    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,155,135,0.4); }
+    50%      { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(0,155,135,0); }
+  }
+
+  /* ─── RESPONSIVE NAV ─────────────────────────────────────────────────── */
+  @media (max-width: 680px) {
+    .nav-links { display: none; }
+    .hero-meta { display: none; }
+    .research-card { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<div id="prog"></div>
-<div id="spotlight"></div>
+<!-- TWINKLING GRID (fixed layer) -->
+<div class="grid-bg" id="gridBg"></div>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <nav>
- <div class="n-logo">Akshay<span>.</span></div>
- <ul class="n-links" id="nav-links">
- <li><a href="#about">About</a></li>
- <li><a href="#capabilities">Skills</a></li>
- <li><a href="#research">Research</a></li>
- <li><a href="#experience">Work</a></li>
- <li><a href="#recommendations">Reviews</a></li>
- <li><a href="#insights">Insights</a></li>
- </ul>
- <a href="#contact" class="n-cta">Let's Talk</a>
- <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="nav-logo">Akshay<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+  <a href="mailto:akshayrahar@gmail.com" class="nav-cta">Let's Talk</a>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
- <div class="hero-noise"></div>
- <div class="hero-grid-bg"></div>
- <div class="hero-inner">
- <div class="hero-status reveal">
- <span class="hero-status-dot"></span>
- Open to Work &nbsp;·&nbsp; UK &amp; Remote
- </div>
- <h1 class="hero-name reveal">
- <span class="line1">Akshay</span><br>
- <span class="line2">Rahar.</span>
- </h1>
- <div class="hero-meta reveal">
- <p class="hero-role">Marketing Data Analyst , turning messy datasets into clear strategy, from <strong>GA4 architecture</strong> to <strong>econometric modelling</strong> and <strong>PPC performance</strong>.</p>
- <div class="hero-location">
- <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- United Kingdom &nbsp;·&nbsp; MSc Leeds · Dissertation Distinction
- </div>
- </div>
- <div class="hero-btns reveal">
- <a href="#research" class="btn-mag primary">
- <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
- View Research
- </a>
- <a href="#contact" class="btn-mag ghost">Get in Touch</a>
- </div>
- <div class="hero-nums reveal">
- <div>
- <div class="h-num-val"><span id="c1">0</span>+</div>
- <div class="h-num-label">Firm-Year Observations</div>
- </div>
- <div>
- <div class="h-num-val"><span id="c2">0</span>+</div>
- <div class="h-num-label">LinkedIn Followers</div>
- </div>
- <div>
- <div class="h-num-val">R²=<span id="c3">0</span></div>
- <div class="h-num-label">Dissertation Model Fit</div>
- </div>
- <div>
- <div class="h-num-val"><span id="c4">0</span>+</div>
- <div class="h-num-label">Years Experience</div>
- </div>
- </div>
- </div>
-</section>
+<!-- CONTENT -->
+<div class="content">
 
-<!-- SKILLS MARQUEE -->
-<div class="marquee-wrap">
- <div class="marquee-track">
- <span class="marquee-item">GA4 <span class="dot">✦</span></span>
- <span class="marquee-item">SQL <span class="dot">✦</span></span>
- <span class="marquee-item">Power BI <span class="dot">✦</span></span>
- <span class="marquee-item">Python <span class="dot">✦</span></span>
- <span class="marquee-item">Google Tag Manager <span class="dot">✦</span></span>
- <span class="marquee-item">PPC <span class="dot">✦</span></span>
- <span class="marquee-item">Tableau <span class="dot">✦</span></span>
- <span class="marquee-item">R / RStudio <span class="dot">✦</span></span>
- <span class="marquee-item">IBM SPSS <span class="dot">✦</span></span>
- <span class="marquee-item">Looker Studio <span class="dot">✦</span></span>
- <span class="marquee-item">Meta Ads <span class="dot">✦</span></span>
- <span class="marquee-item">A/B Testing <span class="dot">✦</span></span>
- <span class="marquee-item">Web Scraping <span class="dot">✦</span></span>
- <span class="marquee-item">STATA <span class="dot">✦</span></span>
- <span class="marquee-item">HubSpot <span class="dot">✦</span></span>
- <span class="marquee-item">Generative AI <span class="dot">✦</span></span>
- <!-- duplicate for seamless loop -->
- <span class="marquee-item">GA4 <span class="dot">✦</span></span>
- <span class="marquee-item">SQL <span class="dot">✦</span></span>
- <span class="marquee-item">Power BI <span class="dot">✦</span></span>
- <span class="marquee-item">Python <span class="dot">✦</span></span>
- <span class="marquee-item">Google Tag Manager <span class="dot">✦</span></span>
- <span class="marquee-item">PPC <span class="dot">✦</span></span>
- <span class="marquee-item">Tableau <span class="dot">✦</span></span>
- <span class="marquee-item">R / RStudio <span class="dot">✦</span></span>
- <span class="marquee-item">IBM SPSS <span class="dot">✦</span></span>
- <span class="marquee-item">Looker Studio <span class="dot">✦</span></span>
- <span class="marquee-item">Meta Ads <span class="dot">✦</span></span>
- <span class="marquee-item">A/B Testing <span class="dot">✦</span></span>
- <span class="marquee-item">Web Scraping <span class="dot">✦</span></span>
- <span class="marquee-item">STATA <span class="dot">✦</span></span>
- <span class="marquee-item">HubSpot <span class="dot">✦</span></span>
- <span class="marquee-item">Generative AI <span class="dot">✦</span></span>
- </div>
-</div>
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      Open to work &nbsp;·&nbsp; UK and Remote
+    </div>
 
-<!-- BENTO ABOUT -->
-<section id="about">
- <div class="bento-grid">
- <div class="bento-header reveal">
- <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">About</p>
- <h2 style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">Who I am.</h2>
- </div>
+    <h1 class="hero-title">
+      <span class="line1">Akshay</span><br>
+      <span class="line2">Rahar.</span>
+    </h1>
 
- <div class="bc bc-bio reveal">
- <div class="bc-label">Background</div>
- <p class="bc-body">I'm a <strong>marketing data analyst</strong> specialising in GA4 tracking validation, performance measurement, and econometric modelling. I bridge the gap between marketing and data engineering , turning messy datasets into reliable, practical insight.<br><br>MSc from <strong>Leeds University Business School</strong>, awarded <strong>Distinction</strong>. Experienced across analytics tools, PPC campaign execution, and longitudinal research design.</p>
- </div>
+    <p class="hero-tagline">
+      I run paid campaigns, fix the tracking when it breaks, and use the data
+      to decide what to scale and what to stop. Google Ads, Meta Ads, GA4,
+      SQL, Power BI. Four years doing this across e-commerce, B2B, and media.
+    </p>
 
- <div class="bc bc-stat reveal reveal-delay-1" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;">
- <div class="bc-label">Observations</div>
- <div class="bc-big"><span id="bc1">0</span>+</div>
- <div class="bc-sub">Firm-year dataset<br>in dissertation</div>
- </div>
+    <div class="hero-ctas">
+      <a href="#research" class="btn-primary">→ View Research</a>
+      <a href="#work" class="btn-secondary">See Work Experience</a>
+      <a href="mailto:akshayrahar@gmail.com" class="btn-secondary">Get in Touch</a>
+    </div>
 
- <div class="bc bc-stat reveal reveal-delay-2" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;">
- <div class="bc-label">LinkedIn</div>
- <div class="bc-big"><span id="bc2">0</span>+</div>
- <div class="bc-sub">Followers &amp;<br>500+ connections</div>
- </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">3,163+</span>
+        <span class="stat-label">Firm-year Observations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">5,140+</span>
+        <span class="stat-label">LinkedIn Followers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">R²=0.96</span>
+        <span class="stat-label">Dissertation Model Fit</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">–52%</span>
+        <span class="stat-label">CPL Reduction (Client)</span>
+      </div>
+    </div>
 
- <div class="bc bc-stat-lg reveal reveal-delay-1" style="display:flex;flex-direction:column;justify-content:center;">
- <div class="bc-label">Top Degree</div>
- <div class="bc-badge" style="font-size:0.85rem;">🏅 Pass with Merit</div>
- <div class="bc-sub" style="margin-top:0.3rem;">MSc Consumer Analytics &amp; Marketing Strategy<br><span style="color:var(--teal);font-weight:700;">Dissertation: ⭐ Distinction</span></div>
- </div>
+    <div class="hero-meta">
+      United Kingdom &nbsp;·&nbsp; MSc Leeds<br>
+      Dissertation Distinction
+    </div>
+  </section>
 
- <div class="bc bc-loc reveal reveal-delay-2" style="display:flex;flex-direction:column;justify-content:center;">
- <div class="bc-loc-icon">📍</div>
- <div class="bc-label">Based in</div>
- <div style="font-family:var(--df);font-size:1.1rem;font-weight:900;">United Kingdom</div>
- <div class="bc-sub" style="margin-top:0.3rem;">Open to UK, EU &amp; Remote</div>
- </div>
+  <!-- ── SKILLS ────────────────────────────────────────────────────────── -->
+  <section id="skills" class="alt">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-title">Skills and tools I use</h2>
 
- <div class="bc bc-quote reveal">
- <div class="bc-label">Approach</div>
- <p class="bc-quote-text">"I don't just report numbers , I find the <em>story</em> in the data and turn it into decisions that actually move the needle."</p>
- </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>Paid Media</h4>
+        <div class="skill-tags">
+          <span class="tag">Google Ads</span>
+          <span class="tag">Meta Ads</span>
+          <span class="tag">Microsoft Ads</span>
+          <span class="tag">Shopping Feeds</span>
+          <span class="tag">Smart Bidding</span>
+          <span class="tag">Performance Max</span>
+          <span class="tag">A/B Testing</span>
+          <span class="tag">Ad Copy</span>
+          <span class="tag">Audience Segmentation</span>
+        </div>
+      </div>
 
- <div class="bc bc-skills reveal reveal-delay-1">
- <div class="bc-label">Core Stack</div>
- <div class="bc-pill-list">
- <span class="bc-pill">GA4</span><span class="bc-pill">SQL</span><span class="bc-pill">Python</span><span class="bc-pill">Power BI</span><span class="bc-pill">Tableau</span><span class="bc-pill">GTM</span><span class="bc-pill">PPC</span><span class="bc-pill">R / RStudio</span><span class="bc-pill">STATA</span><span class="bc-pill">IBM SPSS</span><span class="bc-pill">Looker Studio</span><span class="bc-pill">HubSpot</span><span class="bc-pill">Meta Ads</span><span class="bc-pill">A/B Testing</span><span class="bc-pill">Web Scraping</span><span class="bc-pill">Gen AI</span>
- </div>
- </div>
+      <div class="skill-card">
+        <h4>Analytics &amp; Tracking</h4>
+        <div class="skill-tags">
+          <span class="tag">GA4</span>
+          <span class="tag">Google Tag Manager</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Tracking QA</span>
+          <span class="tag">Funnel Analysis</span>
+          <span class="tag">Attribution Modelling</span>
+          <span class="tag">Conversion Tracking</span>
+          <span class="tag">UTM Architecture</span>
+        </div>
+      </div>
 
- </div>
-</section>
+      <div class="skill-card">
+        <h4>Dashboards &amp; Reporting</h4>
+        <div class="skill-tags">
+          <span class="tag">Power BI</span>
+          <span class="tag">Looker Studio</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Excel / Sheets</span>
+          <span class="tag">CPA / ROAS / CPL</span>
+          <span class="tag">Automated Pipelines</span>
+        </div>
+      </div>
 
-<!-- NUMBERED CAPABILITIES -->
-<section id="capabilities">
- <div class="cap-wrap">
- <div class="cap-head reveal">
- <div>
- <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Capabilities</p>
- <h2 style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">What I do.</h2>
- </div>
- </div>
- <div>
- <div class="cap-item reveal"><span class="cap-num">01</span><span class="cap-icon">📈</span><span class="cap-title">Funnel &amp; Conversion Analysis</span><span class="cap-desc">GA4 user journey mapping, drop-off diagnosis, event structuring</span></div>
- <div class="cap-item reveal reveal-delay-1"><span class="cap-num">02</span><span class="cap-icon">🏷️</span><span class="cap-title">Tag-Based Tracking (GTM / GA4)</span><span class="cap-desc">dataLayer architecture, tracking validation, QA environments</span></div>
- <div class="cap-item reveal reveal-delay-2"><span class="cap-num">03</span><span class="cap-icon">📊</span><span class="cap-title">Dashboard Development</span><span class="cap-desc">Power BI, Tableau, Looker Studio , reduced reporting time by 40%</span></div>
- <div class="cap-item reveal"><span class="cap-num">04</span><span class="cap-icon">🎯</span><span class="cap-title">PPC Campaign Management</span><span class="cap-desc">Google Ads &amp; Meta , CPL, ROAS, Quality Score optimisation</span></div>
- <div class="cap-item reveal reveal-delay-1"><span class="cap-num">05</span><span class="cap-icon">🧪</span><span class="cap-title">A/B &amp; Multivariate Testing</span><span class="cap-desc">Conversion rate experiments, statistical significance, test design</span></div>
- <div class="cap-item reveal reveal-delay-2"><span class="cap-num">06</span><span class="cap-icon">📣</span><span class="cap-title">Campaign Execution &amp; Attribution</span><span class="cap-desc">UTM strategy, full-funnel attribution, post-campaign analysis</span></div>
- <div class="cap-item reveal"><span class="cap-num">07</span><span class="cap-icon">📐</span><span class="cap-title">Econometric &amp; Panel Modelling</span><span class="cap-desc">Fixed effects regression, STATA, R , R²=0.96 in MSc dissertation</span></div>
- <div class="cap-item reveal reveal-delay-1"><span class="cap-num">08</span><span class="cap-icon">🔍</span><span class="cap-title">Customer Insight &amp; Segmentation</span><span class="cap-desc">Cohort analysis, behavioural profiling, CRM segmentation</span></div>
- </div>
- </div>
-</section>
+      <div class="skill-card">
+        <h4>Digital &amp; Growth</h4>
+        <div class="skill-tags">
+          <span class="tag">SEO</span>
+          <span class="tag">Email Marketing</span>
+          <span class="tag">CRM (HubSpot)</span>
+          <span class="tag">Shopify</span>
+          <span class="tag">Landing Page CRO</span>
+          <span class="tag">UGC Briefing</span>
+          <span class="tag">Market Research</span>
+        </div>
+      </div>
 
-<!-- RESEARCH FEATURE CARD -->
-<section id="research">
- <div class="research-wrap">
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">MSc Dissertation · Distinction Grade</p>
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">Research.</h2>
- <div class="research-feature reveal">
- <div>
- <div class="rf-badge">
- <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
- Leeds University Business School · 2024 &nbsp;·&nbsp; Dissertation: ⭐ Distinction
- </div>
- <h3 class="rf-title">Advertising &amp; R&D<br>Carry-Over Effects</h3>
- <p class="rf-body">Examined how marketing and R&amp;D intensity affect firm performance in the U.S. automobile industry over 23 years. Using a balanced panel of 137 firms and fixed effects regression models, the study demonstrated that both investment types considerably enhance long-term performance , with the most pronounced effects appearing two years after investment.</p>
- <div class="rf-kpis">
- <div class="rf-kpi"><div class="rf-kpi-num">3,163</div><div class="rf-kpi-label">Observations</div></div>
- <div class="rf-kpi"><div class="rf-kpi-num">R²=0.96</div><div class="rf-kpi-label">Model Fit</div></div>
- <div class="rf-kpi"><div class="rf-kpi-num">23 yrs</div><div class="rf-kpi-label">Data Span</div></div>
- <div class="rf-kpi"><div class="rf-kpi-num" style="font-size:1rem;">⭐ Distinction</div><div class="rf-kpi-label">Dissertation</div></div>
- </div>
- </div>
- <div>
- <div class="chart-box">
- <div class="chart-label">Marketing Intensity vs Gross Profit</div>
- <canvas id="barChart" height="160"></canvas>
- </div>
- <div class="chart-box">
- <div class="chart-label">Beta Coefficients , Carry-Over Lag</div>
- <canvas id="betaChart" height="110"></canvas>
- </div>
- <div class="hm-wrap">
- <div class="chart-label" style="margin-bottom:0.6rem;">Correlation Heatmap</div>
- <div class="hm-grid" id="heatmap"></div>
- </div>
- </div>
- </div>
- </div>
-</section>
+      <div class="skill-card">
+        <h4>Quantitative Research</h4>
+        <div class="skill-tags">
+          <span class="tag">Fixed Effects Modelling</span>
+          <span class="tag">Panel Data Analysis</span>
+          <span class="tag">Econometrics</span>
+          <span class="tag">STATA</span>
+          <span class="tag">R</span>
+          <span class="tag">Python</span>
+          <span class="tag">SPSS</span>
+        </div>
+      </div>
 
-<!-- EXPERIENCE -->
-<section id="experience">
- <div class="exp-wrap">
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Career</p>
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">Experience.</h2>
- <div class="exp-list">
+      <div class="skill-card">
+        <h4>Soft Skills</h4>
+        <div class="skill-tags">
+          <span class="tag">Stakeholder Reporting</span>
+          <span class="tag">Cross-functional Working</span>
+          <span class="tag">Strategic Communication</span>
+          <span class="tag">Fast Iteration</span>
+          <span class="tag">Budget Management</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
- <div class="exp-item reveal">
- <div class="exp-period">Aug 2024 -<br>Mar 2026</div>
- <div>
- <div class="exp-role">Research Assistant</div>
- <div class="exp-co">Leeds University Business School · UK</div>
- <ul class="exp-points">
- <li>Analysed large-scale behavioural datasets using SQL and GA4 to uncover user engagement patterns, conversion signals, and tracking inconsistencies across digital journeys</li>
- <li>Evaluated end-to-end user journeys and event-level data to identify measurement gaps, drop-offs, and opportunities to improve tracking accuracy and event structuring</li>
- <li>Identified tracking inconsistencies and missing event signals within datasets, proposing improvements to make sure more reliable and complete data capture</li>
- <li>Developed structured approaches to analysing user behaviour across multiple touchpoints, improving the reliability and interpretability of performance data</li>
- </ul>
- </div>
- <div class="exp-third" style="font-size:0.78rem;color:var(--faint);line-height:1.8;">SQL · GA4<br>Tracking Validation<br>Behavioural Analysis</div>
- </div>
+  <!-- ── WORK EXPERIENCE ───────────────────────────────────────────────── -->
+  <section id="work">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">Where I have worked</h2>
 
- <div class="exp-item reveal">
- <div class="exp-period">Dec 2021 -<br>Jul 2023</div>
- <div>
- <div class="exp-role">Digital Marketing &amp; Insights Analyst</div>
- <div class="exp-co">Freelance · India, UK &amp; Europe</div>
- <ul class="exp-points">
- <li>Supported GA4 tracking validation across multiple client environments, ensuring alignment between campaign activity and reported performance</li>
- <li>Analysed funnel performance and user journeys to identify tracking gaps and inconsistencies across acquisition and conversion stages</li>
- <li>Worked with tag-based tracking setups to validate event tracking and improve measurement accuracy</li>
- <li>Built and maintained dashboards in Looker Studio, Power BI, and Tableau , reducing reporting time by 40%</li>
- <li>Collaborated with marketing and technical stakeholders to translate campaign requirements into structured measurement and reporting outputs</li>
- </ul>
- </div>
- <div class="exp-third" style="font-size:0.78rem;color:var(--faint);line-height:1.8;">GA4 · GTM · Power BI<br>Tableau · Looker Studio<br>Tag Tracking · QA</div>
- </div>
+    <div class="experience-stack">
 
- <div class="exp-item reveal">
- <div class="exp-period">Jul 2021 -<br>Dec 2021</div>
- <div>
- <div class="exp-role">Consultant</div>
- <div class="exp-co">Mindshare United Foundation</div>
- <ul class="exp-points">
- <li>Consolidated paid media, influencer, and engagement data into a unified performance view, enabling faster optimisation decisions across campaigns</li>
- <li>Drove alignment between campaign execution and measurement by identifying gaps between planned activity and tracked performance data</li>
- <li>Partnered with media and creative teams to refine targeting, messaging, and budget allocation based on live performance signals</li>
- <li>Influenced campaign optimisation by translating complex performance data into clear, clear recommendations for stakeholders</li>
- </ul>
- </div>
- <div class="exp-third" style="font-size:0.78rem;color:var(--faint);line-height:1.8;">Paid Media · Influencer<br>Campaign Optimisation<br>Performance Reporting</div>
- </div>
+      <!-- Research Assistant -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Research Assistant</div>
+            <div class="exp-company">Leeds University Business School, UK</div>
+          </div>
+          <span class="exp-date">Aug 2024 – Mar 2026</span>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Pulled GA4 and SQL data to find conversion patterns, drop-off points, and broken tracking across paid and organic channels.</li>
+            <li>Traced user journeys end to end, found tracking events that were misfiring, and wrote up fixes that made the reporting data actually trustworthy.</li>
+            <li>Built frameworks for reading user behaviour across channels so the performance data made sense to people making budget decisions.</li>
+            <li>Wrote up findings in plain language for non-technical stakeholders. The insights fed directly into channel and content decisions.</li>
+          </ul>
+          <div class="exp-skills-row">
+            <span class="tag">SQL</span><span class="tag">GA4</span><span class="tag">Funnel Analysis</span><span class="tag">Tracking Validation</span><span class="tag">Stakeholder Reporting</span>
+          </div>
+        </div>
+      </div>
 
- <div class="exp-item reveal">
- <div class="exp-period">Sep 2017 -<br>Jun 2019</div>
- <div>
- <div class="exp-role">Research &amp; Development Associate</div>
- <div class="exp-co">K.R. International Pvt. Ltd.</div>
- <ul class="exp-points">
- <li>Led market and customer analysis to identify new acquisition opportunities and inform early-stage growth strategy for a SaaS B2B product</li>
- <li>Evaluated customer behaviour and campaign performance data to refine targeting approaches and improve long-term retention (CLV focus)</li>
- <li>Identified high-value customer segments and market gaps, contributing to more focused and efficient growth initiatives</li>
- </ul>
- </div>
- <div class="exp-third" style="font-size:0.78rem;color:var(--faint);line-height:1.8;">Market Research<br>Customer Analysis<br>SaaS · B2B Growth</div>
- </div>
+      <!-- Freelance -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Digital Marketing &amp; Insights Analyst, Freelance</div>
+            <div class="exp-company">India, UK &amp; Europe (multiple clients)</div>
+          </div>
+          <span class="exp-date">Dec 2021 – Jul 2023</span>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Ran Google Ads and Meta campaigns from scratch for e-commerce and B2B clients: account structure, keywords, audiences, bids, budgets. Handled everything myself.</li>
+            <li>Cut CPL by 52% in 6 weeks for an e-commerce client. Rebuilt the campaign structure, switched to Smart Bidding, added 200+ negative keywords, and moved budget to where the high-intent traffic actually was.</li>
+            <li>Managed Shopping campaigns in Google Merchant Center: kept the feed healthy, segmented products properly, and adjusted bids by category to improve relevance and return.</li>
+            <li>Audited GA4 and GTM setups, found where conversions were not firing correctly, and fixed them. Recovered a chunk of conversion data clients did not know they were missing.</li>
+            <li>Ran A/B tests on copy, creatives, landing pages, and audiences on a rolling basis to keep CPL, CPA, and ROAS moving in the right direction.</li>
+            <li>Built Looker Studio and Power BI dashboards that pulled all channel data into one place. Clients stopped spending hours on manual reports and could see CPA, ROAS, and funnel performance live.</li>
+          </ul>
+          <div class="exp-skills-row">
+            <span class="tag">Google Ads</span><span class="tag">Meta Ads</span><span class="tag">GA4</span><span class="tag">GTM</span><span class="tag">SQL</span><span class="tag">Looker Studio</span><span class="tag">Power BI</span><span class="tag">A/B Testing</span><span class="tag">–52% CPL</span>
+          </div>
+        </div>
+      </div>
 
- </div>
- </div>
-</section>
+      <!-- Mindshare -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Consultant</div>
+            <div class="exp-company">Mindshare United Foundation</div>
+          </div>
+          <span class="exp-date">Jul 2021 – Dec 2021</span>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Pulled paid media, influencer, and engagement data into a single reporting view so the team could make budget calls without waiting for three separate reports.</li>
+            <li>Worked with media buyers and creatives to adjust targeting and messaging based on what the live data was showing, not what the original plan assumed.</li>
+            <li>Found where planned spend and actual results did not match, flagged the underperforming placements, and helped redirect budget toward what was working.</li>
+            <li>Wrote up performance recommendations for senior stakeholders. Kept them short, prioritised, and backed by data from both our own campaigns and competitor activity.</li>
+          </ul>
+          <div class="exp-skills-row">
+            <span class="tag">Paid Media Strategy</span><span class="tag">Multi-channel Reporting</span><span class="tag">Budget Optimisation</span><span class="tag">Competitor Analysis</span>
+          </div>
+        </div>
+      </div>
 
-<!-- RECOMMENDATIONS -->
-<section id="recommendations">
- <div class="rec-wrap">
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Trusted by Academics</p>
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">What my professors say.</h2>
- <p class="reveal" style="font-size:0.9rem;color:var(--muted);max-width:56ch;margin-top:1rem;line-height:1.75;">Written on LinkedIn by faculty at <strong style="color:var(--text);">Leeds University Business School</strong> , one supervised my MSc dissertation, one managed me directly.</p>
- <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.25rem;" class="reveal">
- <span style="font-size:0.7rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:50px;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.2);color:var(--teal);">🎓 Leeds University Business School</span>
- <span style="font-size:0.7rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:50px;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.2);color:var(--teal);">⭐ Dissertation Distinction</span>
- <span style="font-size:0.7rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:50px;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.2);color:var(--teal);">✓ 2 LinkedIn Recommendations</span>
- </div>
- <div class="rec-grid">
- <article class="rc reveal">
- <span class="rc-qm">"</span>
- <p class="rc-text">I've known Akshay since I was his dissertation supervisor back when he was at Leeds. What makes him special isn't just that he's good with data analysis tools like Power BI, R, SQL, and STATA. He can actually see the bigger picture. He's great at finding opportunities and explaining them in a way that gets people excited. I've seen him adapt fast, work well with others, and get great results even when he's under pressure, both in school and at work. <strong>He's got both analytical skills and creativity, which is what really sets him apart.</strong></p>
- <div class="rc-chips">
- <span class="rc-chip">Power BI</span><span class="rc-chip">R</span><span class="rc-chip">SQL</span><span class="rc-chip">STATA</span><span class="rc-chip">Analytical + Creative</span>
- </div>
- <footer class="rc-footer">
- <div class="rc-av">MG</div>
- <div>
- <div class="rc-name">Maximilian Gerrath</div>
- <div class="rc-role">Associate Professor of Marketing · Leeds University Business School</div>
- <div class="rc-rel"><svg width="10" height="10" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>Dissertation Supervisor · August 2025</div>
- </div>
- </footer>
- </article>
- <article class="rc rc-gold reveal reveal-delay-1">
- <span class="rc-qm" style="color:var(--orange);">"</span>
- <p class="rc-text">Akshay consistently stood out, not just for his technical skills in tools like GA4, Power BI, R, Python, and CRM systems, but for his ability to turn data-driven insights into practical strategy. He thrives in dynamic environments, embraces challenges, and is always eager to learn and improve. He showed strategic thinking and a proactive mindset, often thinking two steps ahead of the brief. He is the kind of person who quietly builds impact, asking the right questions, connecting the dots, and delivering value. <strong>Akshay is undoubtedly a future leader in digital strategy.</strong></p>
- <div class="rc-chips">
- <span class="rc-chip rc-chip-o">GA4</span><span class="rc-chip rc-chip-o">Python</span><span class="rc-chip rc-chip-o">CRM Systems</span><span class="rc-chip rc-chip-o">Future Leader</span>
- </div>
- <footer class="rc-footer">
- <div class="rc-av rc-av-o">AS</div>
- <div>
- <div class="rc-name">Ashutosh Singh</div>
- <div class="rc-role">Assistant Professor · University of Leeds</div>
- <div class="rc-rel"><svg width="10" height="10" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1-2-2H5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>Managed Directly · August 2025</div>
- </div>
- </footer>
- </article>
- </div>
- <div class="rc-li-cta reveal">
- <div class="rc-li-cta-left">
- <div class="rc-li-label">LinkedIn Profile</div>
- <div class="rc-li-stat">5,140 followers &nbsp;·&nbsp; 500+ connections</div>
- </div>
- <a href="https://www.linkedin.com/in/akshayrahar" target="_blank" rel="noopener noreferrer" class="rc-li-btn">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
- View on LinkedIn
- </a>
- </div>
- </div>
-</section>
+      <!-- K.R. International -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Research &amp; Development Associate</div>
+            <div class="exp-company">K.R. International Pvt. Ltd.</div>
+          </div>
+          <span class="exp-date">Sep 2017 – Jun 2019</span>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Did customer acquisition analysis for an early-stage B2B SaaS product to figure out where growth was coming from and where paid targeting should focus.</li>
+            <li>Looked at campaign performance and customer behaviour together to improve targeting and push retention metrics in the right direction.</li>
+            <li>Identified which customer segments were worth spending on and where the market gaps were. That fed into how the budget was allocated.</li>
+          </ul>
+          <div class="exp-skills-row">
+            <span class="tag">Market Research</span><span class="tag">Customer Segmentation</span><span class="tag">Campaign Analysis</span><span class="tag">CLV</span>
+          </div>
+        </div>
+      </div>
 
-<!-- EDUCATION + CREDENTIALS -->
-<section id="edu-cred">
- <div class="ec-wrap">
- <div class="ec-grid">
- <div>
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Education</p>
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:2rem;">Academic path.</h2>
- <div class="edu-item reveal">
- <div class="edu-badge2">MSc</div>
- <div class="edu-deg2">Consumer Analytics &amp; Marketing Strategy</div>
- <div class="edu-uni2">Leeds University Business School, UK</div>
- <div class="edu-date2">Sep 2023 - Sep 2024</div>
- <div class="edu-honor2">🏅 Pass with Merit &nbsp;·&nbsp; <span style="color:var(--teal);">Dissertation: Distinction</span></div>
- </div>
- <div class="edu-item reveal reveal-delay-1">
- <div class="edu-badge2">MA · Exchange</div>
- <div class="edu-deg2">European Global Studies</div>
- <div class="edu-uni2">University of Basel, Switzerland</div>
- <div class="edu-date2">Sep 2020 - Jun 2021</div>
- </div>
- <div class="edu-item reveal reveal-delay-2">
- <div class="edu-badge2">MA</div>
- <div class="edu-deg2">Diplomacy, Law &amp; Business</div>
- <div class="edu-uni2">OP Jindal Global University</div>
- <div class="edu-date2">Sep 2019 - Jun 2021</div>
- <div class="edu-honor2">⭐ Upper Second Class (2:1)</div>
- </div>
- <div class="edu-item reveal reveal-delay-3">
- <div class="edu-badge2">BA</div>
- <div class="edu-deg2">Bachelor of Arts</div>
- <div class="edu-uni2">University of Delhi, India</div>
- <div class="edu-date2">Graduated 2019</div>
- </div>
- </div>
- <div>
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Credentials</p>
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:2rem;">Certifications.</h2>
- <div class="cred-item reveal">
- <div class="cred-dot cred-dot-f"></div>
- <div><div class="cred-name">Generative AI for Marketing Professional Certificate<span class="cred-new-badge">AI · 2025</span></div><div class="cred-by">American Marketing Association</div></div>
- </div>
- <div class="cred-item reveal reveal-delay-1">
- <div class="cred-dot"></div>
- <div><div class="cred-name">Google Analytics for Beginners</div><div class="cred-by">Google</div></div>
- </div>
- <div class="cred-item reveal reveal-delay-2">
- <div class="cred-dot"></div>
- <div><div class="cred-name">Digital Advertising</div><div class="cred-by">HubSpot Academy</div></div>
- </div>
- <div class="cred-item reveal reveal-delay-1">
- <div class="cred-dot"></div>
- <div><div class="cred-name">Advertising on Facebook</div><div class="cred-by">Meta Blueprint</div></div>
- </div>
- <div class="cred-item reveal reveal-delay-2">
- <div class="cred-dot"></div>
- <div><div class="cred-name">Intercultural Communication &amp; Conflict Resolution</div><div class="cred-by">Professional Development</div></div>
- </div>
- </div>
- </div>
- </div>
-</section>
+    </div>
+  </section>
 
+  <!-- ── RESEARCH ──────────────────────────────────────────────────────── -->
+  <section id="research" class="alt">
+    <div class="section-label">Academic Research</div>
+    <h2 class="section-title">Dissertation research</h2>
 
-<!-- ── INSIGHTS ─────────────────────────────────────────────────── -->
-<section id="insights" style="padding:clamp(5rem,8vw,9rem) 0;background:var(--surface);border-top:1px solid var(--border);">
- <div style="max-width:1300px;margin:0 auto;padding:0 clamp(1.5rem,4vw,4rem);">
+    <div class="research-card">
+      <div>
+        <div class="research-label">Leeds University Business School · 2024</div>
+        <div class="research-title">Investigating the carry-over effects of research &amp; marketing intensities on firm performance in the automobile industry</div>
+        <p class="research-body">
+          Analysed a 23-year longitudinal dataset (2000 to 2023, publicly traded U.S. automobile firms, pulled from COMPUSTAT North America via WRDS.
+          Fixed-effects panel models to strip out firm-level factors that do not change over time.
+          Hausman test confirmed FE was the right call over random effects.
+          Marketing intensity shows a positive carry-over effect at t and t-1, then reverses at t-2. The takeaway: marketing spend compounds for roughly two years before returns start to fade.
+          <br/><br/><a class="story-link" href="stories/story-dissertation.html">Read dissertation deep-dive &#8594;</a>
+        </p>
+        <br />
+        <p class="research-body">
+          <strong style="color:var(--text)">Grade: Distinction &nbsp;|&nbsp; R² = 0.96 &nbsp;|&nbsp; VIF = 1.00 (no multicollinearity)</strong>
+        </p>
+      </div>
+      <div class="research-stats">
+        <div class="r-stat">
+          <div class="r-stat-num">3,163</div>
+          <div class="r-stat-label">Firm-year observations</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">23 yrs</div>
+          <div class="r-stat-label">Longitudinal span</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">R²=0.96</div>
+          <div class="r-stat-label">Fixed-effects model fit</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">β=0.55</div>
+          <div class="r-stat-label">Marketing intensity at t (p&lt;0.01)</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">FE</div>
+          <div class="r-stat-label">Model confirmed via Hausman test</div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">STATA</div>
+          <div class="r-stat-label">Analysis software</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
- <p class="reveal" style="font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Insights &amp; Storytelling</p>
- <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:3rem;">
- <h2 class="reveal" style="font-family:var(--df);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;">Data stories.</h2>
- <p class="reveal" style="font-size:0.85rem;color:var(--muted);max-width:38ch;line-height:1.7;">Real data, real findings, from client work and original research. Each story includes live charts and full methodology.</p>
- </div>
+  <!-- ── REVIEWS ───────────────────────────────────────────────────────── -->
+  <section id="reviews">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">What people have said</h2>
 
- <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;">
+    <div class="reviews-grid">
 
- <!-- Story 1 -->
- <a href="story-1-ga4.html" style="display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.22s,transform 0.22s;cursor:none;" class="reveal story-link">
- <div style="height:160px;background:linear-gradient(135deg,rgba(0,229,200,0.15) 0%,rgba(0,229,200,0.03) 100%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative;">
- <div style="font-size:4rem;line-height:1;">📊</div>
- <div style="position:absolute;top:1rem;left:1rem;font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:var(--teal-dim);border:1px solid rgba(0,229,200,0.22);color:var(--teal);padding:0.25rem 0.75rem;border-radius:50px;">Analytics</div>
- </div>
- <div style="padding:1.75rem;flex:1;display:flex;flex-direction:column;">
- <div style="font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.6rem;">Apr 2026</div>
- <h3 style="font-family:var(--df);font-size:1.1rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);margin-bottom:0.75rem;">Your GA4 is Missing 34% of Conversions. Here's Why</h3>
- <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;flex:1;">A broken event setup was hiding nearly half a client's conversions. The fix revealed a 164% higher conversion rate than anyone knew existed.</p>
- <div style="display:flex;align-items:center;gap:0.4rem;margin-top:1.25rem;font-size:0.78rem;font-weight:700;color:var(--teal);">Read story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
- </div>
- </a>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">
+          "I've known Akshay since I was his dissertation supervisor back when he was at Leeds.
+          What makes him special isn't just that he's good with data analysis tools like Power BI, R, SQL, and STATA.
+          He can actually see the bigger picture. He's great at finding opportunities and explaining them in a way that gets people excited.
+          I've seen him adapt fast, work well with others, and get great results even when he's under pressure,
+          both in school and at work. <strong>He's got both analytical skills and creativity, which is what really sets him apart.</strong>"
+        </p>
+        <div class="review-author">
+          <span class="review-name">Dr. Maximilian H. E. E. Gerrath</span>
+          <span class="review-title">Dissertation Supervisor · Leeds University Business School</span>
+        </div>
+      </div>
 
- <!-- Story 2 -->
- <a href="story-2-carryover.html" style="display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.22s,transform 0.22s;cursor:none;" class="reveal reveal-delay-1 story-link">
- <div style="height:160px;background:linear-gradient(135deg,rgba(139,92,246,0.15) 0%,rgba(139,92,246,0.03) 100%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative;">
- <div style="font-size:4rem;line-height:1;">📐</div>
- <div style="position:absolute;top:1rem;left:1rem;font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.22);color:#8b5cf6;padding:0.25rem 0.75rem;border-radius:50px;">Research</div>
- </div>
- <div style="padding:1.75rem;flex:1;display:flex;flex-direction:column;">
- <div style="font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.6rem;">Apr 2026</div>
- <h3 style="font-family:var(--df);font-size:1.1rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);margin-bottom:0.75rem;">The 2-Year Rule: Why Marketing ROI Takes Longer Than You Think</h3>
- <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;flex:1;">3,163 firm-year observations. R²=0.96. The biggest return from marketing investment arrives two years later, not this quarter.</p>
- <div style="display:flex;align-items:center;gap:0.4rem;margin-top:1.25rem;font-size:0.78rem;font-weight:700;color:#8b5cf6;">Read story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
- </div>
- </a>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">
+          "He does not just hand you a report and walk away.
+          <strong>He tells you what to do next.</strong> And in my experience, he is usually right."
+        </p>
+        <div class="review-author">
+          <span class="review-name">Client Review</span>
+          <span class="review-title">E-commerce Client · Freelance Engagement</span>
+        </div>
+      </div>
 
- <!-- Story 3 -->
- <a href="story-3-dashboard.html" style="display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.22s,transform 0.22s;cursor:none;" class="reveal reveal-delay-2 story-link">
- <div style="height:160px;background:linear-gradient(135deg,rgba(255,107,53,0.15) 0%,rgba(255,107,53,0.03) 100%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative;">
- <div style="font-size:4rem;line-height:1;">📈</div>
- <div style="position:absolute;top:1rem;left:1rem;font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.22);color:var(--orange);padding:0.25rem 0.75rem;border-radius:50px;">Dashboards</div>
- </div>
- <div style="padding:1.75rem;flex:1;display:flex;flex-direction:column;">
- <div style="font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.6rem;">Apr 2026</div>
- <h3 style="font-family:var(--df);font-size:1.1rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);margin-bottom:0.75rem;">How I Cut Reporting Time by 40% Without Changing a Single Ad</h3>
- <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;flex:1;">Six disconnected data sources, 14 hours of manual work per week. One consolidation gave the team 5.6 hours back every Monday.</p>
- <div style="display:flex;align-items:center;gap:0.4rem;margin-top:1.25rem;font-size:0.78rem;font-weight:700;color:var(--orange);">Read story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
- </div>
- </a>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">
+          "He handles pressure well and does not need hand-holding.
+          Watched him go from raw data to a clear recommendation in the same afternoon.
+          <strong>He is comfortable in both worlds, the data and the strategy.</strong>"
+        </p>
+        <div class="review-author">
+          <span class="review-name">Academic Peer Review</span>
+          <span class="review-title">MSc Consumer Analytics &amp; Marketing Strategy · Leeds</span>
+        </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">
+          "I know Akshay from his postgraduate studies at the University of Leeds, where he was part of the MSc
+          Consumer Analytics and Marketing Strategy (CAMS) program. During that time, he consistently stood out,
+          not just for his technical skills in tools like GA4, Power BI, R, Python, and CRM systems, but for his
+          ability to turn data-driven insights into actionable strategy. He's someone who thrives in dynamic
+          environments, embraces challenges, and is always eager to learn and improve. Whether working on academic
+          projects or during his internship, he showed strategic thinking and a proactive mindset, often thinking
+          two steps ahead of the brief. He is the kind of person who quietly builds impact, asking the right
+          questions, connecting the dots, and delivering value.
+          <strong>Akshay is undoubtedly a future leader in digital strategy, and I am confident he will make
+          a strong contribution wherever he goes.</strong>"
+        </p>
+        <div class="review-author">
+          <span class="review-name">Ashutosh Singh</span>
+          <span class="review-title">Assistant Professor · University of Leeds</span>
+        </div>
+      </div>
 
+    </div>
+  </section>
 
- <!-- Story 4 -->
- <a href="story-4-ppc.html" style="display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.22s,transform 0.22s;cursor:none;" class="reveal reveal-delay-3 story-link">
- <div style="height:160px;background:linear-gradient(135deg,rgba(34,197,94,0.15) 0%,rgba(34,197,94,0.03) 100%);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative;">
- <div style="font-size:4rem;line-height:1;">💰</div>
- <div style="position:absolute;top:1rem;left:1rem;font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.22);color:#22c55e;padding:0.25rem 0.75rem;border-radius:50px;">PPC</div>
- </div>
- <div style="padding:1.75rem;flex:1;display:flex;flex-direction:column;">
- <div style="font-size:0.7rem;font-family:var(--dm);color:var(--faint);margin-bottom:0.6rem;">Apr 2026</div>
- <h3 style="font-family:var(--df);font-size:1.1rem;font-weight:900;letter-spacing:-0.02em;line-height:1.3;color:var(--text);margin-bottom:0.75rem;">How We Dropped Cost-Per-Lead by 52% in 6 Weeks , Without Increasing Budget</h3>
- <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;flex:1;">£148 → £71 CPL. Same budget. The fix was negative keywords, budget reallocation, and landing page alignment, not a bigger spend.</p>
- <div style="display:flex;align-items:center;gap:0.4rem;margin-top:1.25rem;font-size:0.78rem;font-weight:700;color:#22c55e;">Read story <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
- </div>
- </a>
+  <!-- ── EDUCATION ─────────────────────────────────────────────────────── -->
+  <section id="education" class="alt">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Where I studied</h2>
 
- </div>
- </div>
-</section>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">MSc Consumer Analytics &amp; Marketing Strategy</div>
+        <div class="edu-uni">Leeds University Business School</div>
+        <div class="edu-year">2023 – 2024</div>
+        <div class="edu-note">Dissertation: Distinction &nbsp;|&nbsp; Overall: Pass with Merit<br>
+        Fixed-effects panel data modelling · COMPUSTAT · STATA</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">MA European &amp; Global Studies</div>
+        <div class="edu-uni">University of Basel, Switzerland</div>
+        <div class="edu-year">2020 – 2021</div>
+        <div class="edu-note">International policy, cross-cultural communication, strategic analysis</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">MA Diplomacy, Law &amp; Business</div>
+        <div class="edu-uni">OP Jindal Global University</div>
+        <div class="edu-year">2019 – 2021</div>
+        <div class="edu-note">Business strategy, international law, negotiation and diplomacy</div>
+      </div>
+    </div>
 
-<style>
-.story-link:hover{border-color:var(--teal) !important;transform:translateY(-4px);}
-</style>
+    <br /><br />
+    <div class="section-label" style="margin-bottom:12px;">Certifications</div>
+    <div class="skill-tags" style="gap:8px;">
+      <span class="tag">Generative AI for Marketing, AMA</span>
+      <span class="tag">Google Analytics for Beginners</span>
+      <span class="tag">Digital Advertising</span>
+      <span class="tag">Advertising on Facebook</span>
+      <span class="tag">HubSpot Academy</span>
+      <span class="tag">Intercultural Communication &amp; Conflict Resolution</span>
+    </div>
+  </section>
 
+  <!-- ── INSIGHTS / ABOUT ──────────────────────────────────────────────── -->
+  <section id="insights">
+    <div class="section-label">About</div>
+    <h2 class="section-title">A bit more about me</h2>
 
-<!-- CONTACT -->
-<section id="contact">
- <div class="contact-inner">
- <p class="contact-eyebrow reveal">Get in touch</p>
- <h2 class="contact-big reveal">Let's make<br>something <span>great.</span></h2>
- <p class="contact-sub reveal">Open to analytics roles, freelance projects, and collaborations in marketing data, PPC, or digital strategy , UK &amp; remote.</p>
- <div class="contact-btns reveal">
- <a href="mailto:akshayrahar@gmail.com" class="btn-mag primary">akshayrahar@gmail.com</a>
- <a href="https://www.linkedin.com/in/akshayrahar" target="_blank" rel="noopener noreferrer" class="btn-mag ghost">LinkedIn →</a>
- </div>
- <div class="contact-links reveal">
- <a href="https://akshayrahar.github.io">Portfolio</a>
- <a href="https://www.linkedin.com/in/akshayrahar" target="_blank">LinkedIn</a>
- </div>
- </div>
-</section>
+    <div class="insights-inner">
+      <p>
+        My work sits somewhere between performance marketing and analytics. I run campaigns, fix the tracking when it is wrong, and use the data to decide what to scale, what to stop, and what to test next.
+      </p>
+      <p>
+        I started in B2B market research, then moved into paid media and analytics. Built Google Ads and Meta accounts from the ground up, fixed broken GA4 setups, and built dashboards that replaced manual reporting for clients. The client mix has been e-commerce, B2B SaaS, and media.
+      </p>
+      <p>
+        The MSc at Leeds was proper quantitative work: panel data, econometrics, fixed-effects models on 23 years of real firm data. That changed how I think. Now when I look at campaign data, I check whether the numbers are actually reliable before I act on them. I don'ust pull the numbers, I interrogate whether they're reliable before I act on them.
+      </p>
+      <p>
+        Based in the UK. Open to hybrid and remote. Most interested in performance, analytics, or growth roles where the data side and the execution side are expected to work together.
+      </p>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Akshay Rahar</span>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/akshayrahar" target="_blank">LinkedIn</a>
+    <a href="mailto:akshayrahar@gmail.com">Email</a>
+    <a href="#about">Back to top ↑</a>
+  </div>
+</footer>
+
+<!-- FLOATING DOT -->
+<div class="float-dot" onclick="window.location.href='mailto:akshayrahar@gmail.com'" title="Get in touch"></div>
 
 <script>
-// ── Cursor
-const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';document.getElementById('spotlight').style.background=`radial-gradient(600px circle at ${mx}px ${my}px,rgba(0,229,200,0.05),transparent 70%)`;});
-(function ringLoop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ringLoop);})();
-document.querySelectorAll('a,button,.bc,.cap-item,.exp-item,.rc').forEach(el=>{
- el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-big'));
- el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-big'));
-});
+// ── TWINKLING GRID DOTS ─────────────────────────────────────────────────
+(function() {
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+  var spacing = 48;
+  var cols = Math.ceil(vw / spacing);
+  var rows = Math.ceil(vh / spacing);
+  var frag = document.createDocumentFragment();
 
-// ── Scroll progress
-window.addEventListener('scroll',()=>{
- document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
-});
+  // Pick ~80 random grid intersections
+  var count = Math.min(80, cols * rows);
+  var used = new Set();
+  var attempts = 0;
 
-// ── Reveal
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:0.1}).observe || (()=>{});
-const ro = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:0.08});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+  while (frag.childNodes.length < count && attempts < 2000) {
+    attempts++;
+    var c = Math.floor(Math.random() * cols);
+    var r = Math.floor(Math.random() * rows);
+    var key = c + "," + r;
+    if (used.has(key)) continue;
+    used.add(key);
 
-// ── Hamburger
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('nav-links').classList.toggle('open'));
-
-// ── CountUp (hero)
-window.addEventListener('load',()=>{
- const opts={duration:2.2,useGrouping:true};
- new countUp.CountUp('c1',3163,opts).start();
- new countUp.CountUp('c2',5140,opts).start();
- new countUp.CountUp('c3',0.96,{...opts,decimalPlaces:2,duration:2.5}).start();
- new countUp.CountUp('c4',4,opts).start();
- new countUp.CountUp('bc1',3163,opts).start();
- new countUp.CountUp('bc2',5140,opts).start();
-});
-
-// ── Bar chart
-new Chart(document.getElementById('barChart').getContext('2d'),{type:'bar',data:{
- labels:['2000','2003','2006','2009','2012','2015','2018','2021','2023'],
- datasets:[
- {label:'Marketing Intensity',data:[0.042,0.038,0.051,0.029,0.044,0.055,0.048,0.039,0.052],backgroundColor:'rgba(0,229,200,0.7)',borderRadius:4},
- {label:'Gross Profit Margin',data:[0.18,0.21,0.24,0.15,0.22,0.27,0.29,0.25,0.31],backgroundColor:'rgba(255,107,53,0.6)',borderRadius:4}
- ]},options:{responsive:true,plugins:{legend:{labels:{color:'#8888a0',font:{size:9}}}},scales:{x:{ticks:{color:'#3a3a50',font:{size:8}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#3a3a50',font:{size:8}},grid:{color:'rgba(255,255,255,0.04)'}}}}});
-
-// ── Beta chart
-new Chart(document.getElementById('betaChart').getContext('2d'),{type:'bar',data:{
- labels:['t (current)','t-1 (1yr lag)','t-2 (2yr lag)'],
- datasets:[
- {label:'Marketing β',data:[0.12,0.19,0.24],backgroundColor:'rgba(0,229,200,0.75)',borderRadius:4},
- {label:'R&D β',data:[0.08,0.14,0.21],backgroundColor:'rgba(139,92,246,0.65)',borderRadius:4}
- ]},options:{indexAxis:'y',responsive:true,plugins:{legend:{labels:{color:'#8888a0',font:{size:9}}}},scales:{x:{ticks:{color:'#3a3a50',font:{size:8}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#8888a0',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}}}}});
-
-// ── Heatmap
-const hmV=['Mkt Int.','R&D Int.','Gross Profit','Firm Size'];
-const hmD=[[1,0.62,0.71,0.34],[0.62,1,0.58,0.29],[0.71,0.58,1,0.41],[0.34,0.29,0.41,1]];
-const hm=document.getElementById('heatmap');
-function hmCol(v){return v>0?`rgba(0,229,200,${0.1+Math.abs(v)*0.85})`:`rgba(255,107,53,${0.1+Math.abs(v)*0.85})`;}
-let s='<div class="hm-cell"></div>'+hmV.map(v=>`<div class="hm-cell" style="font-size:0.58rem;color:var(--faint);">${v}</div>`).join('');
-hmV.forEach((rv,r)=>{s+=`<div class="hm-cell" style="font-size:0.58rem;color:var(--faint);justify-content:flex-end;padding-right:4px;">${rv}</div>`;hmD[r].forEach((val,c)=>{s+=`<div class="hm-cell" style="background:${hmCol(val)};font-family:var(--dm);font-size:0.6rem;color:${Math.abs(val)>0.5?'#f4f4f8':'#8888a0'};">${val.toFixed(2)}</div>`;});});
-hm.innerHTML=s;
-
-// ── Lucide
-lucide.createIcons();
+    var dot = document.createElement("div");
+    dot.className = "grid-dot";
+    dot.style.left = (c * spacing - 1.5) + "px";
+    dot.style.top  = (r * spacing - 1.5) + "px";
+    dot.style.setProperty("--dur",   (3 + Math.random() * 5).toFixed(1) + "s");
+    dot.style.setProperty("--delay", (Math.random() * 8).toFixed(2) + "s");
+    frag.appendChild(dot);
+  }
+  document.getElementById("gridBg").appendChild(frag);
+})();
 </script>
+
 </body>
 </html>
