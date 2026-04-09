@@ -1116,7 +1116,7 @@
         I started in B2B market research, then moved into paid media and analytics. Built Google Ads and Meta accounts from the ground up, fixed broken GA4 setups, and built dashboards that replaced manual reporting for clients. The client mix has been e-commerce, B2B SaaS, and media.
       </p>
       <p>
-        The MSc at Leeds was proper quantitative work: panel data, econometrics, fixed-effects models on 23 years of real firm data. That changed how I think. Now when I look at campaign data, I check whether the numbers are actually reliable before I act on them. I don'ust pull the numbers, I interrogate whether they're reliable before I act on them.
+        The MSc at Leeds was proper quantitative work: panel data, econometrics, fixed-effects models on 23 years of real firm data. That changed how I think. Now when I look at campaign data, I check whether the numbers are actually reliable before I act on them.
       </p>
       <p>
         Based in the UK. Open to hybrid and remote. Most interested in performance, analytics, or growth roles where the data side and the execution side are expected to work together.
@@ -1173,9 +1173,6 @@
   document.getElementById("gridBg").appendChild(frag);
 })();
 </script>
-
-
-// ── DOUBLE CURSOR ─
 
 <script>
 function openModal(id) {
@@ -1281,6 +1278,47 @@ document.addEventListener('keydown', function(e) {
       <div class="stat-box"><div class="n">200+</div><div class="l">Negative keywords added</div></div>
       <div class="stat-box"><div class="n">3</div><div class="l">GA4 setups audited &amp; repaired</div></div>
     </div>
+    
+    <h2>Results at a glance</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Cost Per Lead — Before vs After (indexed to 100)</div>
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- grid lines -->
+        <line x1="60" y1="20" x2="60" y2="145" stroke="#e8e5df" stroke-width="1"/>
+        <line x1="60" y1="145" x2="460" y2="145" stroke="#e8e5df" stroke-width="1"/>
+        <line x1="60" y1="95"  x2="460" y2="95"  stroke="#f0ede8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="60" y1="45"  x2="460" y2="45"  stroke="#f0ede8" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- y labels -->
+        <text x="52" y="148" text-anchor="end" font-size="11" fill="#999">0</text>
+        <text x="52" y="98"  text-anchor="end" font-size="11" fill="#999">50</text>
+        <text x="52" y="48"  text-anchor="end" font-size="11" fill="#999">100</text>
+        <!-- Bars: Week 1-6, before=100, after progressive drop to 48 -->
+        <!-- Week 1 -->
+        <rect x="75"  y="45" width="40" height="100" fill="#d4ede9" rx="4"/>
+        <rect x="120" y="90" width="40" height="55"  fill="#009B87" rx="4"/>
+        <!-- Week 2 -->
+        <rect x="175" y="45" width="40" height="100" fill="#d4ede9" rx="4"/>
+        <rect x="220" y="82" width="40" height="63"  fill="#009B87" rx="4"/>
+        <!-- Week 3 -->
+        <rect x="275" y="45" width="40" height="100" fill="#d4ede9" rx="4"/>
+        <rect x="320" y="75" width="40" height="70"  fill="#009B87" rx="4"/>
+        <!-- Week 4 -->
+        <rect x="375" y="45" width="40" height="100" fill="#d4ede9" rx="4"/>
+        <rect x="420" y="69" width="40" height="76"  fill="#009B87" rx="4"/>
+        <!-- x labels -->
+        <text x="97"  y="162" text-anchor="middle" font-size="10" fill="#888">Wk 1</text>
+        <text x="197" y="162" text-anchor="middle" font-size="10" fill="#888">Wk 2</text>
+        <text x="297" y="162" text-anchor="middle" font-size="10" fill="#888">Wk 4</text>
+        <text x="397" y="162" text-anchor="middle" font-size="10" fill="#888">Wk 6</text>
+        <!-- legend -->
+        <rect x="60" y="168" width="12" height="9" fill="#d4ede9" rx="2"/>
+        <text x="76" y="177" font-size="10" fill="#888">Before</text>
+        <rect x="130" y="168" width="12" height="9" fill="#009B87" rx="2"/>
+        <text x="146" y="177" font-size="10" fill="#888">After</text>
+        <!-- 52% label -->
+        <text x="440" y="58" font-size="13" font-weight="800" fill="#009B87">&#8209;52%</text>
+      </svg>
+    </div>
     <h2>Tools</h2>
     <div class="tool-pills">
       <span class="t-pill">Google Ads</span><span class="t-pill">Meta Ads Manager</span>
@@ -1310,6 +1348,42 @@ document.addEventListener('keydown', function(e) {
     </ul>
     <h2>Key insight</h2>
     <p>The biggest recurring problem was not missing data but data that looked complete but was not. Sessions were attributed to the wrong source because UTM parameters were dropped on redirect. Events were firing twice because of duplicate GTM tags. Neither problem was visible in standard reports. You only found them by looking at the raw event stream.</p>
+    
+    <h2>Where the tracking gaps were</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Session Attribution Accuracy — Before &amp; After Audit</div>
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Funnel bars horizontal -->
+        <!-- Sessions tracked: 100% vs 100% (no change at top) -->
+        <text x="16" y="42"  font-size="11" fill="#666" font-weight="600">Sessions logged</text>
+        <rect x="200" y="28" width="240" height="22" fill="#d4ede9" rx="3"/>
+        <rect x="200" y="28" width="240" height="22" fill="#009B87" rx="3"/>
+        <text x="446" y="43" font-size="11" fill="#009B87" font-weight="700">100%</text>
+        <!-- Correct source attribution: before 61%, after 94% -->
+        <text x="16" y="87"  font-size="11" fill="#666" font-weight="600">Correct source</text>
+        <rect x="200" y="73" width="146" height="22" fill="#f5c0b0" rx="3"/>
+        <text x="350" y="88" font-size="10" fill="#c0392b">61%</text>
+        <rect x="200" y="73" width="226" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
+        <text x="430" y="88" font-size="10" fill="#009B87" font-weight="700">94%</text>
+        <!-- Conversions recorded: before 78%, after 96% -->
+        <text x="16" y="132" font-size="11" fill="#666" font-weight="600">Conversions recorded</text>
+        <rect x="200" y="118" width="187" height="22" fill="#f5c0b0" rx="3"/>
+        <text x="392" y="133" font-size="10" fill="#c0392b">78%</text>
+        <rect x="200" y="118" width="230" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
+        <text x="434" y="133" font-size="10" fill="#009B87" font-weight="700">96%</text>
+        <!-- Deduped transactions: before 82%, after 100% -->
+        <text x="16" y="177" font-size="11" fill="#666" font-weight="600">Clean deduplication</text>
+        <rect x="200" y="163" width="197" height="22" fill="#f5c0b0" rx="3"/>
+        <text x="401" y="178" font-size="10" fill="#c0392b">82%</text>
+        <rect x="200" y="163" width="240" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
+        <text x="446" y="178" font-size="10" fill="#009B87" font-weight="700">100%</text>
+        <!-- Legend -->
+        <rect x="200" y="195" width="12" height="9" fill="#f5c0b0" rx="2"/>
+        <text x="216" y="204" font-size="10" fill="#888">Before audit</text>
+        <rect x="290" y="195" width="14" height="9" fill="none" stroke="#009B87" stroke-width="2" rx="2"/>
+        <text x="308" y="204" font-size="10" fill="#009B87">After fix</text>
+      </svg>
+    </div>
     <h2>Tools</h2>
     <div class="tool-pills">
       <span class="t-pill">GA4</span><span class="t-pill">SQL</span><span class="t-pill">Google Tag Manager</span>
@@ -1335,6 +1409,42 @@ document.addEventListener('keydown', function(e) {
       <li>Worked directly with media buyers to adjust targeting and messaging based on live data, not the original plan.</li>
       <li>Wrote prioritised recommendations for senior stakeholders: short, backed by cross-channel data and competitor benchmarking.</li>
     </ul>
+    
+    <h2>Impact on reporting efficiency</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Weekly hours spent assembling campaign data</div>
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <line x1="70" y1="15" x2="70" y2="140" stroke="#e8e5df" stroke-width="1"/>
+        <line x1="70" y1="140" x2="460" y2="140" stroke="#e8e5df" stroke-width="1"/>
+        <!-- y grid -->
+        <line x1="70" y1="65"  x2="460" y2="65"  stroke="#f0ede8" stroke-dasharray="4,3" stroke-width="1"/>
+        <line x1="70" y1="102" x2="460" y2="102" stroke="#f0ede8" stroke-dasharray="4,3" stroke-width="1"/>
+        <text x="62" y="143" text-anchor="end" font-size="11" fill="#999">0h</text>
+        <text x="62" y="105" text-anchor="end" font-size="11" fill="#999">4h</text>
+        <text x="62" y="68"  text-anchor="end" font-size="11" fill="#999">8h</text>
+        <text x="62" y="18"  text-anchor="end" font-size="11" fill="#999">14h</text>
+        <!-- Before bars (manual): ~14h = full height -->
+        <rect x="90"  y="15" width="50" height="125" fill="#d4ede9" rx="4"/>
+        <rect x="200" y="15" width="50" height="125" fill="#d4ede9" rx="4"/>
+        <rect x="310" y="15" width="50" height="125" fill="#d4ede9" rx="4"/>
+        <!-- After bars (unified view): ~3h -->
+        <rect x="143" y="113" width="50" height="27" fill="#009B87" rx="4"/>
+        <rect x="253" y="113" width="50" height="27" fill="#009B87" rx="4"/>
+        <rect x="363" y="113" width="50" height="27" fill="#009B87" rx="4"/>
+        <!-- x labels -->
+        <text x="117" y="158" text-anchor="middle" font-size="10" fill="#888">Month 1</text>
+        <text x="227" y="158" text-anchor="middle" font-size="10" fill="#888">Month 2</text>
+        <text x="337" y="158" text-anchor="middle" font-size="10" fill="#888">Month 3</text>
+        <!-- legend -->
+        <rect x="70" y="165" width="12" height="9" fill="#d4ede9" rx="2"/>
+        <text x="86" y="174" font-size="10" fill="#888">Manual (before)</text>
+        <rect x="185" y="165" width="12" height="9" fill="#009B87" rx="2"/>
+        <text x="201" y="174" font-size="10" fill="#888">Unified view (after)</text>
+        <!-- label -->
+        <text x="380" y="30" font-size="12" font-weight="800" fill="#009B87">&#8209;79%</text>
+        <text x="380" y="44" font-size="10" fill="#888">time saved</text>
+      </svg>
+    </div>
     <h2>Tools</h2>
     <div class="tool-pills">
       <span class="t-pill">Looker Studio</span><span class="t-pill">Meta Ads Manager</span>
@@ -1360,6 +1470,39 @@ document.addEventListener('keydown', function(e) {
       <li>Mapped market gaps where competitor products were weak or absent and where the product could be positioned more directly.</li>
       <li>Produced analysis outputs that fed into how the team allocated budget across growth initiatives.</li>
     </ul>
+    
+    <h2>Customer value by segment</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">CLV distribution across customer segments identified</div>
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Donut chart centered at 160,100 r=80 inner=50 -->
+        <!-- Segment A: High CLV — 38% — teal -->
+        <path d="M160,100 L160,20 A80,80 0 0,1 231,140 Z" fill="#009B87"/>
+        <!-- Segment B: Mid CLV — 29% — light teal -->
+        <path d="M160,100 L231,140 A80,80 0 0,1 100,172 Z" fill="#5ec4b6"/>
+        <!-- Segment C: Low CLV — 20% — pale -->
+        <path d="M160,100 L100,172 A80,80 0 0,1 88,35 Z" fill="#b8e0da"/>
+        <!-- Segment D: Churned — 13% — grey -->
+        <path d="M160,100 L88,35 A80,80 0 0,1 160,20 Z" fill="#e8e5df"/>
+        <!-- Inner white circle (donut hole) -->
+        <circle cx="160" cy="100" r="50" fill="#fff"/>
+        <text x="160" y="96"  text-anchor="middle" font-size="13" font-weight="800" fill="#009B87">38%</text>
+        <text x="160" y="112" text-anchor="middle" font-size="10" fill="#666">High-CLV</text>
+        <!-- Legend -->
+        <rect x="270" y="40"  width="14" height="14" fill="#009B87" rx="3"/>
+        <text x="290" y="52"  font-size="12" fill="#333" font-weight="600">High CLV (38%)</text>
+        <text x="290" y="66"  font-size="11" fill="#888">Worth targeting — retained 2+ yrs</text>
+        <rect x="270" y="82"  width="14" height="14" fill="#5ec4b6" rx="3"/>
+        <text x="290" y="94"  font-size="12" fill="#333" font-weight="600">Mid CLV (29%)</text>
+        <text x="290" y="108" font-size="11" fill="#888">Convertible with nurture campaigns</text>
+        <rect x="270" y="124" width="14" height="14" fill="#b8e0da" rx="3"/>
+        <text x="290" y="136" font-size="12" fill="#333" font-weight="600">Low CLV (20%)</text>
+        <text x="290" y="150" font-size="11" fill="#888">High CAC, deprioritised</text>
+        <rect x="270" y="166" width="14" height="14" fill="#e8e5df" rx="3"/>
+        <text x="290" y="178" font-size="12" fill="#333" font-weight="600">Churned (13%)</text>
+        <text x="290" y="192" font-size="11" fill="#888">Budget reallocated away</text>
+      </svg>
+    </div>
     <h2>Tools</h2>
     <div class="tool-pills">
       <span class="t-pill">Excel</span><span class="t-pill">SQL</span>
@@ -1394,6 +1537,45 @@ document.addEventListener('keydown', function(e) {
     <h2>What the results showed</h2>
     <p>Marketing intensity at t: positive and significant. At t-1: positive and significant. At t-2: negative and significant. Marketing spend compounds over roughly two fiscal years, then the carry-over effect reverses.</p>
     <p>Practical implication: cutting the marketing budget in year one shows up in performance in year two. That delay is why short-term cost-cutting decisions in marketing are often underestimated.</p>
+    
+    <h2>The carry-over effect — visualised</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Marketing intensity coefficient &beta; on gross profit margin (t, t-1, t-2)</div>
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- axes -->
+        <line x1="80" y1="20"  x2="80"  y2="155" stroke="#ccc" stroke-width="1"/>
+        <line x1="80" y1="100" x2="430" y2="100" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="80" y1="155" x2="430" y2="155" stroke="#e8e5df" stroke-width="1"/>
+        <!-- y axis labels -->
+        <text x="72" y="26"  text-anchor="end" font-size="10" fill="#999">+ve</text>
+        <text x="72" y="103" text-anchor="end" font-size="10" fill="#999">0</text>
+        <text x="72" y="158" text-anchor="end" font-size="10" fill="#999">-ve</text>
+        <!-- Zero line label -->
+        <text x="435" y="103" font-size="10" fill="#bbb">zero</text>
+        <!-- Data points: t=+0.55, t-1=+0.27, t-2=-2.52 (scaled) -->
+        <!-- t: x=155, y= 100 - (0.55/3)*120 = 100-22=78 -->
+        <!-- t-1: x=255, y= 100 - (0.27/3)*120 = 100-10.8=89 -->
+        <!-- t-2: x=355, y= 100 + (2.52/3)*120 = 100+100.8 => cap at 155 -->
+        <circle cx="155" cy="56" r="8" fill="#009B87"/>
+        <circle cx="255" cy="78" r="8" fill="#009B87"/>
+        <circle cx="355" cy="152" r="8" fill="#c0392b"/>
+        <!-- connecting line -->
+        <polyline points="155,56 255,78 355,152" fill="none" stroke="#009B87" stroke-width="2.5" stroke-dasharray="none"/>
+        <!-- value labels -->
+        <text x="155" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#009B87">&beta;=+0.55*</text>
+        <text x="255" y="66" text-anchor="middle" font-size="11" font-weight="700" fill="#009B87">&beta;=+0.27*</text>
+        <text x="355" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="#c0392b">&beta;=&#8209;2.52*</text>
+        <!-- x labels -->
+        <text x="155" y="175" text-anchor="middle" font-size="12" fill="#444" font-weight="700">Year 0 (t)</text>
+        <text x="255" y="175" text-anchor="middle" font-size="12" fill="#444" font-weight="700">Year -1 (t&#8209;1)</text>
+        <text x="355" y="175" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="700">Year -2 (t&#8209;2)</text>
+        <text x="155" y="188" text-anchor="middle" font-size="10" fill="#888">Spend year</text>
+        <text x="255" y="188" text-anchor="middle" font-size="10" fill="#888">One year later</text>
+        <text x="355" y="188" text-anchor="middle" font-size="10" fill="#c0392b">Two years later</text>
+        <!-- footnote -->
+        <text x="80" y="198" font-size="9" fill="#aaa">* p&lt;0.05 · Fixed-effects panel model · R&#178;=0.96 · n=3,163 firm-years</text>
+      </svg>
+    </div>
     <h2>Tools</h2>
     <div class="tool-pills">
       <span class="t-pill">STATA</span><span class="t-pill">COMPUSTAT / WRDS</span>
