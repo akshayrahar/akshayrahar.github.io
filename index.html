@@ -519,22 +519,29 @@
 /* ── DOUBLE CURSOR ─────────────────────────────────────────────────── */
 *, *::before, *::after { cursor: none !important; }
 #cursor-dot {
-  position: fixed; top: 0; left: 0; z-index: 9999;
-  width: 8px; height: 8px; border-radius: 50%;
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
   background: #009B87;
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: transform 0.08s ease, background 0.2s;
+  z-index: 9999;
+  top: 0; left: 0;
+  margin-left: -5px; margin-top: -5px;
+  transition: transform 0.1s ease;
+  will-change: left, top;
 }
 #cursor-ring {
-  position: fixed; top: 0; left: 0; z-index: 9998;
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 2px solid rgba(0,155,135,0.55);
+  position: fixed;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,155,135,0.6);
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  z-index: 9998;
+  top: 0; left: 0;
+  margin-left: -19px; margin-top: -19px;
+  transition: width 0.25s, height 0.25s, border-color 0.25s, margin 0.25s;
+  will-change: left, top;
 }
-a:hover ~ #cursor-dot, button:hover ~ #cursor-dot { transform: translate(-50%,-50%) scale(2); }
 
 /* ── STORIES GRID ──────────────────────────────────────────────────── */
 .stories-grid {
@@ -898,7 +905,7 @@ a:hover ~ #cursor-dot, button:hover ~ #cursor-dot { transform: translate(-50%,-5
     <div class="section-label">Case Studies</div>
     <h2 class="section-title">Stories</h2>
     <p style="color:#555;margin-bottom:36px;max-width:580px;">
-      A closer look at selected projects — what the brief was, what I did, and what changed.
+      A closer look at selected projects: what the brief was, what I did, and what changed.
     </p>
 
     <div class="stories-grid">
@@ -1097,20 +1104,26 @@ a:hover ~ #cursor-dot, button:hover ~ #cursor-dot { transform: translate(-50%,-5
 </script>
 
 
-// ── DOUBLE CURSOR ────────────────────────────────────────────────────────
-(function(){
+// ── DOUBLE CURSOR ─
+
+<script>
+// ── DOUBLE CURSOR ─────────────────────────────────────────────────────────
+(function() {
   var dot  = document.getElementById('cursor-dot');
   var ring = document.getElementById('cursor-ring');
-  var mx = window.innerWidth/2, my = window.innerHeight/2;
-  var rx = mx, ry = my;
+  if (!dot || !ring) return;
 
-  document.addEventListener('mousemove', function(e){
-    mx = e.clientX; my = e.clientY;
+  var mx = -100, my = -100;
+  var rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX;
+    my = e.clientY;
     dot.style.left = mx + 'px';
     dot.style.top  = my + 'px';
   });
 
-  (function animRing(){
+  (function animRing() {
     rx += (mx - rx) * 0.12;
     ry += (my - ry) * 0.12;
     ring.style.left = rx + 'px';
@@ -1118,22 +1131,26 @@ a:hover ~ #cursor-dot, button:hover ~ #cursor-dot { transform: translate(-50%,-5
     requestAnimationFrame(animRing);
   })();
 
-  // Grow ring on hover of interactive elements
-  document.querySelectorAll('a, button, .skill-card, .work-card, .review-card').forEach(function(el){
-    el.addEventListener('mouseenter', function(){
-      ring.style.width  = '56px';
-      ring.style.height = '56px';
-      ring.style.borderColor = 'rgba(0,155,135,0.85)';
-      dot.style.transform = 'translate(-50%,-50%) scale(0)';
+  var els = document.querySelectorAll('a, button, .skill-card, .work-card, .review-card, .story-card, .nav-cta');
+  els.forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      ring.style.width       = '58px';
+      ring.style.height      = '58px';
+      ring.style.marginLeft  = '-29px';
+      ring.style.marginTop   = '-29px';
+      ring.style.borderColor = 'rgba(0,155,135,0.9)';
+      dot.style.transform    = 'scale(0)';
     });
-    el.addEventListener('mouseleave', function(){
-      ring.style.width  = '36px';
-      ring.style.height = '36px';
-      ring.style.borderColor = 'rgba(0,155,135,0.55)';
-      dot.style.transform = 'translate(-50%,-50%) scale(1)';
+    el.addEventListener('mouseleave', function() {
+      ring.style.width       = '38px';
+      ring.style.height      = '38px';
+      ring.style.marginLeft  = '-19px';
+      ring.style.marginTop   = '-19px';
+      ring.style.borderColor = 'rgba(0,155,135,0.6)';
+      dot.style.transform    = 'scale(1)';
     });
   });
 })();
-
+</script>
 </body>
 </html>
