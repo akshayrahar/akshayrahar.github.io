@@ -1352,36 +1352,57 @@ document.addEventListener('keydown', function(e) {
     <h2>Where the tracking gaps were</h2>
     <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
       <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Session Attribution Accuracy — Before &amp; After Audit (illustrative)</div>
-      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-        <!-- Funnel bars horizontal -->
-        <!-- Sessions tracked: 100% vs 100% (no change at top) -->
-        <text x="16" y="42"  font-size="11" fill="#666" font-weight="600">Sessions logged</text>
-        <rect x="200" y="28" width="240" height="22" fill="#d4ede9" rx="3"/>
-        <rect x="200" y="28" width="240" height="22" fill="#009B87" rx="3"/>
-        <text x="446" y="43" font-size="11" fill="#009B87" font-weight="700">100%</text>
-        <!-- Correct source attribution: before 61%, after 94% -->
-        <text x="16" y="87"  font-size="11" fill="#666" font-weight="600">Correct source</text>
-        <rect x="200" y="73" width="146" height="22" fill="#f5c0b0" rx="3"/>
-        <text x="350" y="88" font-size="10" fill="#c0392b">61%</text>
-        <rect x="200" y="73" width="226" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
-        <text x="430" y="88" font-size="10" fill="#009B87" font-weight="700">94%</text>
-        <!-- Conversions recorded: before 78%, after 96% -->
-        <text x="16" y="132" font-size="11" fill="#666" font-weight="600">Conversions recorded</text>
-        <rect x="200" y="118" width="187" height="22" fill="#f5c0b0" rx="3"/>
-        <text x="392" y="133" font-size="10" fill="#c0392b">78%</text>
-        <rect x="200" y="118" width="230" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
-        <text x="434" y="133" font-size="10" fill="#009B87" font-weight="700">96%</text>
-        <!-- Deduped transactions: before 82%, after 100% -->
-        <text x="16" y="177" font-size="11" fill="#666" font-weight="600">Clean deduplication</text>
-        <rect x="200" y="163" width="197" height="22" fill="#f5c0b0" rx="3"/>
-        <text x="401" y="178" font-size="10" fill="#c0392b">82%</text>
-        <rect x="200" y="163" width="240" height="22" fill="none" stroke="#009B87" stroke-width="2" stroke-dasharray="5,3" rx="3"/>
-        <text x="446" y="178" font-size="10" fill="#009B87" font-weight="700">100%</text>
+            <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Row labels -->
+        <text x="10" y="44"  font-size="11" fill="#555" font-weight="600">Sessions logged</text>
+        <text x="10" y="96"  font-size="11" fill="#555" font-weight="600">Correct source</text>
+        <text x="10" y="148" font-size="11" fill="#555" font-weight="600">Conversions recorded</text>
+        <text x="10" y="200" font-size="11" fill="#555" font-weight="600">Clean deduplication</text>
+
+        <!-- Track backgrounds (full width = 100%) -->
+        <rect x="175" y="28"  width="240" height="22" fill="#f0ede8" rx="3"/>
+        <rect x="175" y="80"  width="240" height="22" fill="#f0ede8" rx="3"/>
+        <rect x="175" y="132" width="240" height="22" fill="#f0ede8" rx="3"/>
+        <rect x="175" y="184" width="240" height="22" fill="#f0ede8" rx="3"/>
+
+        <!-- BEFORE bars (salmon red) -->
+        <!-- Sessions: 100% = 240px -->
+        <rect x="175" y="28"  width="240" height="22" fill="#009B87" rx="3"/>
+        <!-- Correct source before: 61% = 146px -->
+        <rect x="175" y="80"  width="146" height="22" fill="#e8a090" rx="3"/>
+        <!-- Conversions before: 78% = 187px -->
+        <rect x="175" y="132" width="187" height="22" fill="#e8a090" rx="3"/>
+        <!-- Dedup before: 82% = 197px -->
+        <rect x="175" y="184" width="197" height="22" fill="#e8a090" rx="3"/>
+
+        <!-- AFTER bars (teal, on top) — sessions same, others improved -->
+        <!-- Correct source after: 94% = 226px -->
+        <rect x="175" y="80"  width="226" height="22" fill="#009B87" opacity="0.25" rx="3"/>
+        <rect x="175" y="80"  width="226" height="4"  fill="#009B87" rx="2"/>
+        <rect x="175" y="98"  width="226" height="4"  fill="#009B87" rx="2"/>
+        <!-- Conversions after: 96% = 230px -->
+        <rect x="175" y="132" width="230" height="22" fill="#009B87" opacity="0.25" rx="3"/>
+        <rect x="175" y="132" width="230" height="4"  fill="#009B87" rx="2"/>
+        <rect x="175" y="150" width="230" height="4"  fill="#009B87" rx="2"/>
+        <!-- Dedup after: 100% = 240px -->
+        <rect x="175" y="184" width="240" height="22" fill="#009B87" opacity="0.25" rx="3"/>
+        <rect x="175" y="184" width="240" height="4"  fill="#009B87" rx="2"/>
+        <rect x="175" y="202" width="240" height="4"  fill="#009B87" rx="2"/>
+
+        <!-- Value labels: before (left of bar end) and after (right) -->
+        <text x="420" y="43"  font-size="11" fill="#009B87" font-weight="700">100%</text>
+        <text x="315" y="95"  font-size="10" fill="#c0392b">61%</text>
+        <text x="406" y="95"  font-size="10" fill="#009B87" font-weight="700">94%</text>
+        <text x="358" y="147" font-size="10" fill="#c0392b">78%</text>
+        <text x="410" y="147" font-size="10" fill="#009B87" font-weight="700">96%</text>
+        <text x="368" y="199" font-size="10" fill="#c0392b">82%</text>
+        <text x="420" y="199" font-size="10" fill="#009B87" font-weight="700">100%</text>
+
         <!-- Legend -->
-        <rect x="200" y="195" width="12" height="9" fill="#f5c0b0" rx="2"/>
-        <text x="216" y="204" font-size="10" fill="#888">Before audit</text>
-        <rect x="290" y="195" width="14" height="9" fill="none" stroke="#009B87" stroke-width="2" rx="2"/>
-        <text x="308" y="204" font-size="10" fill="#009B87">After fix</text>
+        <rect x="175" y="212" width="12" height="9" fill="#e8a090" rx="2"/>
+        <text x="191" y="220" font-size="10" fill="#888">Before audit</text>
+        <rect x="265" y="212" width="12" height="9" fill="#009B87" opacity="0.5" rx="2"/>
+        <text x="281" y="220" font-size="10" fill="#009B87">After fix</text>
       </svg>
     </div>
     <h2>Tools</h2>
@@ -1474,33 +1495,28 @@ document.addEventListener('keydown', function(e) {
     <h2>Customer value by segment</h2>
     <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
       <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">CLV distribution across customer segments (illustrative segmentation model)</div>
-      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-        <!-- Donut chart centered at 160,100 r=80 inner=50 -->
-        <!-- Segment A: High CLV — 38% — teal -->
-        <path d="M160,100 L160,20 A80,80 0 0,1 231,140 Z" fill="#009B87"/>
-        <!-- Segment B: Mid CLV — 29% — light teal -->
-        <path d="M160,100 L231,140 A80,80 0 0,1 100,172 Z" fill="#5ec4b6"/>
-        <!-- Segment C: Low CLV — 20% — pale -->
-        <path d="M160,100 L100,172 A80,80 0 0,1 88,35 Z" fill="#b8e0da"/>
-        <!-- Segment D: Churned — 13% — grey -->
-        <path d="M160,100 L88,35 A80,80 0 0,1 160,20 Z" fill="#e8e5df"/>
-        <!-- Inner white circle (donut hole) -->
-        <circle cx="160" cy="100" r="50" fill="#fff"/>
-        <text x="160" y="96"  text-anchor="middle" font-size="13" font-weight="800" fill="#009B87">38%</text>
-        <text x="160" y="112" text-anchor="middle" font-size="10" fill="#666">High-CLV</text>
-        <!-- Legend -->
-        <rect x="270" y="40"  width="14" height="14" fill="#009B87" rx="3"/>
-        <text x="290" y="52"  font-size="12" fill="#333" font-weight="600">High CLV (38%)</text>
-        <text x="290" y="66"  font-size="11" fill="#888">Worth targeting — retained 2+ yrs</text>
-        <rect x="270" y="82"  width="14" height="14" fill="#5ec4b6" rx="3"/>
-        <text x="290" y="94"  font-size="12" fill="#333" font-weight="600">Mid CLV (29%)</text>
-        <text x="290" y="108" font-size="11" fill="#888">Convertible with nurture campaigns</text>
-        <rect x="270" y="124" width="14" height="14" fill="#b8e0da" rx="3"/>
-        <text x="290" y="136" font-size="12" fill="#333" font-weight="600">Low CLV (20%)</text>
-        <text x="290" y="150" font-size="11" fill="#888">High CAC, deprioritised</text>
-        <rect x="270" y="166" width="14" height="14" fill="#e8e5df" rx="3"/>
-        <text x="290" y="178" font-size="12" fill="#333" font-weight="600">Churned (13%)</text>
-        <text x="290" y="192" font-size="11" fill="#888">Budget reallocated away</text>
+            <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <path d="M 160.00,25.00 A 80,80 0 0 1 214.76,163.32 L 194.23,141.45 A 50,50 0 0 0 160.00,55.00 Z" fill="#009B87" stroke="#faf9f7" stroke-width="2"/>
+        <path d="M 214.76,163.32 A 80,80 0 0 1 89.90,143.54 L 116.18,129.09 A 50,50 0 0 0 194.23,141.45 Z" fill="#5ec4b6" stroke="#faf9f7" stroke-width="2"/>
+        <path d="M 89.90,143.54 A 80,80 0 0 1 101.68,50.24 L 123.55,70.77 A 50,50 0 0 0 116.18,129.09 Z" fill="#b8e0da" stroke="#faf9f7" stroke-width="2"/>
+        <path d="M 101.68,50.24 A 80,80 0 0 1 160.00,25.00 L 160.00,55.00 A 50,50 0 0 0 123.55,70.77 Z" fill="#ddd9d2" stroke="#faf9f7" stroke-width="2"/>
+        <!-- Donut hole -->
+        <circle cx="160" cy="105" r="50" fill="#faf9f7"/>
+        <!-- Centre label -->
+        <text x="160" y="101" text-anchor="middle" font-size="16" font-weight="800" fill="#009B87">38%</text>
+        <text x="160" y="119" text-anchor="middle" font-size="10" fill="#666">High-CLV</text>
+        <rect x="270" y="50" width="14" height="14" fill="#009B87" rx="3"/>
+        <text x="290" y="61" font-size="12" fill="#333" font-weight="600">High CLV (38%)</text>
+        <text x="290" y="75" font-size="11" fill="#888">Worth targeting — retained 2+ yrs</text>
+        <rect x="270" y="98" width="14" height="14" fill="#5ec4b6" rx="3"/>
+        <text x="290" y="109" font-size="12" fill="#333" font-weight="600">Mid CLV (29%)</text>
+        <text x="290" y="123" font-size="11" fill="#888">Convertible with nurture campaigns</text>
+        <rect x="270" y="146" width="14" height="14" fill="#b8e0da" rx="3"/>
+        <text x="290" y="157" font-size="12" fill="#333" font-weight="600">Low CLV (20%)</text>
+        <text x="290" y="171" font-size="11" fill="#888">High CAC, deprioritised</text>
+        <rect x="270" y="194" width="14" height="14" fill="#ddd9d2" rx="3"/>
+        <text x="290" y="205" font-size="12" fill="#333" font-weight="600">Churned (13%)</text>
+        <text x="290" y="219" font-size="11" fill="#888">Budget reallocated away</text>
       </svg>
     </div>
     <h2>Tools</h2>
