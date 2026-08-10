@@ -754,6 +754,8 @@
       I run paid campaigns, fix the tracking when it breaks, and use the data
       to decide what to scale and what to stop. Google Ads, Meta Ads, GA4,
       SQL, Power BI. Four years doing this across e-commerce, B2B, and media.
+      Most recently I designed, built and launched KaiScan, a subscription
+      health app, entirely on my own.
     </p>
 
     <div class="hero-ctas">
@@ -895,6 +897,28 @@
 
     <div class="experience-stack">
 
+      <!-- Innoverse Consultancy -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Digital Data Analyst</div>
+            <div class="exp-company">Innoverse Consultancy Ltd., UK</div>
+          </div>
+          <span class="exp-date">Jan 2026 &ndash; Present</span>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Built an audience segmentation model combining demographic data with channel performance to forecast next-quarter outreach, growth and revenue potential, moving client planning from historical reporting to forward projection.</li>
+            <li>Developed data models across consumer behaviour, sentiment and channel performance for four clients in FMCG, e-commerce, health and luxury cosmetics, adapting the approach to each sector's buying cycle rather than applying one template to all of them.</li>
+            <li>Built Looker Studio and Power BI reporting giving four client teams live performance visibility, replacing retrospective monthly summaries with reporting they can act on mid-campaign.</li>
+            <li>Ran market and competitor analysis feeding directly into campaign formulation, so positioning and channel choices rested on documented evidence rather than assumption.</li>
+          </ul>
+          <div class="exp-skills-row">
+            <span class="tag">Audience Segmentation</span><span class="tag">Predictive Analytics</span><span class="tag">Forecasting</span><span class="tag">Consumer Behaviour</span><span class="tag">Sentiment Analysis</span><span class="tag">Looker Studio</span><span class="tag">Power BI</span><span class="tag">Competitor Analysis</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Research Assistant -->
       <div class="exp-item">
         <div class="exp-header">
@@ -902,7 +926,7 @@
             <div class="exp-role">Research Assistant</div>
             <div class="exp-company">Leeds University Business School, UK</div>
           </div>
-          <span class="exp-date">Aug 2024 &ndash; Mar 2026</span>
+          <span class="exp-date">Aug 2024 &ndash; Dec 2025</span>
         </div>
         <div class="exp-body">
           <ul class="exp-bullets">
@@ -1053,6 +1077,13 @@
     </p>
 
     <div class="stories-grid">
+
+      <a class="story-card story-card--wide" href="#" onclick="openModal('modal-kaiscan');return false;">
+        <div class="story-tag-sm">Product &amp; Growth</div>
+        <h3>I Built and Launched a Subscription App on My Own</h3>
+        <p>KaiScan: a personalised nutrition scanner on the App Store and Google Play. I owned the scoring model, the pricing research, the privacy architecture, the compliance and the launch.</p>
+        <span class="story-arrow">Read case study &#8594;</span>
+      </a>
 
       <a class="story-card" href="#" onclick="openModal('modal-freelance');return false;">
         <div class="story-tag-sm">Performance Marketing</div>
@@ -1328,6 +1359,95 @@ document.addEventListener('keydown', function(e) {
 <!-- STORY MODALS , all 5 embedded inline, no external files needed    -->
 <!-- ══════════════════════════════════════════════════════════════════ -->
 
+<div id="modal-kaiscan" class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-kaiscan')" aria-label="Close">&times;</button>
+    <span class="modal-tag">Product &amp; Growth</span>
+    <h1>KaiScan , Personalised Nutrition Scanner</h1>
+    <div class="modal-meta"><span>Rigel Tech Ltd (self-funded)</span><span>2026</span></div>
+    <p class="modal-lead">A subscription health app on the App Store and Google Play, taken from idea to commercial launch on my own. I designed the scoring model, wrote the code, ran the pricing research, handled the compliance and planned the launch.</p>
+
+    <h2>Why I built it</h2>
+    <p>Existing food scanners give everyone the same verdict. That is fine for a label and useless for a person: the same biscuit is a different decision for someone managing diabetes, someone with a nut allergy and someone watching sodium for blood pressure. I wanted to find out whether a genuinely personalised score could be built, priced and sold, not just designed as a concept. Doing it alone meant learning the mobile and backend stack from scratch, which was the point.</p>
+
+    <h2>Results at a glance</h2>
+    <div class="stat-row">
+      <div class="stat-box"><div class="n">27</div><div class="l">Conditions, allergies &amp; diets modelled</div></div>
+      <div class="stat-box"><div class="n">175</div><div class="l">Territories priced</div></div>
+      <div class="stat-box"><div class="n">8</div><div class="l">Languages shipped</div></div>
+      <div class="stat-box"><div class="n">50k</div><div class="l">Monthly actives at zero infra cost</div></div>
+    </div>
+
+    <h2>How the score works</h2>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:24px 28px;margin:20px 0;">
+      <div style="font-size:0.75rem;font-weight:700;color:#777;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Objective KaiScore composition (0&ndash;100, graded A to E)</div>
+      <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <path d="M 160.00,25.00 A 80,80 0 1 1 112.98,169.72 L 130.61,145.45 A 50,50 0 1 0 160.00,55.00 Z" fill="#009B87" stroke="#faf9f7" stroke-width="2"/>
+        <path d="M 112.98,169.72 A 80,80 0 0 1 112.98,40.28 L 130.61,64.55 A 50,50 0 0 0 130.61,145.45 Z" fill="#5ec4b6" stroke="#faf9f7" stroke-width="2"/>
+        <path d="M 112.98,40.28 A 80,80 0 0 1 160.00,25.00 L 160.00,55.00 A 50,50 0 0 0 130.61,64.55 Z" fill="#b8e0da" stroke="#faf9f7" stroke-width="2"/>
+        <circle cx="160" cy="105" r="50" fill="#faf9f7"/>
+        <text x="160" y="101" text-anchor="middle" font-size="16" font-weight="800" fill="#009B87">60%</text>
+        <text x="160" y="119" text-anchor="middle" font-size="10" fill="#666">Nutrition</text>
+        <rect x="270" y="58" width="14" height="14" fill="#009B87" rx="3"/>
+        <text x="290" y="69" font-size="12" fill="#333" font-weight="600">Nutrition (60%)</text>
+        <text x="290" y="83" font-size="11" fill="#888">Energy, sugar, sat fat, salt, fibre, protein</text>
+        <rect x="270" y="106" width="14" height="14" fill="#5ec4b6" rx="3"/>
+        <text x="290" y="117" font-size="12" fill="#333" font-weight="600">Additives (30%)</text>
+        <text x="290" y="131" font-size="11" fill="#888">Every E-number classified by risk</text>
+        <rect x="270" y="154" width="14" height="14" fill="#b8e0da" rx="3"/>
+        <text x="290" y="165" font-size="12" fill="#333" font-weight="600">Organic bonus (10%)</text>
+        <text x="290" y="179" font-size="11" fill="#888">Certification uplift</text>
+      </svg>
+    </div>
+    <p>That objective score is the same for everyone, so two products stay comparable. A second, <em>personalised</em> score then runs the same product against the user's own profile and their country's dietary guidance, returning a plain verdict: good fit, go easy, or not ideal.</p>
+
+    <h2>Making one algorithm work in every market</h2>
+    <p>Rather than maintain a separate model per country, I encoded published guidance from the WHO, EFSA, the UK, the US FDA, India's ICMR-FSSAI and AU/NZ NHMRC into region-specific daily reference values. The user's country selects the reference set, so the same engine produces locally correct guidance across 175 territories.</p>
+    <ul>
+      <li>Multi-factor rules rather than single thresholds: a glycaemic proxy combining sugar and carbohydrate load offset by fibre; sodium to potassium balance for blood pressure; phosphate additive detection with protein load for kidney health.</li>
+      <li>Allergens treated as a safety-critical path. A declared allergen is a hard avoid, a "may contain traces" warning is flagged separately, and missing data returns neutral rather than a false warning. A 120-assertion test suite protects this, written on the principle that a false negative is a potential fatality.</li>
+      <li>Allergen information is never paywalled. Only the personalised analysis sits behind the subscription.</li>
+    </ul>
+
+    <h2>Pricing and unit economics</h2>
+    <p>I set pricing from competitor research and store economics rather than intuition, then modelled what actually lands in the account after platform commission.</p>
+    <div style="background:#fff;border:1px solid #e2dfd8;border-radius:12px;padding:20px 24px;margin:20px 0;">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0ede8;">
+        <span style="font-weight:600;">Monthly</span><span>&pound;5.99 list &nbsp;&rarr;&nbsp; <strong style="color:#009B87;">&pound;4.24 net</strong></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0ede8;">
+        <span style="font-weight:600;">Annual</span><span>&pound;35.99 list &nbsp;&rarr;&nbsp; <strong style="color:#009B87;">&pound;25.49 net</strong></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;">
+        <span style="font-weight:600;">Annual, per month</span><span>&pound;3.00 &nbsp;&middot;&nbsp; 50% saving vs monthly</span>
+      </div>
+    </div>
+    <p>The annual plan is deliberately priced to convert trial users into a full year rather than to maximise headline revenue per month. Shelf prices are VAT inclusive, which meant reconciling them against the ex-VAT base price the stores actually work from before publishing anything.</p>
+    <p>On the cost side, I architected every runtime service to sit inside a free tier, so the product carries no infrastructure cost up to 50,000 monthly active users. That was a deliberate design decision rather than a constraint: it means the unit economics work from the first subscriber instead of needing scale to break even.</p>
+
+    <h2>Privacy as an architecture decision</h2>
+    <p>Health conditions never leave the device. They are excluded at the API contract, they have no field to travel in within the analytics event schema, and they are stripped from requests to the AI layer. The result is full personalisation without ever becoming a controller of special-category health data under GDPR, which also removed a large amount of compliance burden before it could exist.</p>
+
+    <h2>Everything else the launch needed</h2>
+    <ul>
+      <li>Ran a structured security audit and closed the findings, including a silent session-storage failure and an OAuth race condition.</li>
+      <li>Wrote the compliance layer alone: terms grounded in the Consumer Rights Act 2015, UCTA 1977 and GDPR, a privacy policy localised into 8 languages, and the data and age-rating declarations for both stores.</li>
+      <li>Built the marketing site with structured data and SEO, set the App Store Optimisation keyword strategy, wrote the listing copy and produced the screenshots and launch creative.</li>
+      <li>Managed both store submissions end to end, including diagnosing and resolving an App Store review rejection and shipping a compliant resubmission.</li>
+      <li>Localised the product into 8 languages through a build-time translation pipeline with automated key-parity checks, so multilingual reach costs nothing at runtime.</li>
+    </ul>
+
+    <h2>Tools</h2>
+    <div class="tool-pills">
+      <span class="t-pill">React Native</span><span class="t-pill">TypeScript</span>
+      <span class="t-pill">Python (FastAPI)</span><span class="t-pill">Supabase</span>
+      <span class="t-pill">PostgreSQL</span><span class="t-pill">Claude API</span>
+      <span class="t-pill">Subscription Billing</span><span class="t-pill">App Store Connect</span>
+      <span class="t-pill">Google Play Console</span><span class="t-pill">ASO</span>
+    </div>
+  </div>
+</div>
+
 <div id="modal-freelance" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('modal-freelance')" aria-label="Close">&times;</button>
@@ -1409,7 +1529,7 @@ document.addEventListener('keydown', function(e) {
     <button class="modal-close" onclick="closeModal('modal-research')" aria-label="Close">&times;</button>
     <span class="modal-tag">Analytics</span>
     <h1>Research Assistant , Leeds University</h1>
-    <div class="modal-meta"><span>Leeds University Business School</span><span>Aug 2024 &ndash; Mar 2026</span></div>
+    <div class="modal-meta"><span>Leeds University Business School</span><span>Aug 2024 &ndash; Dec 2025</span></div>
     <p class="modal-lead">Used GA4 and SQL to trace user journeys end to end, find where tracking was breaking, and make the performance data actually trustworthy before anyone acted on it.</p>
     <h2>The work</h2>
     <ul>
